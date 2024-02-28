@@ -17,6 +17,7 @@ import { registerUser } from "./controllers/authenticationController.js";
 
 /* import route files */
 import authentiacationRoute from "./routes/authentiacationRoute.js";
+import userRoute from "./routes/userRoute.js";
 
 /* import models files */
 import User from "./models/User.js";
@@ -60,6 +61,9 @@ const upload = multer({storage});
 /* Routes authentiacation page */
 app.post("/auth/register", upload.single("icon"), registerUser);
 app.use("/auth",authentiacationRoute);
+
+/* Routes 'users' page */
+app.use("/users",userRoute);
 
 
 /* Database Configuration */

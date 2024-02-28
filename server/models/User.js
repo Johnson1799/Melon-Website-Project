@@ -6,7 +6,7 @@ const UserSchema = new mongoose.Schema({
     lastName: {type: String, required: true},
     password: {type: String, required: true, min: 8},
     email: {type: String, required: true, unique: true},
-    iconPath: {type: String, default: ""},
+    userIconPath: {type: String, default: ""},
     friends: {type: Array, default: []},
     followers: {type: Number, default: 0}, 
 

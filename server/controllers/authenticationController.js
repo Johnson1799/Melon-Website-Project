@@ -18,7 +18,7 @@ export const registerUser = async (req,res) => {
             lastName, 
             password: encryptedPassword,
             email, 
-            iconPath, 
+            userIconPath, 
             friends,
             followers
         });
