@@ -1,0 +1,57 @@
+import express from "express";
+import bodyParser from "body-parser";
+import mongoose from "mongoose";
+import cors from "cors";
+import dotenv from "dotenv";
+import multer from "multer";
+import helmet from "helmet";
+import morgan from "morgan";
+import path from "path";
+import { fileURLToPath } from "url";
+
+/* Middleware Configuration */
+const __filename = fileURLToPath(import.meta.url);  // grab the file URL
+const __dirname = path.dirname(__filename);         // get the directory name
+dotenv.config();                                    // allow to use dotenv files
+// Use Express middleware
+const app = express();
+app.use(express.json());
+// use helmet middleware
+app.use(helmet());                                                      
+app.use(helmet.crossOriginResourcePolicy({policy: "cross-origin"}));
+// use bodyParser in express middleware
+app.use(bodyParser.json({limit: "30mb", extended: true}));              
+app.use(bodyParser.urlencoded( {limit: "30mb", extended: true}));
+// use cors middleware
+app.use(cors());
+
+
+// Set up the directory for styling
+app.use("/assets", express.static(path.join(__dirname, 'public/assets')));
+
+
+/* File Upload Middleware(multer) Configuration */
+const storage = multer.diskStorage({
+    // specify the directory where the files should be stored
+    destination: (req,file,cb)=>{
+        cb(null,"public/assets");   
+    },
+    // specify the filename
+    filename: (req,file,cb)=>{
+        cb(null, file.originalname);
+    }
+});
+const upload = multer({storage});
+
+
+/* Database Configuration */
+const PORT = process.env.PORT;                  // Set the port to 3001 defined in .env
+mongoose.connect(process.env.MongoDB_URL)       // Connect to MongoDB by URL defined in .env file)
+.then(()=>{
+    app.listen(PORT,(result) => {
+        console.log(`Successfully connect to Database with Server Port ${PORT}`)});
+}) 
+.catch((err)=>{
+    console.log("Fail to connect to Database");
+});
+
