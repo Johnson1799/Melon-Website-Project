@@ -14,7 +14,7 @@ router.get("/:id", verifyToken, getUser);
 /* Routes to specific user friend page */
 router.get("/:id/friends",verifyToken,getUserFriends);
 
-/* Update the HTML resource */
+/* Update the route */
 router.patch("/:id/:friendId", verifyToken, addRemoveFriend);
 
 export default router;

@@ -12,7 +12,7 @@ export const registerUser = async (req,res) => {
         const salt = await bcrypt.genSalt();
         const encryptedPassword = await bcrypt.hash(password, salt);
 
-        // Iitialize a new User with a encrypted password
+        // Create a new user document with a encrypted password initialized
         const newUser = new User({
             firstName, 
             lastName, 

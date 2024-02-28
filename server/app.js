@@ -14,13 +14,16 @@ import { fileURLToPath } from "url";
 
 /* import controller files */
 import { registerUser } from "./controllers/authenticationController.js";
+import { createPost } from "./controllers/postController.js";
 
 /* import route files */
 import authentiacationRoute from "./routes/authentiacationRoute.js";
 import userRoute from "./routes/userRoute.js";
+import postRoute from "./routes/postRoute.js";
 
 /* import models files */
 import User from "./models/User.js";
+import { verifyToken } from "./middleware/authorization.js";
 
 
 /* Middleware Configuration */
@@ -48,7 +51,7 @@ app.use("/assets", express.static(path.join(__dirname, 'public/assets')));
 const storage = multer.diskStorage({
     // specify the directory where the files should be stored
     destination: (req,file,cb)=>{
-        cb(null,"public/assets");   
+        cb(null,"public/assets");       // cb: call back function
     },
     // specify the filename
     filename: (req,file,cb)=>{
@@ -57,13 +60,19 @@ const storage = multer.diskStorage({
 });
 const upload = multer({storage});
 
+/* Routes with files */
+app.post("/auth/register", upload.single("userIcon"), registerUser);
+app.post("/posts", verifyToken, upload.single("postPicture"),);
 
-/* Routes authentiacation page */
-app.post("/auth/register", upload.single("icon"), registerUser);
+
+/* Routes 'auth' page */
 app.use("/auth",authentiacationRoute);
 
 /* Routes 'users' page */
 app.use("/users",userRoute);
+
+/* Routes 'posts' page */
+app.use("/posts", postRoute);
 
 
 /* Database Configuration */
