@@ -1,3 +1,4 @@
+/* import npm */
 import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
@@ -6,8 +7,20 @@ import dotenv from "dotenv";
 import multer from "multer";
 import helmet from "helmet";
 import morgan from "morgan";
+
+/* import js build-in library */
 import path from "path";
 import { fileURLToPath } from "url";
+
+/* import controller files */
+import { registerUser } from "./controllers/authenticationController.js";
+
+/* import route files */
+import authentiacationRoute from "./routes/authentiacationRoute.js";
+
+/* import models files */
+import User from "./models/User.js";
+
 
 /* Middleware Configuration */
 const __filename = fileURLToPath(import.meta.url);  // grab the file URL
@@ -26,11 +39,11 @@ app.use(bodyParser.urlencoded( {limit: "30mb", extended: true}));
 app.use(cors());
 
 
-// Set up the directory for styling
+/* Setting up the directory for styling */
 app.use("/assets", express.static(path.join(__dirname, 'public/assets')));
 
 
-/* File Upload Middleware(multer) Configuration */
+/* File Uploading Middleware(multer) Configuration */
 const storage = multer.diskStorage({
     // specify the directory where the files should be stored
     destination: (req,file,cb)=>{
@@ -42,6 +55,11 @@ const storage = multer.diskStorage({
     }
 });
 const upload = multer({storage});
+
+
+/* Routes authentiacation page */
+app.post("/auth/register", upload.single("icon"), registerUser);
+app.use("/auth",authentiacationRoute);
 
 
 /* Database Configuration */
