@@ -15,7 +15,10 @@ export const verifyToken = async(req,res,next) => {
             token = token.slice(7, tokens.length).trimLeft();
         }
 
+        // Verify the token
         const verified = jwt.verify(token, process.env.JWT_SECRET_STRING);
+        req.user = verified;
+        next();
     } 
     catch (err) {
         // send the error message to front-end
