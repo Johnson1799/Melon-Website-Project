@@ -69,7 +69,7 @@ export const getUserPosts = async (req,res) =>{
 export const likePost = async (req,res) =>{
     try {
         // grab the attributes in request object
-        const { id } = req.params;      // user's id in MongoDB
+        const { id } = req.params;      // post id in MongoDB
         const {userId} = req.body;      // userId attribute in Post Schema
 
         // find the post using user's id

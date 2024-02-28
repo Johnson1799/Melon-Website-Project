@@ -55,9 +55,9 @@ export const login = async (req,res) => {
         }
 
         // create a token (using jwt) and make a secret string for the token
-        const token = jwt.sign({ id: user._id},process.env.JWT_SECRET_STRING);
+        const token = jwt.sign({ id: user._id}, process.env.JWT_SECRET_STRING);
 
-        // delete user.password attribute so as to make sure the user password will not be sent back to front-end
+        // delete password attribute so as to make sure the user password will not be sent back to front-end
         delete user.password;
 
         // send the token and user information to front-end

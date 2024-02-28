@@ -23,7 +23,13 @@ import postRoute from "./routes/postRoute.js";
 
 /* import models files */
 import User from "./models/User.js";
+import Post from "./models/Post.js";
+
+/* import custom middleware files */
 import { verifyToken } from "./middleware/authorization.js";
+
+/* import data files */
+import { usersData, postsData } from "./data/data.js" ;
 
 
 /* Middleware Configuration */
@@ -80,7 +86,16 @@ const PORT = process.env.PORT;                  // Set the port to 3001 defined 
 mongoose.connect(process.env.MongoDB_URL)       // Connect to MongoDB by URL defined in .env file)
 .then(()=>{
     app.listen(PORT,(result) => {
-        console.log(`Successfully connect to Database with Server Port ${PORT}`)});
+        console.log(`Successfully connect to Database with Server Port ${PORT}`)
+    });
+    
+    // Insert the user data to the database
+    User.insertMany(usersData);
+
+    // Insert the post data to the database
+    Post.insertMany(postsData);
+
+
 }) 
 .catch((err)=>{
     console.log("Fail to connect to Database");
