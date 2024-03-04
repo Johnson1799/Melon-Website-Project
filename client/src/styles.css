@@ -1,10 +1,91 @@
-@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap')
+/* 'Open Sans' font */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
 
-/* html,
-body,
-#root,
-.App {
-    height: 100%;
+/* 'Pacifica' font */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Pacifico&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+
+* {
+    font-family: "Open Sans";
+}
+
+/* LoginPage styles */
+.login-container{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.grid-container{
+    display: grid;
+    grid-template-columns: repeat(2,1fr); 
+    max-width: 980px;
+    max-height: 680px;
+    grid-gap: 60px;
+    position: absolute;
     width: 100%;
-    font-family: "Rubik", sans-serif;
-} */
+}
+.Signin-title{
+    margin-left: 32%; 
+    margin-bottom: 15px;
+}
+.Signin-title strong{
+    font-family: "Pacifico", cursive;
+    font-weight: 400;
+    font-size: 48px;
+}
+.social-icons{
+    margin-left: 32%; 
+    margin-bottom: 20px;
+}
+.social-icons i{
+    font-size: 35px;
+    color: #db545a;
+}
+.social-icons .fa-google{
+    margin-right: 20px;
+}
+.social-icons .fa-facebook{
+    margin-right: 20px;
+}
+.email-textfield, .password-textfield{
+    display: block;
+    width: 60% auto;
+}
+.Signup-container{
+    margin-bottom: 40px;
+}
+.Signup-container small{
+    font-size: 14px;
+    margin-right: 15px;
+}
+.Signup-container .login-signup-link{
+    text-decoration: none;
+}
+.Signup-container strong{
+    color: #77aad9;
+}
+.Signup-container strong:hover{
+    color: #478ac9;
+}
+.Signin-button{
+    width: 191px;
+    height: 65px;
+    padding: 20px 60px;
+    border: 3px solid #db545a;
+    border-radius: 50px;
+    background-color: #fff;
+    margin-left: 25%;
+}
+.Signin-button:hover{
+    background-color: #db545a;
+}
+.Signin-button strong{
+    font-size: 13px;
+    letter-spacing: 2px;
+    line-height: 140%;
+}
+.Signin-button:hover strong{
+    color: #fff;
+}
+
