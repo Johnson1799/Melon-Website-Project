@@ -9,12 +9,12 @@ import { verifyToken } from "../middleware/authorization.js";
 const router = express.Router();
 
 /* Routes to specific user page */
-router.get("/:id", verifyToken, getUser);
+router.get("/:id", getUser);
 
 /* Routes to specific user friend page */
-router.get("/:id/friends",verifyToken,getUserFriends);
+router.get("/:id/friends",getUserFriends);
 
 /* Update the route */
-router.patch("/:id/:friendId", verifyToken, addRemoveFriend);
+router.patch("/:id/:friendId", addRemoveFriend);
 
 export default router;

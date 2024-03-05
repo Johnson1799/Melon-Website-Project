@@ -94,8 +94,6 @@ mongoose.connect(process.env.MongoDB_URL)       // Connect to MongoDB by URL def
 
     // Insert the post data to the database
     Post.insertMany(postsData);
-
-
 }) 
 .catch((err)=>{
     console.log("Fail to connect to Database");

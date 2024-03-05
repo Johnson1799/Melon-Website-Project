@@ -10,6 +10,9 @@ export const getUser = async (req,res) => {
         const user = await User.findById(id);
 
         // send back user info to front-end
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
         res.status(200).json(user);
 
     } catch (err) {
