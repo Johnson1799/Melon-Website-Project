@@ -88,7 +88,7 @@ const LoginPage = () => {
 
     return (
         <div className="login-container" id="container">
-            { isLoading && <div>Loading...</div>}
+            {/* { isLoading && <div>Loading...</div>} */}
             <div className="grid-container">
 
                 {/* Column 1 */}
@@ -121,7 +121,7 @@ const LoginPage = () => {
 
                         <div className="Signup-container">
                             <small>Do not have an account?</small>
-                            <Link to="/signup" className="login-signup-link"><strong>Sign up</strong></Link>
+                            <Link to="/register" className="login-signup-link"><strong>Sign up</strong></Link>
                             <br />
                         </div>
                         <div className="login-button-container">
@@ -133,10 +133,12 @@ const LoginPage = () => {
             </div>
 
             <div className="login-decoration">
-                <div className="rectangle-1">
-                    <svg width="1920px" height="1080" >
-                        <rect x="1250" y="180" width="700" height="300" fill="#db545a" />
-                        <rect x="0" y="600" width="700" height="200" fill="#db545a" />
+                <div className="rectangle-decoration">
+                    <svg width="1920px" height="693px" >
+                        {/* right rectangle */}
+                        <rect x="1250" y="0" width="700" height="300" fill="#db545a" />
+                        {/* left rectangle */}
+                        <rect x="0" y="430" width="700" height="200" fill="#db545a" />
                     </svg>
                 </div>
             </div>
