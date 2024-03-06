@@ -14,7 +14,7 @@ import LoginPage from 'scenes/loginPage.jsx';
 import ProfilePage from 'scenes/profilePage.jsx';
 import RegisterPage from 'scenes/registerPage.jsx';
 import AboutPage from 'scenes/aboutPage.jsx';
-import Navbar from 'scenes/narbar.jsx';
+import Navbar from 'components/narbar.jsx';
 
 /* Import rudux store and persister */
 import { store, persistor } from '../src/redux/store.js';

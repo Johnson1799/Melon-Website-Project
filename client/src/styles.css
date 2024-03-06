@@ -8,6 +8,7 @@
     font-family: "Open Sans";
 }
 
+
 /* LoginPage styles */
 .login-container{
     position: relative;
@@ -156,8 +157,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 1250px;
-    background-color: #dddfe3;
+    height: 1340px;
+    background-color: #f4a8ac;
 }
 .aboutus-grid-container{
     display: grid;
@@ -171,26 +172,53 @@
     top: 250px;
     place-items: center;
 }
+.teamate1, .teamate2, .teamate3, .teamate4, .teamate5, .teamate6{
+    background-color: #fff;
+}
+.teamate1:hover,.c2:hover,.c3:hover,.c4:hover,.c5:hover,.c6:hover{
+    box-shadow: 10px 10px 40px rgba(0,0,0,0.4);
+}
 .teamate1 img,.teamate2 img,.teamate3 img,.teamate4 img,.teamate5 img,.teamate6 img{
     width: 50%;
     margin-left: 100px;
+    margin-top: 60px;
 }
 .teamate-name{
     text-align: center;
     font-weight: 700;
     font-size: 25px;
-    margin-top: 20px;
+    margin-top: 40px;
 }
 .teamate-content{
     text-align: center;
     font-weight: 600;
     margin-top: 10px;
 }
-.aboutus-text-container .text{
+.teamate-content p{
+    font-size: 20px;
+}
+.aboutus-text-container h1{
     position: absolute;
     top: 115px;
     left: 655px;
     font-weight: 600;
     font-size: 48px;
+    color: #3d3d3d;
 }
+.teamate-content button{
+    padding: 4px 22px;
+    border: 3px solid #db545a;
+    border-radius: 1px;
+    background-color: #fff;
+    color: #3d3d3d;
+    margin-bottom: 40px;
+    margin-top: 20px;
+}
+.teamate-content button:hover{
+    background-color: #db545a;
+    color: #fff;
+}
+
+
+/* Register page Design */ 
 

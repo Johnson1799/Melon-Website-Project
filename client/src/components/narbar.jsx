@@ -1,6 +1,4 @@
-import { useState, useRef, useEffect} from "react";
-import { Link, useNavigate } from "react-router-dom";
-
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
     return (
@@ -14,7 +12,7 @@ const Navbar = () => {
                     </li>
 
                     <li>
-                        <Link to='/about' className="navbar-brand"><span className="nav-about">About Us</span></Link>
+                        <Link to='/register' className="navbar-brand"><span className="nav-register">Sign Up</span></Link>
                     </li>
 
                     <li>
@@ -22,9 +20,6 @@ const Navbar = () => {
                     </li>
                 </ul>
                 
-
-                
-
             </div>
 
         </nav>

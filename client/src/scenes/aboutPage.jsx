@@ -1,10 +1,10 @@
-import teamateIcon1 from '../assets/teamate-icon1.png';
+import teamateIcon1 from '../assets/human-icon.png';
 
 const AboutPage = () => {
     return ( 
         <div className="about-container"> 
             <div className='aboutus-text-container'>
-                <h1 className='text'>About Us</h1>
+                <h1>About Us</h1>
             </div>
             <div className="aboutus-grid-container">
                 {/* Column 1 */}
@@ -14,7 +14,8 @@ const AboutPage = () => {
                         <br />
                         <div className='teamate-name'>Tse Chung Chin</div>
                         <div className='teamate-content'>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique non sapiente hic minima! Sapiente non natus in libero iusto omnis dicta aspernatur ea reiciendis iste, accusamus sequi quidem obcaecati ducimus.</p>
+                            <p>UI Designer</p>
+                            <button><strong>Bio</strong></button>
                         </div>
                     </div>
                 </div>
@@ -26,7 +27,8 @@ const AboutPage = () => {
                         <br />
                         <div className='teamate-name'>Tse Chung Chin</div>
                         <div className='teamate-content'>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique non sapiente hic minima! Sapiente non natus in libero iusto omnis dicta aspernatur ea reiciendis iste, accusamus sequi quidem obcaecati ducimus.</p>
+                            <p>UI Designer</p>
+                            <button><strong>Bio</strong></button>
                         </div>
                     </div>
                 </div>
@@ -38,7 +40,8 @@ const AboutPage = () => {
                         <br />
                         <div className='teamate-name'>Tse Chung Chin</div>
                         <div className='teamate-content'>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique non sapiente hic minima! Sapiente non natus in libero iusto omnis dicta aspernatur ea reiciendis iste, accusamus sequi quidem obcaecati ducimus.</p>
+                            <p>UI Designer</p>
+                            <button><strong>Bio</strong></button>
                         </div>
                     </div>
                 </div>
@@ -50,7 +53,8 @@ const AboutPage = () => {
                         <br />
                         <div className='teamate-name'>Tse Chung Chin</div>
                         <div className='teamate-content'>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique non sapiente hic minima! Sapiente non natus in libero iusto omnis dicta aspernatur ea reiciendis iste, accusamus sequi quidem obcaecati ducimus.</p>
+                            <p>UI Designer</p>
+                            <button><strong>Bio</strong></button>
                         </div>
                     </div>
                 </div>
@@ -62,7 +66,8 @@ const AboutPage = () => {
                         <br />
                         <div className='teamate-name'>Tse Chung Chin</div>
                         <div className='teamate-content'>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique non sapiente hic minima! Sapiente non natus in libero iusto omnis dicta aspernatur ea reiciendis iste, accusamus sequi quidem obcaecati ducimus.</p>
+                            <p>UI Designer</p>
+                            <button><strong>Bio</strong></button>
                         </div>
                     </div>
                 </div>
@@ -74,15 +79,13 @@ const AboutPage = () => {
                         <br />
                         <div className='teamate-name'>Tse Chung Chin</div>
                         <div className='teamate-content'>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique non sapiente hic minima! Sapiente non natus in libero iusto omnis dicta aspernatur ea reiciendis iste, accusamus sequi quidem obcaecati ducimus.</p>
+                            <p>UI Designer</p>
+                            <button><strong>Bio</strong></button>
                         </div>
                     </div>
                 </div>
 
-            </div>  
-
-            
-                     
+            </div>           
         </div>
     );
 }
