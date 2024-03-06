@@ -37,8 +37,8 @@ export const getUserFriends = async (req,res) =>{
 
         // get the each friends detail from user's friends
         const friendDetails = friends.map(
-            ({ _id, firstName, lastName, friendIconPath, followers}) => {
-                return { _id, firstName, lastName, friendIconPath, followers};
+            ({ _id, userName, friendIconPath, followers}) => {
+                return { _id, userName, friendIconPath, followers};
             }
         );
 
@@ -85,8 +85,8 @@ export const addRemoveFriend = async(req,res) => {
 
         // get the each friends detail from user's friends
         const friendDetails = friends.map(
-            ({ _id, firstName, lastName, friendIconPath, followers}) => {
-                return { _id, firstName, lastName, friendIconPath, followers};
+            ({ _id, userName, friendIconPath, followers}) => {
+                return { _id, userName, friendIconPath, followers};
             }
         );
 

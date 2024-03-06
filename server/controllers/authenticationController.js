@@ -14,8 +14,7 @@ export const registerUser = async (req,res) => {
 
         // Create a new user document with a encrypted password initialized
         const newUser = new User({
-            firstName, 
-            lastName, 
+            userName,
             password: encryptedPassword,
             email, 
             userIconPath, 

@@ -51,24 +51,25 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+    margin-left: 30px;
 }
 .social-icons i{
     font-size: 35px;
     color: #db545a;
 }
-.social-icons .fa-google{
-    margin-right: 20px;
-}
-.social-icons .fa-facebook{
-    margin-right: 20px;
+.social-icons a{
+    margin-right: 35px;
 }
 .login-email-container, .login-password-container{
     margin-left: 16%;
 }
-.email-textfield, .password-textfield{
+.email-textfield, .password-textfield, .comfirmed-password-textfield{
     display: block;
     width: 80%;
+}
+.login-email-container label, .login-password-container label{
+    color: #a4a4a4;
 }
 .errorMsg{
     font-size: 12px;
@@ -106,18 +107,18 @@
     border-radius: 50px;
     background-color: #fff;
 }
-.Signin-button:hover{
+.Signin-button:hover, .register-button:hover{
     background-color: #db545a;
 }
-.Signin-button strong{
+.Signin-button strong, .register-button strong{
     font-size: 13px;
     letter-spacing: 2px;
     line-height: 140%;
 }
-.Signin-button:hover strong{
+.Signin-button:hover strong, .register-button:hover strong{
     color: #fff;
 }
-.rectangle-decoration rect{
+.login-decoration .rectangle-decoration rect{
     filter: blur(5px);
 }
 
@@ -221,4 +222,132 @@
 
 
 /* Register page Design */ 
-
+.register-container{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #dddfe3;
+}   
+.Follow-us-grid-container{
+    display: grid;
+    position: absolute;
+    grid-template-columns: repeat(2,1fr); 
+    max-width: 450px;
+    max-height: 550px;
+    width: 100%;
+    height: 50%;
+    left: 50px;
+    padding: 137.5px 110px;
+}
+.follow-us-grid-col1 .text span{
+    font-weight: 700;
+    font-size: 49px;
+}
+.follow-us-grid-col1 .text label{
+    font-weight: 600;
+    font-size: 17px;
+    margin-left: 50px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    color: #db545a;
+}
+.social-icons-follow-us{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+}
+.social-icons-follow-us a{
+    margin-right: 35px;
+}
+.social-icons-follow-us i{
+    font-size: 35px;
+    color: #333232;
+}
+.register-grid-container{
+    display: grid;
+    position: absolute;
+    grid-template-columns: repeat(2,1fr); 
+    max-width: 980px;
+    max-height: 700px;
+    width: 100%;
+    height: 95%;
+    top: 50px;
+    left: 500px;
+}
+.register-grid-col1{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.register-grid-col1 img{
+    max-width: 980px;
+    max-height: 560px;
+}
+.register-grid-col2 .text-container-1,.register-grid-col2 .text-container-2{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.register-grid-col2 .title{
+    font-family: "Pacifico", cursive;
+    font-weight: 400;
+    font-size: 60px;
+}
+.register-grid-col2 .text{
+    font-size: 22px;
+    font-weight: 600;
+}
+.social-network-register-container .text{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.social-network-register-container .text span{
+    font-size: 15px;
+}
+.social-network-register-container .social-icons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.horizontal-line{
+    display: flex;
+    align-items: center;
+}
+.horizontal-line hr{
+    flex-grow: 1;
+    margin: 0 10px;
+    border-color: #3d3d3d;
+}
+.horizontal-line .line-text {
+    font-weight: 500;
+    font-size: 14px;
+    color: #3d3d3d;
+}
+.register-form-container{
+    margin-top: 25px;
+}
+.register-email-container, .register-password-container, .register-comfirmed-password-container{
+    margin-left: 75px;
+    margin-bottom: 25px;
+}
+.register-email-container label, .register-password-container label, .register-comfirmed-password-container{
+    color: #a4a4a4;
+}
+.register-button-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+}
+.register-button-container button{
+    padding: 20px 60px;
+    border: 3px solid #db545a;
+    border-radius: 50px;
+    background-color: #dddfe3;
+}

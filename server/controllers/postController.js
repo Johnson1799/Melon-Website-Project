@@ -13,8 +13,7 @@ export  const createPost = async(req,res) => {
         // create new post document
         const newPost = new Post({
             userId,
-            firstName: user.firstName,
-            lastName: user.lastName,
+            userName: user.userName,
             description,
             userIconPath: user.userIconPath,
             postPicturePath,

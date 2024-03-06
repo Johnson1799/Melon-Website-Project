@@ -16,8 +16,7 @@ const userIds = [
 export const usersData = [
   {
     _id: userIds[0],
-    firstName: "test",
-    lastName: "me",
+    userName: "test",
     email: "aaaaaaa@gmail.com",
     password: "$2b$10$dsasdgsagasda//G9JxQ4bQ8KXf4OAIe/X/AK9skyWUy",
     userIconPath: "p11.jpeg",
@@ -29,8 +28,7 @@ export const usersData = [
   },
   {
     _id: userIds[1],
-    firstName: "Steve",
-    lastName: "Ralph",
+    userName: "Steve",
     email: "thataaa@gmail.com",
     password: "$!FEAS@!O)_IDJda//G9JxQ4bQ8KXf4OAIe/X/AK9skyWUy",
     userIconPath: "p3.jpeg",
@@ -43,8 +41,7 @@ export const usersData = [
   },
   {
     _id: userIds[2],
-    firstName: "Some",
-    lastName: "Guy",
+    userName: "Some",
     email: "someguy@gmail.com",
     password: "da39a3ee5e6b4b0d3255bfef95601890afd80709",
     userIconPath: "p4.jpeg",
@@ -56,8 +53,7 @@ export const usersData = [
   },
   {
     _id: userIds[3],
-    firstName: "Whatcha",
-    lastName: "Doing",
+    userName: "Whatcha",
     email: "whatchadoing@gmail.com",
     password: "$2b$10$dsasdgsagasda//G9JxQ4bQ8KXf4OAIe/X/AK9skyWUy",
     userIconPath: "p6.jpeg",
@@ -69,8 +65,7 @@ export const usersData = [
   },
   {
     _id: userIds[4],
-    firstName: "Jane",
-    lastName: "Doe",
+    userName: "Jane",
     email: "janedoe@gmail.com",
     password: "$2b$10$dsasdgsagasda//G9JxQ4bQ8KXf4OAIe/X/AK9skyWUy",
     userIconPath: "p5.jpeg",
@@ -82,8 +77,7 @@ export const usersData = [
   },
   {
     _id: userIds[5],
-    firstName: "Harvey",
-    lastName: "Dunn",
+    userName: "Harvey",
     email: "harveydunn@gmail.com",
     password: "$2b$10$dsasdgsagasda//G9JxQ4bQ8KXf4OAIe/X/AK9skyWUy",
     userIconPath: "p7.jpeg",
@@ -95,8 +89,7 @@ export const usersData = [
   },
   {
     _id: userIds[6],
-    firstName: "Carly",
-    lastName: "Vowel",
+    userName: "Carly",
     email: "carlyvowel@gmail.com",
     password: "$2b$10$dsasdgsagasda//G9JxQ4bQ8KXf4OAIe/X/AK9skyWUy",
     userIconPath: "p8.jpeg",
@@ -108,8 +101,7 @@ export const usersData = [
   },
   {
     _id: userIds[7],
-    firstName: "Jessica",
-    lastName: "Dunn",
+    userName: "Jessica",
     email: "jessicadunn@gmail.com",
     password: "$2b$10$dsasdgsagasda//G9JxQ4bQ8KXf4OAIe/X/AK9skyWUy",
     userIconPath: "p9.jpeg",
@@ -127,8 +119,7 @@ export const postsData = [
   {
     _id: new mongoose.Types.ObjectId(),
     userId: userIds[1],
-    firstName: "Steve",
-    lastName: "Ralph",
+    userName: "Steve",
     description: "Some really long random description",
     userIconPath: "post1.jpeg",
     postPicturePath: "p3.jpeg",
@@ -147,8 +138,7 @@ export const postsData = [
   {
     _id: new mongoose.Types.ObjectId(),
     userId: userIds[3],
-    firstName: "Whatcha",
-    lastName: "Doing",
+    userName: "Whatcha",
     description:
       "Another really long random description. This one is longer than the previous one.",
     userIconPath: "post2.jpeg",
@@ -169,8 +159,7 @@ export const postsData = [
   {
     _id: new mongoose.Types.ObjectId(),
     userId: userIds[4],
-    firstName: "Jane",
-    lastName: "Doe",
+    userName: "Jane",
     description:
       "This is the last really long random description. This one is longer than the previous one.",
     userIconPath: "post3.jpeg",
@@ -192,8 +181,7 @@ export const postsData = [
   {
     _id: new mongoose.Types.ObjectId(),
     userId: userIds[5],
-    firstName: "Harvey",
-    lastName: "Dunn",
+    userName: "Harvey",
     description:
       "This is the last really long random description. This one is longer than the previous one. Man I'm bored. I'm going to keep typing until I run out of things to say.",
     userIconPath: "post4.jpeg",
@@ -215,8 +203,7 @@ export const postsData = [
   {
     _id: new mongoose.Types.ObjectId(),
     userId: userIds[6],
-    firstName: "Carly",
-    lastName: "Vowel",
+    userName: "Carly",
     description:
       "Just a short description. I'm tired of typing. I'm going to play video games now.",
     userIconPath: "post5.jpeg",
@@ -238,8 +225,7 @@ export const postsData = [
   {
     _id: new mongoose.Types.ObjectId(),
     userId: userIds[7],
-    firstName: "Jessica",
-    lastName: "Dunn",
+    userName: "Jessica",
     description:
       "For the last time, I'm going to play video games now. I'm tired of typing. I'm going to play video games now.",
     userIconPath: "post6.jpeg",
