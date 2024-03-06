@@ -28,6 +28,52 @@ const RegisterPage = () => {
         setUserConfirmedInputPassword(userPasswordInput);
     }
 
+    const handleNewUser = (e) => {
+        e.preventDefault();
+        console.log("Email=",userInputEmail);
+        console.log("Password=",userInputPassword);
+        console.log("Comfirmed password=",userComfirmedInputPassword);
+
+        /* Email Validation */
+        if (userInputEmail === ''){
+            emailTextfieldRef.current.className = 'form-control is-invalid email-textfield';
+            setEmailErrMsg("Email is required");
+        } else if (!userInputEmail.includes('@')){
+            emailTextfieldRef.current.className = 'form-control is-invalid email-textfield';
+            setEmailErrMsg("Invalid email format");
+        } else {
+            emailTextfieldRef.current.className = 'form-control email-textfield';
+            setEmailErrMsg("");
+
+            /* Password Validation */
+            if (userInputPassword === ''){
+                passwordTextfieldRef.current.className = 'form-control is-invalid password-textfield';
+                setPasswordErrMsg("Password is required");
+            } else {
+                passwordTextfieldRef.current.className = 'form-control password-textfield';
+                setPasswordErrMsg("");
+            }
+            if (userComfirmedInputPassword === ''){
+                comfirmedPasswordTextfieldRef.current.className = 'form-control is-invalid comfirmed-password-textfield';
+                setComfirmedPasswordErrMsg("Comfirmed password is required");
+            } else {
+                comfirmedPasswordTextfieldRef.current.className = 'form-control comfirmed-password-textfield';
+                setComfirmedPasswordErrMsg("")
+            }
+            if (userInputPassword !== userComfirmedInputPassword){
+                comfirmedPasswordTextfieldRef.current.className = 'form-control is-invalid comfirmed-password-textfield';
+                setComfirmedPasswordErrMsg("Password is not consistent");
+            }
+        }
+
+        /* Send the registration data back to server */ 
+
+        
+
+
+
+    }
+
     return ( 
             <div className="register-container">
 
@@ -78,11 +124,12 @@ const RegisterPage = () => {
                                 <a href="https://www.instagram.com/" className="icon"><i className="fa-brands fa-instagram"></i></a>
                             </div>
 
-                            <div class="horizontal-line">
+                            <div className="horizontal-line">
                                 <hr />
-                                    <span class="line-text">Or</span>
+                                    <span className="line-text">Or</span>
                                 <hr />
                             </div>
+
                         </div>
 
                         
@@ -113,7 +160,7 @@ const RegisterPage = () => {
                                 </div>
 
                                 <div className="register-button-container">
-                                    <button className="register-button"><strong>SIGN UP</strong></button>
+                                    <button className="register-button" onClick={handleNewUser}><strong>SIGN UP</strong></button>
                                 </div>
                         
                             </form>
@@ -128,7 +175,7 @@ const RegisterPage = () => {
                                 {/* right rectangle */}
                                 {/* <rect x="1250" y="0" width="700" height="300" fill="#f4a8ac" /> */}
                                 {/* left rectangle */}
-                                <rect x="620" y="30" width="350" height="680" fill="#f4a8ac" />
+                                <rect x="700" y="55" width="350" height="620" fill="#f4a8ac" />
                             </svg>
                         </div>
                     </div>
