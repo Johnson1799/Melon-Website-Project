@@ -8,7 +8,7 @@ const useFetch = (url)=> {
         fetch(url)
         .then(res => {
             if (!res.ok){
-                throw Error('could not fetch the user data');
+                throw Error('could not fetch the data');
             }
             return res.json();
         })

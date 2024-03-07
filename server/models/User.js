@@ -2,10 +2,10 @@ import mongoose from "mongoose";
 
 /* Create 'User' Schema */
 const UserSchema = new mongoose.Schema({
-    userName: { type: String, required:true },
-    password: {type: String, required: true, min: 8},
+    userName: { type: String, default:''},
+    password: {type: String, required: true},
     email: {type: String, required: true, unique: true},
-    userIconPath: {type: String},
+    userIconPath: {type: String, default:''},
     friends: {type: Array, default: []},
     followers: {type: Number, default: 0}, 
 

@@ -8,27 +8,26 @@ import useFetch from './useFetch.js';
 /* Import assets */
 import loginPic from '../assets/loginPic.png';         // 490*367
 
-
+const databaseUrl = `http://localhost:3001/users/database`;
+const url = "http://localhost:3001/login";
 
 const LoginPage = () => {
-    // ref hook
+    /* Reference on HTML element */
     const emailTextfieldRef = useRef(null);
     const passwordTextfieldRef = useRef(null);
 
-    // state hook
+    /* State hook */
     const [user, setUser] = useState(null);
     const [userInputEmail, setUserInputEmail] = useState("");
     const [userInputPassword, setUserInputPassword] = useState("");
     const [emailErrMsg, setEmailErrMsg] = useState("");
     const [passwordErrMsg, setPasswordErrMsg] = useState("");
 
-    // Navigate hook
+    /* Navigate hook */
     const navigate = useNavigate();
 
-    // fetch data from server
-    const id = '65e6bbff273f1dac63ae3aa9';
-    const url = `http://localhost:3001/users/${id}`;
-    const {data:User,isLoading} = useFetch(url);
+    /* Fetch data from server */
+    const {data:User,isLoading} = useFetch(databaseUrl);
     useEffect(() => {
         setUser(User); 
     }, [User]);
@@ -45,45 +44,58 @@ const LoginPage = () => {
     const handleValidation = (e) => {
         e.preventDefault();
 
+        /* Initialize variable and states */
+        emailTextfieldRef.current.className = 'form-control email-textfield';
+        setEmailErrMsg("");
+        passwordTextfieldRef.current.className = 'form-control email-textfield';
+        setPasswordErrMsg("");
+
         /* Validate Email */
         if (userInputEmail === ''){
             emailTextfieldRef.current.className = 'form-control is-invalid email-textfield';
             setEmailErrMsg("Email is Required");
         }
-        else if (!userInputEmail.includes("@")){
+        if (!userInputEmail.includes("@")){
             emailTextfieldRef.current.className = 'form-control is-invalid email-textfield';
             setEmailErrMsg("Incorrect Email Format");
         }
-        else if (userInputEmail !== user.email){
-            emailTextfieldRef.current.className = 'form-control is-invalid email-textfield';
+
+        /* Validate Password */
+        if (userInputPassword === ''){
             passwordTextfieldRef.current.className = 'form-control is-invalid password-textfield';
-            setEmailErrMsg("Incorrect Email or Password");
-            setPasswordErrMsg("Incorrect Email or Password");
+            setPasswordErrMsg("Password is Required");
         }
-        else{
-            emailTextfieldRef.current.className = 'form-control email-textfield';
-            setEmailErrMsg("");
 
+        /* Find the User in the database */
+        const userInput = {
+            email: userInputEmail,
+            password: userInputPassword,
+        };
 
-            /* Validate Password */
-            if (userInputPassword === ''){
-                passwordTextfieldRef.current.className = 'form-control is-invalid password-textfield';
-                setPasswordErrMsg("Password is Required");
-            }
-            else if (userInputPassword !== user.password){
-                passwordTextfieldRef.current.className = 'form-control is-invalid password-textfield';
+        fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify(userInput),
+        })
+        .then((res) => {
+            if (res.status === 200) {
+                /* Find the user in database successfully */
+                console.log('Login successful');
+                emailTextfieldRef.current.className = 'form-control email-textfield';
+                passwordTextfieldRef.current.className = 'form-control password-textfield';
+                navigate('/home');
+            } else {
+                /* Fail to find the user in database */
                 emailTextfieldRef.current.className = 'form-control is-invalid email-textfield';
-                setPasswordErrMsg("Incorrect Email or Password");
+                passwordTextfieldRef.current.className = 'form-control is-invalid password-textfield';
                 setEmailErrMsg("Incorrect Email or Password");
+                setPasswordErrMsg("Incorrect Email or Password");
+                throw new Error("Cannot find the user in database");
             }
-            else{
-                passwordTextfieldRef.current.className = 'form-control email-textfield';
-                setPasswordErrMsg("");
-                navigate("/home");
-            }
-        }
-
-        
+        })
+        .catch((err) => {
+            console.log('Error during login:', err);
+        });
     }
 
     return (

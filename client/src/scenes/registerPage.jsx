@@ -1,11 +1,17 @@
 import { useState, useRef, useEffect} from "react";
+import {useNavigate } from "react-router-dom";
 import RegisterImg from '../assets/register-img.jpeg';
+
+const url = "http://localhost:3001/register"
 
 const RegisterPage = () => {
     /* Reference on HTML element */
     const emailTextfieldRef = useRef(null);
     const passwordTextfieldRef = useRef(null);
     const comfirmedPasswordTextfieldRef = useRef(null);
+
+    /* Navigation hook */
+    const navigate = useNavigate();
 
     /* States */
     const [userInputEmail, setUserInputEmail] = useState("");
@@ -34,44 +40,71 @@ const RegisterPage = () => {
         console.log("Password=",userInputPassword);
         console.log("Comfirmed password=",userComfirmedInputPassword);
 
+        /* Initialize variable and states */
+        let emailIsValid = true;
+        let passwordIsValid = true;
+        let comfirmedPasswordIsValid = true;
+        emailTextfieldRef.current.className = 'form-control email-textfield';
+        setEmailErrMsg("");
+        passwordTextfieldRef.current.className = 'form-control password-textfield';
+        setPasswordErrMsg("");
+        comfirmedPasswordTextfieldRef.current.className = 'form-control comfirmed-password-textfield';
+        setComfirmedPasswordErrMsg("");
+
+        
         /* Email Validation */
         if (userInputEmail === ''){
             emailTextfieldRef.current.className = 'form-control is-invalid email-textfield';
             setEmailErrMsg("Email is required");
-        } else if (!userInputEmail.includes('@')){
+            emailIsValid = false;
+        }
+        if (!userInputEmail.includes('@')){
             emailTextfieldRef.current.className = 'form-control is-invalid email-textfield';
             setEmailErrMsg("Invalid email format");
-        } else {
-            emailTextfieldRef.current.className = 'form-control email-textfield';
-            setEmailErrMsg("");
-
-            /* Password Validation */
-            if (userInputPassword === ''){
-                passwordTextfieldRef.current.className = 'form-control is-invalid password-textfield';
-                setPasswordErrMsg("Password is required");
-            } else {
-                passwordTextfieldRef.current.className = 'form-control password-textfield';
-                setPasswordErrMsg("");
-            }
-            if (userComfirmedInputPassword === ''){
-                comfirmedPasswordTextfieldRef.current.className = 'form-control is-invalid comfirmed-password-textfield';
-                setComfirmedPasswordErrMsg("Comfirmed password is required");
-            } else {
-                comfirmedPasswordTextfieldRef.current.className = 'form-control comfirmed-password-textfield';
-                setComfirmedPasswordErrMsg("")
-            }
-            if (userInputPassword !== userComfirmedInputPassword){
-                comfirmedPasswordTextfieldRef.current.className = 'form-control is-invalid comfirmed-password-textfield';
-                setComfirmedPasswordErrMsg("Password is not consistent");
-            }
+            emailIsValid = false;
         }
 
+        /* Password Validation */
+        if (userInputPassword === ''){
+            passwordTextfieldRef.current.className = 'form-control is-invalid password-textfield';
+            setPasswordErrMsg("Password is required");
+            passwordIsValid=false;
+        }
+        if (userComfirmedInputPassword === ''){
+            comfirmedPasswordTextfieldRef.current.className = 'form-control is-invalid comfirmed-password-textfield';
+            comfirmedPasswordIsValid = false;
+            setComfirmedPasswordErrMsg("Comfirmed password is required");
+        }
+        if (userInputPassword !== userComfirmedInputPassword) {
+            comfirmedPasswordTextfieldRef.current.className = 'form-control is-invalid comfirmed-password-textfield';
+            comfirmedPasswordIsValid = false;
+            setComfirmedPasswordErrMsg("Password is not consistent");
+        } 
+
         /* Send the registration data back to server */ 
+        if (emailIsValid && passwordIsValid && comfirmedPasswordIsValid){
+            const updatedUser = {
+                email: userInputEmail,
+                password: userInputPassword,
+            };
 
-        
-
-
-
+            fetch(url,{
+                method: 'POST',
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(updatedUser)
+            })
+            .then(res => {
+                if (res.ok) {
+                  console.log('New User is added');
+                  navigate("/");
+                } else {
+                  console.log('Error: Unable to add new user');
+                }
+            })
+            .catch(err => {
+                console.log('Error: ', err);
+            });
+        }
     }
 
     return ( 
@@ -86,10 +119,10 @@ const RegisterPage = () => {
                             <label>Our Social Media</label>
                         </div>
                         <div className="social-icons-follow-us">
-                            <a href="https://www.google.com.hk/" className="icon"><i className="fa-brands fa-google"></i></a>
+                            <a href="https://www.google.com/" className="icon"><i className="fa-brands fa-google"></i></a>
                             <a href="https://www.facebook.com/" className="icon"><i className="fa-brands fa-facebook"></i></a>
                             <a href="https://www.instagram.com/" className="icon"><i className="fa-brands fa-instagram"></i></a>
-                            <a href="https://www.instagram.com/" className="icon"><i className="fa-brands fa-square-twitter"></i></a>
+                            <a href="https://twitter.com/" className="icon"><i className="fa-brands fa-square-x-twitter"></i></a>
                         </div>
                     </div>
                 </div>
@@ -134,10 +167,10 @@ const RegisterPage = () => {
 
                         
                         <div className="register-form-container">
-                            <form>
+                            <form action="/regiser" method="POST">
                                 <div className="register-email-container">
                                     <div className="form-floating mb-3">
-                                        <input type="email" className="form-control email-textfield" id="floatingInput" placeholder="Email" ref={emailTextfieldRef} value={userInputEmail} onChange={(e)=>handleEmailInputChange(e.target.value)} required />
+                                        <input type="email" className="form-control email-textfield" id="floatingInput" name="registerEmail" placeholder="Email" ref={emailTextfieldRef} value={userInputEmail} onChange={(e)=>handleEmailInputChange(e.target.value)} required />
                                         <label htmlFor="floatingInput">Email address</label>
                                         <div className="errorMsg">{emailErrMsg}</div>
                                     </div>
@@ -145,7 +178,7 @@ const RegisterPage = () => {
 
                                 <div className="register-password-container">
                                     <div className="form-floating mb-3">
-                                        <input type="password" className="form-control password-textfield" id="floatingPassword" placeholder="New Password" ref={passwordTextfieldRef} value={userInputPassword} onChange={(e)=>handlePasswordInputChange(e.target.value)} required/>
+                                        <input type="password" className="form-control password-textfield" id="floatingPassword" name="registerPassword" placeholder="New Password" ref={passwordTextfieldRef} value={userInputPassword} onChange={(e)=>handlePasswordInputChange(e.target.value)} required/>
                                         <label htmlFor="floatingPassword">New Password</label>
                                         <div className="errorMsg">{passwordErrMsg}</div> 
                                     </div>

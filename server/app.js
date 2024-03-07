@@ -20,6 +20,8 @@ import { createPost } from "./controllers/postController.js";
 import authentiacationRoute from "./routes/authentiacationRoute.js";
 import userRoute from "./routes/userRoute.js";
 import postRoute from "./routes/postRoute.js";
+import registerRoute from "./routes/registerRoute.js";
+import loginRoute from "./routes/loginRoute.js";
 
 /* import models files */
 import User from "./models/User.js";
@@ -77,6 +79,12 @@ app.use("/auth",authentiacationRoute);
 /* Routes 'users' page */
 app.use("/users",userRoute);
 
+/* Routes 'login' page */
+app.use("/login",loginRoute);
+
+/* Routes 'register' page */
+app.use("/register",registerRoute);
+
 /* Routes 'posts' page */
 app.use("/posts", postRoute);
 
@@ -90,10 +98,15 @@ mongoose.connect(process.env.MongoDB_URL)       // Connect to MongoDB by URL def
     });
     
     // Insert the user data to the database
-    User.insertMany(usersData);
+    if (!User.findOne()) {
+        User.insertMany(usersData); 
+    }
 
     // Insert the post data to the database
-    Post.insertMany(postsData);
+    if (!Post.findOne()){
+        Post.insertMany(postsData);
+    }
+    
 }) 
 .catch((err)=>{
     console.log("Fail to connect to Database");

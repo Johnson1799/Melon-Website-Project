@@ -2,7 +2,7 @@ import Post from "../models/Post.js";
 import User from "../models/User.js";
 
 /* Post-creating function */
-export  const createPost = async(req,res) => {
+export const createPost = async(req,res) => {
     try {
         // grab the attributes from request object
         const {userId, description, picturePath } = req.body;
