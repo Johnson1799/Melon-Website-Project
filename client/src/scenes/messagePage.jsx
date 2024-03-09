@@ -1,14 +1,14 @@
 import MainNavbar from "components/MainNavbar";
 
-const ProfilePage = () => {
-    return (
+const MessagePage = () => {
+    return ( 
         <div>
             <MainNavbar />
             <div className="profile-container">
-                ProfilePage
+                MessagePage
             </div >
         </div>
-    )
+    );
 }
-
-export default ProfilePage;
+ 
+export default MessagePage;

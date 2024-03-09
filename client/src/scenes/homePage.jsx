@@ -1,6 +1,11 @@
+import MainNavbar from "components/MainNavbar";
+
 const HomePage = () => {
     return (
-        <div>homepage</div>
+        <div className="profile-container">
+            <MainNavbar />
+            HomePage
+        </div>
     )
 }
 

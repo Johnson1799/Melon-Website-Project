@@ -1,6 +1,6 @@
 /* Import React */
 import React from 'react';
-import { BrowserRouter, Navigate, Routes, Route} from 'react-router-dom';
+import { BrowserRouter, Routes, Route} from 'react-router-dom';
 
 /* Import Redux-Persist */
 import { PersistGate } from "redux-persist/integration/react";
@@ -14,7 +14,8 @@ import LoginPage from 'scenes/loginPage.jsx';
 import ProfilePage from 'scenes/profilePage.jsx';
 import RegisterPage from 'scenes/registerPage.jsx';
 import AboutPage from 'scenes/aboutPage.jsx';
-import Navbar from 'components/narbar.jsx';
+import MessagePage from 'scenes/messagePage';
+import SettingPage from 'scenes/settingPage';
 
 /* Import rudux store and persister */
 import { store, persistor } from '../src/redux/store.js';
@@ -26,7 +27,6 @@ function App() {
       <Provider store={ store }>
         <PersistGate loading={ null } persistor={ persistor }>
           <BrowserRouter>
-            <Navbar />  
               <Routes>
                 {/* Route to Login Page */}
                 <Route path='/' element={<LoginPage />} />
@@ -41,7 +41,13 @@ function App() {
                 <Route path='/home' element={<HomePage />} />
 
                 {/* Route to Profile Page */}
-                <Route path='/profile/:userId' element={<ProfilePage />} />
+                <Route path='/profile' element={<ProfilePage />} />
+
+                {/* Route to Message Page */}
+                <Route path='/message' element={<MessagePage />} />
+
+                {/* Route to Setting Page */}
+                <Route path='/setting' element={<SettingPage />} />
 
               </Routes>
           </BrowserRouter>

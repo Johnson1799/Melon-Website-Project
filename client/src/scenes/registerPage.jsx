@@ -1,6 +1,12 @@
+/* Import React */
 import { useState, useRef, useEffect} from "react";
 import {useNavigate } from "react-router-dom";
+
+/* Import assets*/
 import RegisterImg from '../assets/register-img.jpeg';
+
+/* Import component */
+import LoginNavbar from "components/LoginNavbar.jsx";
 
 const url = "http://localhost:3001/register"
 
@@ -108,8 +114,9 @@ const RegisterPage = () => {
     }
 
     return ( 
+        <div>
+            <LoginNavbar />
             <div className="register-container">
-
                 <div className="Follow-us-grid-container">
                     {/* Column 1 */}
                     <div className="follow-us-grid-col1">
@@ -203,16 +210,14 @@ const RegisterPage = () => {
 
                 {/* Background decoration */}
                 <div className="register-decoration">
-                        <div className="rectangle-decoration">
-                            <svg width="1920px" height="693px" >
-                                {/* right rectangle */}
-                                {/* <rect x="1250" y="0" width="700" height="300" fill="#f4a8ac" /> */}
-                                {/* left rectangle */}
-                                <rect x="700" y="55" width="350" height="620" fill="#f4a8ac" />
-                            </svg>
-                        </div>
+                    <div className="rectangle-decoration">
+                        <svg width="1920px" height="693px" >
+                            <rect x="720" y="48" width="350" height="620" fill="#f4a8ac" />
+                        </svg>
                     </div>
+                </div>
             </div>
+        </div>
             
     );
 }

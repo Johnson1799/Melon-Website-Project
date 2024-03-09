@@ -5,6 +5,9 @@ import { Link, useNavigate } from "react-router-dom";
 /* Import useFetch custom hook */
 import useFetch from './useFetch.js';
 
+/* Import component */
+import LoginNavbar from "components/LoginNavbar.jsx";
+
 /* Import assets */
 import loginPic from '../assets/loginPic.png';         // 490*367
 
@@ -99,62 +102,66 @@ const LoginPage = () => {
     }
 
     return (
-        <div className="login-container" id="container">
-            {/* { isLoading && <div>Loading...</div>} */}
-            <div className="grid-container">
+        <div>
+            <LoginNavbar />
+            <div className="login-container" id="container">
+                {/* { isLoading && <div>Loading...</div>} */}
+                <div className="grid-container">
 
-                {/* Column 1 */}
-                <div className="login-grid-item">
-                    <img className="login-gird-picture" src={loginPic} alt="Login Page Melon Background Pciture" />
-                </div>
-            
-                {/* Column 2 */}
-                <div className="form-container Signin-grid">
-                    <h1 className="Signin-title"><strong>Melon</strong></h1>
-                    <form>
-                        <div className="social-icons">
-                            <a href="https://www.google.com.hk/" className="icon"><i className="fa-brands fa-google"></i></a>
-                            <a href="https://www.facebook.com/" className="icon"><i className="fa-brands fa-facebook"></i></a>
-                            <a href="https://www.instagram.com/" className="icon"><i className="fa-brands fa-instagram"></i></a>
-                        </div>
+                    {/* Column 1 */}
+                    <div className="login-grid-item">
+                        <img className="login-gird-picture" src={loginPic} alt="Login Page Melon Background Pciture" />
+                    </div>
+                
+                    {/* Column 2 */}
+                    <div className="form-container Signin-grid">
+                        <h1 className="Signin-title"><strong>Melon</strong></h1>
+                        <form>
+                            <div className="social-icons">
+                                <a href="https://www.google.com.hk/" className="icon"><i className="fa-brands fa-google"></i></a>
+                                <a href="https://www.facebook.com/" className="icon"><i className="fa-brands fa-facebook"></i></a>
+                                <a href="https://www.instagram.com/" className="icon"><i className="fa-brands fa-instagram"></i></a>
+                            </div>
 
 
-                        <div className="form-floating mb-3 login-email-container">
-                            <input type="email" className="form-control email-textfield" id="floatingInput" placeholder="Email" ref={emailTextfieldRef} value={userInputEmail} onChange={(e)=>handleEmailInputChange(e.target.value)} required />
-                            <label htmlFor="floatingInput">Email address</label>
-                            <div className="errorMsg">{emailErrMsg}</div>
-                        </div>
-                        <div className="form-floating mb-3 login-password-container">
-                            <input type="password" className="form-control password-textfield" id="floatingPassword" placeholder="Password" ref={passwordTextfieldRef} value={userInputPassword} onChange={(e)=>handlePasswordInputChange(e.target.value)} required/>
-                            <label htmlFor="floatingPassword">Password</label>
-                            <div className="errorMsg">{passwordErrMsg}</div>
-                        </div>
-                      
-
-                        <div className="Signup-container">
-                            <small>Do not have an account?</small>
-                            <Link to="/register" className="login-signup-link"><strong>Sign up</strong></Link>
-                            <br />
-                        </div>
-                        <div className="login-button-container">
-                            <button className="Signin-button" onClick={handleValidation}><strong>SIGN IN</strong></button>
-                        </div>
+                            <div className="form-floating mb-3 login-email-container">
+                                <input type="email" className="form-control email-textfield" id="floatingInput" placeholder="Email" ref={emailTextfieldRef} value={userInputEmail} onChange={(e)=>handleEmailInputChange(e.target.value)} required />
+                                <label htmlFor="floatingInput">Email address</label>
+                                <div className="errorMsg">{emailErrMsg}</div>
+                            </div>
+                            <div className="form-floating mb-3 login-password-container">
+                                <input type="password" className="form-control password-textfield" id="floatingPassword" placeholder="Password" ref={passwordTextfieldRef} value={userInputPassword} onChange={(e)=>handlePasswordInputChange(e.target.value)} required/>
+                                <label htmlFor="floatingPassword">Password</label>
+                                <div className="errorMsg">{passwordErrMsg}</div>
+                            </div>
                         
-                    </form>
-                </div>
-            </div>
 
-            <div className="login-decoration">
-                <div className="rectangle-decoration">
-                    <svg width="1920px" height="693px" >
-                        {/* right rectangle */}
-                        <rect x="1250" y="0" width="700" height="300" fill="#f4a8ac" />
-                        {/* left rectangle */}
-                        <rect x="0" y="430" width="700" height="200" fill="#f4a8ac" />
-                    </svg>
+                            <div className="Signup-container">
+                                <small>Do not have an account?</small>
+                                <Link to="/register" className="login-signup-link"><strong>Sign up</strong></Link>
+                                <br />
+                            </div>
+                            <div className="login-button-container">
+                                <button className="Signin-button" onClick={handleValidation}><strong>SIGN IN</strong></button>
+                            </div>
+                            
+                        </form>
+                    </div>
+                </div>
+
+                <div className="login-decoration">
+                    <div className="rectangle-decoration">
+                        <svg width="1920px" height="693px" >
+                            {/* right rectangle */}
+                            <rect x="1250" y="0" width="700" height="300" fill="#f4a8ac" />
+                            {/* left rectangle */}
+                            <rect x="0" y="430" width="700" height="200" fill="#f4a8ac" />
+                        </svg>
+                    </div>
                 </div>
             </div>
         </div>
+        
     )
 }
 
