@@ -40,7 +40,7 @@ const __dirname = path.dirname(__filename);         // get the directory name
 dotenv.config();                                    // allow to use dotenv files
 // Use Express middleware
 const app = express();
-app.use(express.json());
+app.use(express.json({limit: '5mb'}));
 // use helmet middleware
 app.use(helmet());                                                      
 app.use(helmet.crossOriginResourcePolicy({policy: "cross-origin"}));
@@ -69,8 +69,8 @@ const storage = multer.diskStorage({
 const upload = multer({storage});
 
 /* Routes with files */
-app.post("/auth/register", upload.single("userIcon"), registerUser);
-app.post("/posts", verifyToken, upload.single("postPicture"),);
+// app.post("/auth/register", upload.single("userIcon"), registerUser);
+// app.post("/posts", verifyToken, upload.single("postPicture"),);
 
 
 /* Routes 'auth' page */

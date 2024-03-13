@@ -14,7 +14,6 @@ const useFetch = (url)=> {
         })
         .then(data => {
             console.log("Loading data successfully");
-            console.log(data);
             setData(data);
             setIsLoading(false);
         })

@@ -6,25 +6,38 @@ import User from "../models/User.js"
 export const registerUser = async (req,res) => {
     try {
         // Grab the object specified from the 'request' object
-        const {firstName, lastName, password, email, iconPath, friends} = req.body;
+        const {userName, password, email, contact, address, description, userAvatarURL, friends, followers} = req.body;
 
-        // Encrypt the password
-        const salt = await bcrypt.genSalt();
-        const encryptedPassword = await bcrypt.hash(password, salt);
+        /* Check if user email is appeared in MongoDB */
+        let user = await User.findOne({email:email});
 
-        // Create a new user document with a encrypted password initialized
-        const newUser = new User({
-            userName,
-            password: encryptedPassword,
-            email, 
-            userIconPath, 
-            friends,
-            followers
-        });
-        const savedUser = await newUser.save();
+        if(user){
+            return res.status(202).send({message:"This email has been registered"});
+        }
+        else{
+            // Encrypt the password
+            const salt = await bcrypt.genSalt();
+            const encryptedPassword = await bcrypt.hash(password, salt);
 
-        // send the response to the front-end
-        res.status(201).json(savedUser);
+            // Create a new user document with a encrypted password initialized
+            const newUser = new User({
+                userName,
+                password: encryptedPassword,
+                email, 
+                contact,
+                address,
+                description,
+                userAvatarURL, 
+                friends,
+                followers,
+            });
+
+            // save the new user into MongoDB */
+            const savedUser = await newUser.save();
+
+            // send the response to the front-end
+            res.status(201).json(savedUser);
+        }
     }
     catch (err) {
         // send the error message to front-end
@@ -37,20 +50,20 @@ export const registerUser = async (req,res) => {
 export const login = async (req,res) => {
     try {
         // Grab the object specified from the 'request' object
-        const { password, email } = req.body;
+        const { email, password } = req.body;
 
         // find the user which have that particular email
         const user = await User.findOne({email: email});
 
         // send the message to front-end if the user cannot be found
         if (!user){
-            return res.status(400).json({msg: "User is not found! Please type the correct username and password agian"});
+            return res.status(400).json({message: "User is not found! Please type the correct username and password agian"});
         }
 
         // send the message to front-end if the type the incorrect password
         const isPasswordMatch = await bcrypt.compare(password, user.password);
         if (!isPasswordMatch){
-            return res.status(400).json({msg: "Incorrect passowrd! Please type the correct username and password agian"});
+            return res.status(400).json({message: "Incorrect passowrd! Please type the correct username and password agian"});
         }
 
         // create a token (using jwt) and make a secret string for the token

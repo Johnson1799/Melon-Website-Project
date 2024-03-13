@@ -30,10 +30,10 @@ const LoginPage = () => {
     const navigate = useNavigate();
 
     /* Fetch data from server */
-    const {data:User,isLoading} = useFetch(databaseUrl);
-    useEffect(() => {
-        setUser(User); 
-    }, [User]);
+    // const {data:User,isLoading} = useFetch(databaseUrl);
+    // useEffect(() => {
+    //     setUser(User); 
+    // }, [User]);
 
     /* Handlers */
     const handleEmailInputChange = (userEmailInput) => {
@@ -57,16 +57,19 @@ const LoginPage = () => {
         if (userInputEmail === ''){
             emailTextfieldRef.current.className = 'form-control is-invalid email-textfield';
             setEmailErrMsg("Email is Required");
+            return;
         }
         if (!userInputEmail.includes("@")){
             emailTextfieldRef.current.className = 'form-control is-invalid email-textfield';
             setEmailErrMsg("Incorrect Email Format");
+            return;
         }
 
         /* Validate Password */
         if (userInputPassword === ''){
             passwordTextfieldRef.current.className = 'form-control is-invalid password-textfield';
             setPasswordErrMsg("Password is Required");
+            return;
         }
 
         /* Find the User in the database */
@@ -81,11 +84,15 @@ const LoginPage = () => {
             body: JSON.stringify(userInput),
         })
         .then((res) => {
+            // status code = 200: success
+            // status code = 404: user is not found in database 
             if (res.status === 200) {
                 /* Find the user in database successfully */
                 console.log('Login successful');
                 emailTextfieldRef.current.className = 'form-control email-textfield';
                 passwordTextfieldRef.current.className = 'form-control password-textfield';
+
+                
                 navigate('/home');
             } else {
                 /* Fail to find the user in database */

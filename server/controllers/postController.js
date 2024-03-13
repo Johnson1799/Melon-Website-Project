@@ -15,8 +15,8 @@ export const createPost = async(req,res) => {
             userId,
             userName: user.userName,
             description,
-            userIconPath: user.userIconPath,
-            postPicturePath,
+            userAvatarURL: user.userAvatarURL,
+            postImgURL,
             likes: {},
             comments: []
         })

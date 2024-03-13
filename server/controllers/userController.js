@@ -10,7 +10,25 @@ export const getUserDatabase = async (req,res) => {
     }
 }
 
-/* Get user function */
+/* Get user by email function */
+export const getUserByEmail = async (req,res) => {
+    try {
+        const email = req.query.email;
+        // find the user by the id of the user
+        const user = await User.findOne({email:email});
+
+        // send back user info to front-end
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+        res.status(200).json(user);
+
+    } catch (err) {
+        res.status(404).json({ message: err.message});
+    }
+}
+
+/* Get user by id function */
 export const getUser = async (req,res) => {
     try {
         // grab the id attributes from request object
@@ -18,7 +36,7 @@ export const getUser = async (req,res) => {
 
         // find the user by the id of the user
         const user = await User.findById(id);
-
+        
         // send back user info to front-end
         if (!user) {
             return res.status(404).json({ error: "User not found" });
@@ -129,7 +147,7 @@ export const userLogin = async(req,res) => {
     try{
         const user = await User.findOne({ email:email, password:password });
         if (!user) {
-            // User not found
+            // User is not found
             return res.status(404).json({error:'Incorrect email or password'});
         } else{
             // Login successful
@@ -138,5 +156,20 @@ export const userLogin = async(req,res) => {
     }
     catch (err){
         return res.status(500).json({error:"Internal server error"});
+    }
+}
+
+export const updateUserInfo = async(req,res) => {
+    const editedData = req.body;
+
+    try{
+        const updatedUser = await User.findOneAndUpdate({email: editedData.email}, editedData, {new: true});
+        if (updatedUser){
+            res.json(updatedUser);
+        }
+    }
+    catch (err){
+        console.log('Error updating user data:', err);
+        res.status(500).json({ error: 'Error updating user data' });
     }
 }

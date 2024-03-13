@@ -1,10 +1,13 @@
 import express from "express";
-import {login} from "../controllers/authenticationController.js";
+import {login, registerUser} from "../controllers/authenticationController.js";
 
 const router = express.Router();
 
-/* create new data in the database */
-router.post("/login", login);
+/* Login user verification */
+router.post("/loginuser", login);
+
+/* Register new user with encrypted password */
+router.post("/reguser", registerUser)
 
 // export the router
 export default router;

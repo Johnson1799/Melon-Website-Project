@@ -16,7 +16,7 @@ const LoginNavbar = () => {
                     </li>
 
                     <li>
-                        <Link to='/about' className="navbar-brand"><span className="nav-about">About Us</span></Link>
+                        <Link to='/home' className="navbar-brand"><span className="nav-about">Home</span></Link>
                     </li>
                 </ul>
                 

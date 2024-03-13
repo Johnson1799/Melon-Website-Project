@@ -2,6 +2,9 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route} from 'react-router-dom';
 
+/* Import React-Crop stylesheet */
+import 'react-image-crop/dist/ReactCrop.css';
+
 /* Import Redux-Persist */
 import { PersistGate } from "redux-persist/integration/react";
 

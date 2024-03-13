@@ -33,17 +33,19 @@ const MainNavbar = () => {
                     <button onClick={handleToggle}><strong className="logo">Melon</strong></button>
                 </div>
             </div>
-
-            <aside className={`${toggleState ? "slidebar-visible" : "slidebar-invisible"} ${isRoutingState ? "no-roll-animation" : "roll-animation"}`}>
-                {/* Slide bar options  */}
-                <div className="sidebar">
-                    <NavLink to="/home" className="option" activeClassName="active" onClick={handleRouteClick}><i class="fa-solid fa-house"></i><strong>Home</strong></NavLink>
-                    <NavLink to="/profile" className="option" activeClassName="active" onClick={handleRouteClick}><i className="fa-solid fa-circle-user icon"></i><strong>Profile</strong></NavLink>
-                    <NavLink to="/message" className="option" activeClassName="active" onClick={handleRouteClick}><i className="fa-solid fa-message icon"></i><strong>Message</strong></NavLink>
-                    <NavLink to="/setting" className="option" activeClassName="active" onClick={handleRouteClick}><i className="fa-solid fa-gear icon"></i><strong>Setting</strong></NavLink>
-                    <NavLink to="/" className="option" activeClassName="active"><i className="fa-solid fa-right-from-bracket icon"></i><strong>Logout</strong></NavLink>
-                </div>
-            </aside>
+            
+            <div className="aside-container">
+                <aside className={`${toggleState ? "slidebar-visible" : "slidebar-invisible"}`}>
+                    {/* Slide bar options  */}
+                    <div className="sidebar">
+                        <NavLink to="/home" className="option" onClick={handleRouteClick}><i className="fa-solid fa-house"></i><strong>Home</strong></NavLink>
+                        <NavLink to="/profile" className="option" onClick={handleRouteClick}><i className="fa-solid fa-circle-user icon"></i><strong>Profile</strong></NavLink>
+                        <NavLink to="/message" className="option" onClick={handleRouteClick}><i className="fa-solid fa-message icon"></i><strong>Message</strong></NavLink>
+                        <NavLink to="/setting" className="option" onClick={handleRouteClick}><i className="fa-solid fa-gear icon"></i><strong>Setting</strong></NavLink>
+                        <NavLink to="/" className="option"><i className="fa-solid fa-right-from-bracket icon"></i><strong>Logout</strong></NavLink>
+                    </div>
+                </aside>
+            </div>
         </div>
     );
 }
