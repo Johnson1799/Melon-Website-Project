@@ -126,11 +126,9 @@ const EditModal = (props) => {
 
     /* Send the edited data to profilePage.jsx */
     const handleCloseEditModal = (e) => {
-        if (user){
-            const data = {email, contact, address, description};
-            props.sendDataToParent(data);
-            dispatch(setToggleEditModal());
-        }
+        const data = {email, contact, address, description};
+        props.sendDataToParent(data);
+        dispatch(setToggleEditModal());
     };
 
     return ( 

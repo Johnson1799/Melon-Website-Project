@@ -6,7 +6,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import multer from "multer";
 import helmet from "helmet";
-import morgan from "morgan";
+import {v2 as cloudinary} from 'cloudinary';
 
 /* import js build-in library */
 import path from "path";
@@ -85,6 +85,15 @@ app.use("/posts", postRoute);
 
 
 /* Database Configuration */
+
+// cloudinary database
+cloudinary.config({ 
+    cloud_name: process.env.cloud_name, 
+    api_key: process.env.api_key, 
+    api_secret: process.env.api_secret,
+});
+
+// MongoDB
 const PORT = process.env.PORT;                  // Set the port to 3001 defined in .env
 mongoose.connect(process.env.MongoDB_URL)       // Connect to MongoDB by URL defined in .env file)
 .then(()=>{
@@ -107,5 +116,11 @@ mongoose.connect(process.env.MongoDB_URL)       // Connect to MongoDB by URL def
     console.log("Fail to connect to Database");
 });
 
-
+// Cloudinary 
+// cloudinary.config({ 
+//   cloud_name: 'dppg4mvct', 
+//   api_key: '563463938471186', 
+//   api_secret: 'IFGe6InsKCKrJBrApYdEkyfZ2qY',
+//   secure: true, 
+// });
 

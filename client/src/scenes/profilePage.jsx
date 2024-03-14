@@ -3,16 +3,13 @@ import { useParams } from 'react-router-dom';
 
 /* Import redux stuff */
 import { useSelector, useDispatch } from "react-redux";
-import { setToggleImageModal, setToggleEditModal } from "../redux/modalReducer";
+import { setToggleImageModal, setToggleEditModal, setUserAvatar } from "../redux/modalReducer";
 
 /* Import components */
 import MainNavbar from "components/MainNavbar";
 import ImageModal from "components/ImageModal";
 import EditModal from "components/EditModal";
 import MainBackgroundDesign from "components/MainBackgroundDesign";
-
-/* Import useFetch custom hook */
-import useFetch from './useFetch.js';
 
 
 const ProfilePage = () => {
@@ -22,9 +19,6 @@ const ProfilePage = () => {
     });
     const toggleEditModalState = useSelector((state) => {
         return state.modal.toggleEditModal;
-    });
-    const userAvatarURL = useSelector((state) => {
-        return state.modal.userAvatarURL;
     });
 
     const token = useSelector((state) => {
@@ -36,6 +30,7 @@ const ProfilePage = () => {
 
     /* States */
     const [user, setUser] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     const {userId} = useParams();
 
@@ -52,6 +47,7 @@ const ProfilePage = () => {
     const getUser = () => {
         const fetchUserIdUrl = `http://localhost:3001/users/user/${userId}`;
 
+        setIsLoading(true);
         fetch(fetchUserIdUrl, {
           method: "GET",
           headers: { Authorization: `Bearer ${token}` },
@@ -65,6 +61,7 @@ const ProfilePage = () => {
         .then((data) =>{
             if (data.user){
                 setUser(data.user);
+                setIsLoading(false);
             }
         })
         .catch((err) => {
@@ -76,34 +73,60 @@ const ProfilePage = () => {
     }, []);
 
     /* Update the edited data to database */
-    const handleDataReceivedFromChild = (editedData) => {
-        if (editedData){
-            const url = `http://localhost:3001/users/user/${userId}/update`;
-            fetch(url, {
+    const handleDataReceivedFromChild = async (editedData) => {
+        if (editedData.userAvatarURL){
+            setIsLoading(true);
+
+            /* Upload user avatar to Cloudinary database */
+            const url = `http://localhost:3001/users/user/update/avatar/${userId}`;
+            await fetch(url,{
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`,
                 },
-                body: JSON.stringify({userId:userId , ...editedData}),
+                body: JSON.stringify({ image: editedData.userAvatarURL }),
             })
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error('Error in updating user data');
+            .then((res)=>{
+                if(!res.ok){
+                    throw new Error("Can't Access the Server");
                 }
                 return res.json();
             })
-            .then((updatedUserData) => {
-                setUser(updatedUserData);
+            .then((data)=>{
+                /* Update userAvatarURL attribute in MongoDB */
+                editedData =  {userAvatarURL: data.url};
+                setIsLoading(false);
             })
-            .catch((error) => {
-                console.error('Error updating user data:', error);
+            .catch((err)=>{
+                console.error('Error updating user avatar:', err);
             });
         }
+        /* Update 'email', 'contact', 'address' and 'description' attributes or 'userAvatarURL' attribute in MongoDB */
+        setIsLoading(true);
+        const url = `http://localhost:3001/users/user/${userId}/update`;
+        await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(editedData),
+        })
+        .then((res) => {
+            if (!res.ok) {
+                throw new Error('Fail to Update User Information to Database');
+            }
+            return res.json();
+        })
+        .then((updatedUserData) => {
+            setUser(updatedUserData);
+        })
+        .catch((err) => {
+            console.error('Error updating user data:', err);
+        });
         
     }
-
-
     
 
     return (
@@ -149,7 +172,7 @@ const ProfilePage = () => {
                         </div>
 
                         {/* Display modals */}
-                        {(toggleImageModalState && user) && <ImageModal user={user} sendDataToParent={handleDataReceivedFromChild}/>}
+                        {(toggleImageModalState && user) && <ImageModal sendDataToParent={handleDataReceivedFromChild}/>}
                         {(toggleEditModalState && user) &&<EditModal user={user} sendDataToParent={handleDataReceivedFromChild}/>}
 
                         {/* Background Design */}

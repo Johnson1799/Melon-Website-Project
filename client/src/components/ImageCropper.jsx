@@ -20,14 +20,10 @@ const ImageCropper = (props) => {
     const previewCanvasRef = useRef(null);
 
     /* States */
-    const [user, setUser] = useState(props.user);
     const [image, setImage] = useState('');
     const [imageFileName, setImageFileName] = useState("No file is chosen");
     const [crop, setCrop] = useState(null);
     const [error, setError] = useState('');
-
-    /* Actions from redux store */
-    const dispatch = useDispatch();
 
     const onSelectFile = (e) => {
         const file = e.target.files[0];
@@ -74,15 +70,11 @@ const ImageCropper = (props) => {
     const handleCloseImageModal = (e) => {
         previewCanvas(imageRef.current, previewCanvasRef.current, convertToPixelCrop(crop, imageRef.current.width, imageRef.current.height));
         const userAvatarURL = previewCanvasRef.current.toDataURL();
-        dispatch(setUserAvatar(userAvatarURL));
 
         /* Send imageAvatarURL to ImageModal.jsx */
-        if (user){
-            const data = {userAvatarURL};
-            props.sendDataToParent(data);
-        } else {
-            console.log("User not found");
-        }
+        const data = {userAvatarURL:userAvatarURL};
+        props.sendDataToParent(data);
+
     };
 
     return (  

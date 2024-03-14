@@ -1,4 +1,15 @@
 import User from "../models/User.js";
+import {v2 as cloudinary} from 'cloudinary';
+import dotenv from 'dotenv';
+dotenv.config();
+
+/* Cloudinary database configuration */
+cloudinary.config({ 
+    cloud_name: process.env.cloud_name, 
+    api_key: process.env.api_key, 
+    api_secret: process.env.api_secret,
+});
+
 
 /* Get User database function */
 export const getUserDatabase = async (req,res) => {
@@ -14,7 +25,7 @@ export const getUserDatabase = async (req,res) => {
 export const getUser = async (req,res) => {
     try {
         // grab the id attributes from request object
-        const { userId } = req.params;
+        const userId = req.params.userId;
 
         // find the user by the id of the user
         const user = await User.findById(userId);
@@ -32,10 +43,9 @@ export const getUser = async (req,res) => {
 }
 
 export const updateUserInfo = async(req,res) => {
-    const userId = req.body.userId;
+    const userId = req.params.userId;
 
     const editedData = req.body;
-    delete editedData.userId;
 
     try{
         const updatedUser = await User.findOneAndUpdate({_id: userId}, editedData, {new: true});
@@ -46,6 +56,28 @@ export const updateUserInfo = async(req,res) => {
     catch (err){
         console.log('Error updating user data:', err);
         res.status(500).json({ error: 'Error updating user data' });
+    }
+}
+
+export const updateUserAvatar = async(req,res) => {
+    const imageURL = req.body.image;
+    const userId = req.params.userId;
+
+    const uploadedImage = await cloudinary.uploader.upload(imageURL,{
+        upload_preset: 'avatar_unsigned_upload', 
+        public_id: `${userId}avatar`, 
+        allowed_formats: ['png', 'jpg', 'jpeg', 'svg', 'ico', 'jfif', 'webp']
+    }, 
+    (err,data) => {
+        if (err){
+            console.log(err);
+        }
+    });
+
+    try{
+        res.status(200).json(uploadedImage);
+    } catch (err) {
+        console.log(err);
     }
 }
 

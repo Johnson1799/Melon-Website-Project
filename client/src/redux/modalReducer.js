@@ -4,7 +4,6 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     toggleImageModal: false,
     toggleEditModal: false,
-    userAvatarURL: '',
 };
 
 const modalSlice = createSlice({
@@ -18,12 +17,8 @@ const modalSlice = createSlice({
         setToggleEditModal: (state) => {
             state.toggleEditModal = !state.toggleEditModal;
         },
-
-        setUserAvatar: (state,action) => {
-            state.userAvatarURL = action.payload;
-        }
     }
 });
 
-export const { setToggleImageModal, setToggleEditModal, setUserAvatar, } = modalSlice.actions;
+export const { setToggleImageModal, setToggleEditModal, } = modalSlice.actions;
 export default modalSlice.reducer;

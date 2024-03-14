@@ -18,16 +18,10 @@ const ImageModal = (props) => {
         dispatch(setToggleImageModal());
     };
 
-    /* States */
-    const [user, setUser] = useState(props.user);
-
     const handleDataReceivedFromChild = (userAvatarURL) =>{
-        dispatch(setToggleImageModal());
-
         /* Send imageAvatarURL to profilePage.jsx */
-        if (userAvatarURL){
-            props.sendDataToParent(userAvatarURL);
-        }
+        props.sendDataToParent(userAvatarURL);
+        dispatch(setToggleImageModal());
     };
 
     return ( 
@@ -37,7 +31,7 @@ const ImageModal = (props) => {
                                         <div className="modal-grid-container">
                                             {/* Column 1 */}
                                             <div className="image-modal-col-1">
-                                                <ImageCropper user={user} sendDataToParent={handleDataReceivedFromChild}/>
+                                                <ImageCropper sendDataToParent={handleDataReceivedFromChild}/>
                                                 <button className="close-button" onClick={toggleImageModal}><i className="fa-solid fa-xmark"></i></button>
                                             </div>
                                         </div>
