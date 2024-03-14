@@ -44,7 +44,7 @@ function App() {
                 <Route path='/home' element={<HomePage />} />
 
                 {/* Route to Profile Page */}
-                <Route path='/profile' element={<ProfilePage />} />
+                <Route path='/profile/:userId' element={<ProfilePage />} />
 
                 {/* Route to Message Page */}
                 <Route path='/message' element={<MessagePage />} />

@@ -1,8 +1,9 @@
 import express from "express";
-import { createNewUser } from "../controllers/userController.js";
+import { registerUser } from "../controllers/authenticationController.js";
 
 const router = express.Router();
 
-router.post("/", createNewUser);
+/* Register user with encrypted password */
+router.post("/", registerUser);
 
 export default router;

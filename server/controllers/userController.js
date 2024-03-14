@@ -10,41 +10,42 @@ export const getUserDatabase = async (req,res) => {
     }
 }
 
-/* Get user by email function */
-export const getUserByEmail = async (req,res) => {
+/* Get user by id function */
+export const getUser = async (req,res) => {
     try {
-        const email = req.query.email;
-        // find the user by the id of the user
-        const user = await User.findOne({email:email});
+        // grab the id attributes from request object
+        const { userId } = req.params;
 
+        // find the user by the id of the user
+        const user = await User.findById(userId);
+        
         // send back user info to front-end
         if (!user) {
-            return res.status(404).json({ error: "User not found" });
+            return res.status(404).json({ message: "User not found" });
         }
-        res.status(200).json(user);
+
+        res.status(200).json({user:user});
 
     } catch (err) {
         res.status(404).json({ message: err.message});
     }
 }
 
-/* Get user by id function */
-export const getUser = async (req,res) => {
-    try {
-        // grab the id attributes from request object
-        const { id } = req.params;
+export const updateUserInfo = async(req,res) => {
+    const userId = req.body.userId;
 
-        // find the user by the id of the user
-        const user = await User.findById(id);
-        
-        // send back user info to front-end
-        if (!user) {
-            return res.status(404).json({ error: "User not found" });
+    const editedData = req.body;
+    delete editedData.userId;
+
+    try{
+        const updatedUser = await User.findOneAndUpdate({_id: userId}, editedData, {new: true});
+        if (updatedUser){
+            res.json(updatedUser);
         }
-        res.status(200).json(user);
-
-    } catch (err) {
-        res.status(404).json({ message: err.message});
+    }
+    catch (err){
+        console.log('Error updating user data:', err);
+        res.status(500).json({ error: 'Error updating user data' });
     }
 }
 
@@ -138,38 +139,5 @@ export const createNewUser = async(req,res) => {
     } catch (err) {
         console.log(err.message);
         res.status(500).send("Fail to save the new user to database");
-    }
-}
-
-export const userLogin = async(req,res) => {
-    const {email,password} = req.body;
-
-    try{
-        const user = await User.findOne({ email:email, password:password });
-        if (!user) {
-            // User is not found
-            return res.status(404).json({error:'Incorrect email or password'});
-        } else{
-            // Login successful
-            return res.status(200).json({success:'Login successful'});
-        }
-    }
-    catch (err){
-        return res.status(500).json({error:"Internal server error"});
-    }
-}
-
-export const updateUserInfo = async(req,res) => {
-    const editedData = req.body;
-
-    try{
-        const updatedUser = await User.findOneAndUpdate({email: editedData.email}, editedData, {new: true});
-        if (updatedUser){
-            res.json(updatedUser);
-        }
-    }
-    catch (err){
-        console.log('Error updating user data:', err);
-        res.status(500).json({ error: 'Error updating user data' });
     }
 }

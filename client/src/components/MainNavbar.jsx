@@ -13,6 +13,12 @@ const MainNavbar = () => {
         return state.slideBarToggle.isRouting;
     });
 
+    const user = useSelector((state) => {
+        return state.user.user;
+    });
+
+    const userId = user._id;
+
     /* Access action from redux store */
     const dispatch = useDispatch();
 
@@ -25,6 +31,7 @@ const MainNavbar = () => {
     const handleRouteClick = (e) => {
         dispatch(setIsRouting(true));
     };
+    
 
     return (
         <div className="main-nav-containter">
@@ -39,7 +46,7 @@ const MainNavbar = () => {
                     {/* Slide bar options  */}
                     <div className="sidebar">
                         <NavLink to="/home" className="option" onClick={handleRouteClick}><i className="fa-solid fa-house"></i><strong>Home</strong></NavLink>
-                        <NavLink to="/profile" className="option" onClick={handleRouteClick}><i className="fa-solid fa-circle-user icon"></i><strong>Profile</strong></NavLink>
+                        <NavLink to={`/profile/${userId}`} className="option" onClick={handleRouteClick}><i className="fa-solid fa-circle-user icon"></i><strong>Profile</strong></NavLink>
                         <NavLink to="/message" className="option" onClick={handleRouteClick}><i className="fa-solid fa-message icon"></i><strong>Message</strong></NavLink>
                         <NavLink to="/setting" className="option" onClick={handleRouteClick}><i className="fa-solid fa-gear icon"></i><strong>Setting</strong></NavLink>
                         <NavLink to="/" className="option"><i className="fa-solid fa-right-from-bracket icon"></i><strong>Logout</strong></NavLink>

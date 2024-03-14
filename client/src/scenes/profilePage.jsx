@@ -1,4 +1,5 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState } from "react";
+import { useParams } from 'react-router-dom';
 
 /* Import redux stuff */
 import { useSelector, useDispatch } from "react-redux";
@@ -13,9 +14,6 @@ import MainBackgroundDesign from "components/MainBackgroundDesign";
 /* Import useFetch custom hook */
 import useFetch from './useFetch.js';
 
-const email = 'j179988143412@gmail.com';
-const databaseUrl = `http://localhost:3001/users/email?email=${email}`;
-const serverURL = `http://localhost:3001/users/update`;
 
 const ProfilePage = () => {
     /* Access states from redux store */
@@ -29,17 +27,17 @@ const ProfilePage = () => {
         return state.modal.userAvatarURL;
     });
 
+    const token = useSelector((state) => {
+        return state.user.token;
+    });
+
     /* Access action from redux store */
     const dispatch = useDispatch();
 
     /* States */
     const [user, setUser] = useState(null);
 
-    /* Fetch data from server */
-    const {data:User,isLoading} = useFetch(databaseUrl);
-    useEffect(() => {
-        setUser(User); 
-    }, [User]);
+    const {userId} = useParams();
 
     /* Handler */
     const handleImageEditButtonClick  = (e) => {
@@ -50,22 +48,50 @@ const ProfilePage = () => {
         dispatch(setToggleEditModal());
     }
 
+    /* Fetch user data from server */
+    const getUser = () => {
+        const fetchUserIdUrl = `http://localhost:3001/users/user/${userId}`;
+
+        fetch(fetchUserIdUrl, {
+          method: "GET",
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res)=>{
+            if (!res.ok){
+                throw new Error(`Get request in (${fetchUserIdUrl}) failed`);
+            }
+            return res.json();
+        })
+        .then((data) =>{
+            if (data.user){
+                setUser(data.user);
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    };
+    useEffect(() => {
+        getUser();
+    }, []);
+
+    /* Update the edited data to database */
     const handleDataReceivedFromChild = (editedData) => {
-        if ({userAvatarURL}){
-            /* Update edited data to database */
-            fetch(serverURL, {
+        if (editedData){
+            const url = `http://localhost:3001/users/user/${userId}/update`;
+            fetch(url, {
                 method: 'POST',
                 headers: {
-                  'Content-Type': 'application/json',
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
                 },
-                body: JSON.stringify(editedData),
+                body: JSON.stringify({userId:userId , ...editedData}),
             })
             .then((res) => {
-                if (res.ok) {
-                    return res.json();
-                } else {
+                if (!res.ok) {
                     throw new Error('Error in updating user data');
                 }
+                return res.json();
             })
             .then((updatedUserData) => {
                 setUser(updatedUserData);
@@ -74,7 +100,10 @@ const ProfilePage = () => {
                 console.error('Error updating user data:', error);
             });
         }
+        
     }
+
+
     
 
     return (

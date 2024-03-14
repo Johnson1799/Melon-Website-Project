@@ -17,7 +17,6 @@ import { registerUser } from "./controllers/authenticationController.js";
 import { createPost } from "./controllers/postController.js";
 
 /* import route files */
-import authentiacationRoute from "./routes/authentiacationRoute.js";
 import userRoute from "./routes/userRoute.js";
 import postRoute from "./routes/postRoute.js";
 import registerRoute from "./routes/registerRoute.js";
@@ -71,10 +70,6 @@ const upload = multer({storage});
 /* Routes with files */
 // app.post("/auth/register", upload.single("userIcon"), registerUser);
 // app.post("/posts", verifyToken, upload.single("postPicture"),);
-
-
-/* Routes 'auth' page */
-app.use("/auth",authentiacationRoute);
 
 /* Routes 'users' page */
 app.use("/users",userRoute);

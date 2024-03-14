@@ -20,17 +20,17 @@ const EditModal = (props) => {
     const dispatch = useDispatch();
 
     /* States */
-    const [User, setUser] = useState(props.user);
+    const [user, setUser] = useState(props.user);
 
-    const [email, setemail] = useState(User?.email);
-    const [contact, setcontact] = useState(User?.contact);
-    const [address, setaddress] = useState(User?.address);
-    const [description, setdescription] = useState(User?.description);
+    const [email, setemail] = useState(user?.email);
+    const [contact, setcontact] = useState(user?.contact);
+    const [address, setaddress] = useState(user?.address);
+    const [description, setdescription] = useState(user?.description);
 
-    const [userPreviousEmail, setUserPreviousEmail] = useState(User?.email);
-    const [userPreviousContact, setUserPreviousContact] = useState(User?.contact);
-    const [userPreviousAddress, setUserPreviousAddress] = useState(User?.address);
-    const [userPreviousDescription, setUserPreviousDescription] = useState(User?.description);
+    const [userPreviousEmail, setUserPreviousEmail] = useState(user?.email);
+    const [userPreviousContact, setUserPreviousContact] = useState(user?.contact);
+    const [userPreviousAddress, setUserPreviousAddress] = useState(user?.address);
+    const [userPreviousDescription, setUserPreviousDescription] = useState(user?.description);
 
     const [haveEmail, setHaveEmail] = useState(false);
     const [haveContact, setHaveContact] = useState(false);
@@ -86,12 +86,6 @@ const EditModal = (props) => {
         setToggleEditDescription(!toggleEditDescriptionState);
     }
 
-    const handleCloseEditModal = (e) => {
-        const data = {email, contact, address, description};
-        props.sendDataToParent(data);
-        dispatch(setToggleEditModal());
-    };
-
     const updateEmail = (e) => {
         if (email){
             setHaveEmail(true);
@@ -129,6 +123,15 @@ const EditModal = (props) => {
         setUserPreviousDescription(description);
         setToggleEditDescription(!toggleEditDescriptionState);
     }
+
+    /* Send the edited data to profilePage.jsx */
+    const handleCloseEditModal = (e) => {
+        if (user){
+            const data = {email, contact, address, description};
+            props.sendDataToParent(data);
+            dispatch(setToggleEditModal());
+        }
+    };
 
     return ( 
         <>

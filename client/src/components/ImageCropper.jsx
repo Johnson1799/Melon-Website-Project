@@ -78,9 +78,10 @@ const ImageCropper = (props) => {
 
         /* Send imageAvatarURL to ImageModal.jsx */
         if (user){
-            const email = user?.email;
-            const data = {userAvatarURL,email};
+            const data = {userAvatarURL};
             props.sendDataToParent(data);
+        } else {
+            console.log("User not found");
         }
     };
 
@@ -96,15 +97,7 @@ const ImageCropper = (props) => {
                         <img src={image} alt="Upload" onLoad={onImageLoad} ref={imageRef}/>
                     </ReactCrop>
 
-                    <button className="crop-button" onClick={
-
-                                handleCloseImageModal
-                                // previewCanvas(imageRef.current, previewCanvasRef.current, convertToPixelCrop(crop, imageRef.current.width, imageRef.current.height));
-                                // const cropedImageURL = previewCanvasRef.current.toDataURL();
-                                // dispatch(setUserAvatar(cropedImageURL));
-                                // dispatch(setToggleImageModal());
-                        
-                    }>Crop</button>
+                    <button className="crop-button" onClick={handleCloseImageModal}>Crop</button>
                 </div>
 
             )}

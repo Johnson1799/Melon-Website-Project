@@ -8,7 +8,7 @@ import RegisterImg from '../assets/register-img.jpeg';
 /* Import component */
 import LoginNavbar from "components/LoginNavbar.jsx";
 
-const url = "http://localhost:3001/register"
+const url = "http://localhost:3001/register";
 
 const RegisterPage = () => {
     /* Reference on HTML element */
@@ -101,11 +101,20 @@ const RegisterPage = () => {
             })
             .then(res => {
                 if (res.ok) {
-                  console.log('New User is added');
-                  navigate("/");
+                    emailTextfieldRef.current.className = 'form-control email-textfield';
+                    setEmailErrMsg("");
+                    emailIsValid = true;
+                    navigate("/");
                 } else {
-                  console.log('Error: Unable to add new user');
+                    emailTextfieldRef.current.className = 'form-control is-invalid email-textfield';
+                    setEmailErrMsg("This email has been registered");
+                    emailIsValid = false;
                 }
+                
+                return res.json();
+            })
+            .then(data => {
+                console.log(data.message);
             })
             .catch(err => {
                 console.log('Error: ', err);
@@ -174,7 +183,7 @@ const RegisterPage = () => {
 
                         
                         <div className="register-form-container">
-                            <form action="/regiser" method="POST">
+                            <form action="/register" method="POST">
                                 <div className="register-email-container">
                                     <div className="form-floating mb-3">
                                         <input type="email" className="form-control email-textfield" id="floatingInput" name="registerEmail" placeholder="Email" ref={emailTextfieldRef} value={userInputEmail} onChange={(e)=>handleEmailInputChange(e.target.value)} required />
@@ -193,8 +202,8 @@ const RegisterPage = () => {
 
                                 <div className="register-comfirmed-password-container">
                                     <div className="form-floating mb-3">
-                                        <input type="password" className="form-control comfirmed-password-textfield" id="floatingPassword" placeholder="Comfirm Password" ref={comfirmedPasswordTextfieldRef} value={userComfirmedInputPassword} onChange={(e)=>handleComfirmedPasswordInputChange(e.target.value)} required/>
-                                        <label htmlFor="floatingPassword">Comfirmed Password</label>
+                                        <input type="password" className="form-control comfirmed-password-textfield" id="floatingComfirmedPassword" placeholder="Comfirm Password" ref={comfirmedPasswordTextfieldRef} value={userComfirmedInputPassword} onChange={(e)=>handleComfirmedPasswordInputChange(e.target.value)} required/>
+                                        <label htmlFor="floatingComfirmedPassword">Comfirmed Password</label>
                                         <div className="errorMsg">{comfirmedPasswordErrMsg}</div> 
                                     </div>
                                 </div>

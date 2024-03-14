@@ -2,6 +2,10 @@
 import { useState, useRef, useEffect} from "react";
 import { Link, useNavigate } from "react-router-dom";
 
+/* import react-redux */
+import { useDispatch } from "react-redux";
+import { setLogin } from "../redux/userReducer.js";
+
 /* Import useFetch custom hook */
 import useFetch from './useFetch.js';
 
@@ -20,20 +24,16 @@ const LoginPage = () => {
     const passwordTextfieldRef = useRef(null);
 
     /* State hook */
-    const [user, setUser] = useState(null);
     const [userInputEmail, setUserInputEmail] = useState("");
     const [userInputPassword, setUserInputPassword] = useState("");
     const [emailErrMsg, setEmailErrMsg] = useState("");
     const [passwordErrMsg, setPasswordErrMsg] = useState("");
 
+    /* Access action from redux store */
+    const dispatch = useDispatch();
+
     /* Navigate hook */
     const navigate = useNavigate();
-
-    /* Fetch data from server */
-    // const {data:User,isLoading} = useFetch(databaseUrl);
-    // useEffect(() => {
-    //     setUser(User); 
-    // }, [User]);
 
     /* Handlers */
     const handleEmailInputChange = (userEmailInput) => {
@@ -86,13 +86,13 @@ const LoginPage = () => {
         .then((res) => {
             // status code = 200: success
             // status code = 404: user is not found in database 
-            if (res.status === 200) {
+            if (res.ok) {
                 /* Find the user in database successfully */
-                console.log('Login successful');
                 emailTextfieldRef.current.className = 'form-control email-textfield';
                 passwordTextfieldRef.current.className = 'form-control password-textfield';
-
-                
+                console.log('Login successful');
+                setEmailErrMsg("");
+                setPasswordErrMsg("");
                 navigate('/home');
             } else {
                 /* Fail to find the user in database */
@@ -100,7 +100,15 @@ const LoginPage = () => {
                 passwordTextfieldRef.current.className = 'form-control is-invalid password-textfield';
                 setEmailErrMsg("Incorrect Email or Password");
                 setPasswordErrMsg("Incorrect Email or Password");
-                throw new Error("Cannot find the user in database");
+            }
+            return res.json();
+        })
+        .then((data) => {
+            if (data.token){
+                delete data.user.password;
+                dispatch(setLogin({token:data.token, user:data.user}));
+            } else {
+                console.log(data.message);
             }
         })
         .catch((err) => {
@@ -123,7 +131,7 @@ const LoginPage = () => {
                     {/* Column 2 */}
                     <div className="form-container Signin-grid">
                         <h1 className="Signin-title"><strong>Melon</strong></h1>
-                        <form>
+                        <form action="/login" method="POST">
                             <div className="social-icons">
                                 <a href="https://www.google.com.hk/" className="icon"><i className="fa-brands fa-google"></i></a>
                                 <a href="https://www.facebook.com/" className="icon"><i className="fa-brands fa-facebook"></i></a>
