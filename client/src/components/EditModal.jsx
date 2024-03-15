@@ -22,27 +22,42 @@ const EditModal = (props) => {
     /* States */
     const [user, setUser] = useState(props.user);
 
+    const [userName, setUserName] = useState(user?.userName);
+    const [userNickname, setuserNickname] = useState(user?.userNickname);
     const [email, setemail] = useState(user?.email);
     const [contact, setcontact] = useState(user?.contact);
     const [address, setaddress] = useState(user?.address);
     const [description, setdescription] = useState(user?.description);
 
+    const [userPreviousUserName, setUserPreviousUserName] = useState(user?.userName);
+    const [userPreviousUserNickname, setUserPreviousUserNickname] = useState(user?.userNickname);
     const [userPreviousEmail, setUserPreviousEmail] = useState(user?.email);
     const [userPreviousContact, setUserPreviousContact] = useState(user?.contact);
     const [userPreviousAddress, setUserPreviousAddress] = useState(user?.address);
     const [userPreviousDescription, setUserPreviousDescription] = useState(user?.description);
 
+    const [haveUserName, setHaveUserName] = useState(false);
+    const [haveUserNickname, setHaveUserNickname] = useState(false);
     const [haveEmail, setHaveEmail] = useState(false);
     const [haveContact, setHaveContact] = useState(false);
     const [haveAddress, setHaveAddress] = useState(false);
     const [haveDescription, setHaveDescription] = useState(false);
 
+    const [toggleEditUserNameState, setToggleEditUserName] = useState(false);
+    const [toggleEditUserNicknameState, setToggleEditUserNickname] = useState(false);
     const [toggleEditEmailState, setToggleEditEmail] = useState(false);
     const [toggleEditContactState, setToggleEditContact] = useState(false);
     const [toggleEditAddressState, setToggleEditAddress] = useState(false);
     const [toggleEditDescriptionState, setToggleEditDescription] = useState(false);
 
-    /* Handler */
+    /* Toggle Editing Handler */
+    const toggleEditUserName = (e) => {
+        setToggleEditUserName(!toggleEditUserNameState);
+        setToggleEditUserNickname(!toggleEditUserNicknameState);
+    }
+    // const toggleEditUserNickname = (e) => {
+    //     setToggleEditUserNickname(!toggleEditUserNicknameState);
+    // }
     const toggleEditEmail = (e) => {
         setToggleEditEmail(!toggleEditEmailState);
     }
@@ -56,6 +71,13 @@ const EditModal = (props) => {
         setToggleEditDescription(!toggleEditDescriptionState);
     }
 
+    /* Textfield On Change Handler */
+    const handleUserNameEditChange = (e) => {
+        setUserName(e.target.value);
+    }
+    const handleUserNicknameEditChange = (e) => {
+        setuserNickname(e.target.value);
+    }
     const handleEmailEditChange = (e) => {
         setemail(e.target.value);
     }
@@ -69,6 +91,13 @@ const EditModal = (props) => {
         setdescription(e.target.value);
     }
 
+    /* Restore previous setting Handler */
+    const retainUserName = (e) => {
+        setUserName(userPreviousUserName);
+        setToggleEditUserName(!toggleEditUserNameState);
+        setuserNickname(userPreviousUserNickname);
+        setToggleEditUserNickname(!toggleEditUserNicknameState);
+    }
     const retainEmail = (e) => {
         setemail(userPreviousEmail);
         setToggleEditEmail(!toggleEditEmailState);
@@ -84,6 +113,24 @@ const EditModal = (props) => {
     const retainDescription = (e) => {
         setdescription(userPreviousDescription);
         setToggleEditDescription(!toggleEditDescriptionState);
+    }
+
+    /* Update Handler */
+    const updateUserName = (e) => {
+        if (userName){
+            setHaveUserName(true);
+        } else {
+            setHaveUserName(false);
+        }
+        if (userNickname){
+            setHaveUserNickname(true);
+        } else {
+            setHaveUserNickname(false);
+        }
+        setUserPreviousUserName(userName);
+        setToggleEditUserName(!toggleEditUserNameState);
+        setUserPreviousUserNickname(userNickname);
+        setToggleEditUserNickname(!toggleEditUserNicknameState);
     }
 
     const updateEmail = (e) => {
@@ -126,7 +173,7 @@ const EditModal = (props) => {
 
     /* Send the edited data to profilePage.jsx */
     const handleCloseEditModal = (e) => {
-        const data = {email, contact, address, description};
+        const data = {userName, userNickname, email, contact, address, description};
         props.sendDataToParent(data);
         dispatch(setToggleEditModal());
     };
@@ -143,6 +190,16 @@ const EditModal = (props) => {
 
                             {/* Edit personal information container */}
                             <div className="edit-container">
+                                <i className="fa-solid fa-signature icon"></i>
+                                {((haveUserName || userName) && !toggleEditUserNameState && toggleEditModalState) && (<strong>{userName}</strong>)}
+                                {((haveUserNickname || userNickname) && !toggleEditUserNicknameState && toggleEditModalState) && (<strong className="userNickname-text">{userNickname}</strong>)}
+                                {!toggleEditUserNameState && toggleEditModalState && <button className="edit-username-button" onClick={toggleEditUserName}><i className="fa-solid fa-pen-clip"></i></button>}
+                                <br />
+
+                                {/* <i className="fa-solid fa-signature icon"></i>
+                                {!toggleEditUserNicknameState && toggleEditModalState && <button className="edit-user-nickname-button" onClick={toggleEditUserNickname}><i className="fa-solid fa-pen-clip"></i></button>}
+                                <br /> */}
+
                                 <i className="fa-solid fa-envelope icon"></i>
                                 {((haveEmail || email) && !toggleEditEmailState && toggleEditModalState) && (<strong>{email}</strong>)}
                                 {!toggleEditEmailState && toggleEditModalState && <button className="edit-email-button" onClick={toggleEditEmail}><i className="fa-solid fa-pen-clip"></i></button>}
@@ -165,17 +222,39 @@ const EditModal = (props) => {
             
                             </div>
 
+                            {(toggleEditUserNameState && toggleEditModalState) && 
+                                <div className="username-textfield-container">
+                                    <div className="form-floating ">
+                                        <input type="text" className="form-control username-textfield" id="floatingInput" placeholder="Username" value={userName} onChange={handleUserNameEditChange} />
+                                        <label htmlFor="floatingInput">Username</label>
+                                        {/* <div className="errorMsg">{emailErrMsg}</div> */}
+                                    </div>
+                                </div>
+                            }
+
+                            {(toggleEditUserNicknameState && toggleEditModalState) && 
+                                <div className="user-nickname-textfield-container">
+                                    <div className="form-floating ">
+                                        <input type="text" className="form-control user-nickname-textfield" id="floatingInput" placeholder="Nickname" value={userNickname} onChange={handleUserNicknameEditChange} />
+                                        <label htmlFor="floatingInput">Nickname</label>
+                                        {/* <div className="errorMsg">{emailErrMsg}</div> */}
+                                    </div>
+                                    <button className="edit-button edit-username edit-user-nickname" onClick={updateUserName} >Edit</button>
+                                    <button className="cancel-button cancel-username cancel-user-nickname" onClick={retainUserName}><i className="fa-solid fa-rotate-right"></i></button>
+                                </div>
+                            }
+
+                            {/* Email edit textfield */}
                             {(toggleEditEmailState && toggleEditModalState) && 
                                 <div className="email-textfield-container">
                                     <div className="form-floating ">
                                         <input type="email" className="form-control email-textfield" id="floatingInput" placeholder="Email" value={email} onChange={handleEmailEditChange} />
-                                        <label htmlFor="floatingInput">Email address</label>
+                                        <label htmlFor="floatingInput">Email</label>
                                         {/* <div className="errorMsg">{emailErrMsg}</div> */}
                                     </div>
                                     <button className="edit-button" onClick={updateEmail} >Edit</button>
                                     <button className="cancel-button" onClick={retainEmail}><i className="fa-solid fa-rotate-right"></i></button>
                                 </div>
-                            
                             }
 
                             {(toggleEditContactState && toggleEditModalState) && 

@@ -591,7 +591,7 @@ aside .sidebar .option:not(.active):hover .icon{
 }
 .profile-personal-details{
     position: absolute;
-    top: 10%;
+    top: 15%;
     padding-left: 25px;
     padding-right: 25px;
 }
@@ -699,6 +699,9 @@ aside .sidebar .option:not(.active):hover .icon{
     font-size: 14px;
     margin-top: 5px;
 }
+.edit-container .userNickname-text{
+    margin-left: 140px;
+}
 .edit-container button{
     position: absolute;
     margin-top: 0.5%;
@@ -709,27 +712,39 @@ aside .sidebar .option:not(.active):hover .icon{
 .edit-container button:hover i{
     color: #db545a;
 }
-.email-textfield-container{
+.username-textfield-container{
     position: absolute;
-    top: 21.5%;
+    top: 21.8%;
     left: 13%;
-    width: 80%;
+    width: 40%;
 }
-.contact-textfield-container{
+.user-nickname-textfield-container{
+    position: absolute;
+    top: 21.8%;
+    left: 44%;
+    width: 40%;
+}
+.email-textfield-container{
     position: absolute;
     top: 31.2%;
     left: 13%;
     width: 80%;
 }
-.address-textfield-container{
+.contact-textfield-container{
     position: absolute;
     top: 40.7%;
     left: 13%;
     width: 80%;
 }
-.description-textfield-container{
+.address-textfield-container{
     position: absolute;
     top: 50.2%;
+    left: 13%;
+    width: 80%;
+}
+.description-textfield-container{
+    position: absolute;
+    top: 59.6%;
     left: 13%;
     width: 80%;
 }
@@ -744,6 +759,9 @@ aside .sidebar .option:not(.active):hover .icon{
     border-radius: 15px;
     font-size: 12px;
     font-weight: 700;
+}
+.edit-button.edit-username.edit-user-nickname{
+    left: 72.2%;
 }
 .edit-button:hover{
     background-color: #db545a;
@@ -760,19 +778,23 @@ aside .sidebar .option:not(.active):hover .icon{
     border-radius: 10px;
     font-size: 13px;
 }
+.cancel-button.cancel-username.cancel-user-nickname{
+    left: 100%;
+    padding-left: 10px;
+}
 .cancel-button:hover{
     background-color: #db545a;
     color: #fff;
 }
-.email-textfield-container label, .contact-textfield-container label, .address-textfield-container label, .description-textfield-container label{
+.user-nickname-textfield-container label,.username-textfield-container label,.email-textfield-container label, .contact-textfield-container label, .address-textfield-container label, .description-textfield-container label{
     font-size: 12px;
 }
-.email-textfield-container .email-textfield, .contact-textfield-container .text-textfield, .address-textfield-container .text-textfield, .description-textfield-container .text-textfield{
+.user-nickname-textfield-container .user-nickname-textfield, .username-textfield-container .username-textfield, .email-textfield-container .email-textfield, .contact-textfield-container .text-textfield, .address-textfield-container .text-textfield, .description-textfield-container .text-textfield{
     font-size: 13px;
     width: 70%;
     height: 0%;
 }
-.email-textfield-container .email-textfield:hover, .contact-textfield-container .text-textfield:hover, .address-textfield-container .text-textfield:hover, .description-textfield-container .text-textfield:hover{
+.user-nickname-textfield-container .user-nickname-textfield:hover, .username-textfield-container .username-textfield:hover, .email-textfield-container .email-textfield:hover, .contact-textfield-container .text-textfield:hover, .address-textfield-container .text-textfield:hover, .description-textfield-container .text-textfield:hover{
     box-shadow: 4px 4px 10px rgba(219,84,90,1);
 }
 

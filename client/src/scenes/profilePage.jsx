@@ -146,18 +146,18 @@ const ProfilePage = () => {
 
                             {/* Edit User Information  */}
                             <div className="profile-user-info">
-                                <p className="full-name">Tse Chung Chin</p>
-                                <p className="nickname">Johnson</p>
+                                <p className="full-name">{user?.userName}</p>
+                                <p className="nickname">{user?.userNickname}</p>
                             </div>
 
                             {/* Posts and Followers Information  */}
                             <div className="profile-account-details">
                                 <p className="title">Posts</p>
-                                <p className="posts">10</p>
+                                <p className="posts">{user?.posts.length}</p>
                                 <p className="title">Followers</p>
                                 <p className="followers">{user?.followers}</p>
                                 <p className="title">Following</p>
-                                <p className="following">200</p>
+                                <p className="following">{user?.friends.length}</p>
                             </div>
                         </div>
 

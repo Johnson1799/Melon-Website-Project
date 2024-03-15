@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 /* Create 'User' Schema */
 const UserSchema = new mongoose.Schema({
     userName: { type: String, default:''},
+    userNickname: { type: String, default:''},
     password: {type: String, required: true},
     email: {type: String, required: true, unique: true},
     address: {type: String, default:'' },
@@ -10,7 +11,8 @@ const UserSchema = new mongoose.Schema({
     description: {type: String, default:''},
     userAvatarURL: {type: String, default:''},
     friends: {type: Array, default: []},
-    followers: {type: Number, default: 0}, 
+    followers: {type: Number, default: 0},
+    posts: {type: Array, default: []},
 
 }, {timestamps: true });
 

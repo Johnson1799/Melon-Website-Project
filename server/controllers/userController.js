@@ -159,17 +159,3 @@ export const addRemoveFriend = async(req,res) => {
     }
 }
 
-export const createNewUser = async(req,res) => {
-    const newUser = new User(req.body); 
-    if (!newUser){
-        return res.status(400).send('User data is not received');
-    }
-    try{ 
-        const savedNewUser = await newUser.save();
-        res.status(201).json(savedNewUser);
-        
-    } catch (err) {
-        console.log(err.message);
-        res.status(500).send("Fail to save the new user to database");
-    }
-}

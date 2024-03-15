@@ -24,6 +24,7 @@ export const registerUser = async (req,res) => {
             // Create a new user document with a encrypted password initialized
             const newUser = new User({
                 userName,
+                userNickname,
                 password: encryptedPassword,
                 email, 
                 contact,
@@ -32,6 +33,7 @@ export const registerUser = async (req,res) => {
                 userAvatarURL, 
                 friends,
                 followers,
+                posts,
             });
 
             // save the new user into MongoDB */
