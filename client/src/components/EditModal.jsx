@@ -4,12 +4,6 @@ import React, {useEffect, useState} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setToggleEditModal, } from "../redux/modalReducer";
 
-/* Import useFetch to fetch data */
-import useFetch from "scenes/useFetch";
-
-const Email = 'j179988143412@gmail.com';
-const databaseUrl = `http://localhost:3001/users/email?email=${Email}`;
-
 const EditModal = (props) => {
     /* Access states from redux store */
     const toggleEditModalState = useSelector((state) => {

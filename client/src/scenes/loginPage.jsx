@@ -15,7 +15,6 @@ import LoginNavbar from "components/LoginNavbar.jsx";
 /* Import assets */
 import loginPic from '../assets/loginPic.png';         // 490*367
 
-const databaseUrl = `http://localhost:3001/users/database`;
 const url = "http://localhost:3001/login";
 
 const LoginPage = () => {

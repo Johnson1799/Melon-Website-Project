@@ -10,6 +10,7 @@ import MainNavbar from "components/MainNavbar";
 import ImageModal from "components/ImageModal";
 import EditModal from "components/EditModal";
 import MainBackgroundDesign from "components/MainBackgroundDesign";
+import ProfilePosts from "components/ProfilePosts";
 
 
 const ProfilePage = () => {
@@ -31,6 +32,8 @@ const ProfilePage = () => {
     /* States */
     const [user, setUser] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [isPostButtonClicked, setIsPostButtonClicked] = useState(true);
+    const [isVideoButtonClicked, setIsVideoButtonClicked] = useState(false);
 
     const {userId} = useParams();
 
@@ -41,6 +44,15 @@ const ProfilePage = () => {
 
     const handlePersonalProfileButtonClick = (e) => {
         dispatch(setToggleEditModal());
+    }
+
+    const handlePostButtonClicked = (e) => {
+        setIsPostButtonClicked(true);
+        setIsVideoButtonClicked(false);
+    }
+    const handleVideoButtonClicked = (e) => {
+        setIsPostButtonClicked(false);
+        setIsVideoButtonClicked(true);
     }
 
     /* Fetch user data from server */
@@ -134,6 +146,7 @@ const ProfilePage = () => {
             <MainNavbar />
             <div className="profile-container">
                 <div className="profile-grid-container">
+
                     {/* Edit user avatar button */}
                     <div className="profile-col-1">
                         
@@ -175,11 +188,17 @@ const ProfilePage = () => {
                         {(toggleImageModalState && user) && <ImageModal sendDataToParent={handleDataReceivedFromChild}/>}
                         {(toggleEditModalState && user) &&<EditModal user={user} sendDataToParent={handleDataReceivedFromChild}/>}
 
-                        {/* Background Design */}
-                        {/* <MainBackgroundDesign /> */}
+                        {/* Profile Post */}
+                        <button className={isPostButtonClicked ? "post-button clicked" : "post-button not-clicked"} onClick={handlePostButtonClicked}><i className="fa-regular fa-images"></i></button>
+                        <button className={isVideoButtonClicked ? "video-button clicked" : "video-button not-clicked"} onClick={handleVideoButtonClicked}><i className="fa-solid fa-film"></i></button>
+                        <button className="add-post-button"><i className="fa-solid fa-plus"></i></button>
+                        {isPostButtonClicked && <ProfilePosts />}
+                        
 
-                    </div>
+                    </div>        
+
                 </div>
+
             </div >
         </div>
     )
