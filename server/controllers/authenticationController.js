@@ -8,15 +8,15 @@ dotenv.config();
 export const registerUser = async (req,res) => {
     try {
         // Grab the object specified from the 'request' object
-        const {userName, password, email, contact, address, description, userAvatarURL, friends, followers} = req.body;
-
+        const {userName, userNickname, password, email, contact, address, description, userAvatarURL, friends, followers, posts} = req.body;
         /* Check if user email is appeared in MongoDB */
         let user = await User.findOne({email:email});
-
         if(user){
             return res.status(409).send({message:"This Email Has Been Registered"});
         }
         else{
+            /* Create new user in MongoDB */
+
             // Encrypt the password
             const salt = await bcrypt.genSalt();
             const encryptedPassword = await bcrypt.hash(password, salt);

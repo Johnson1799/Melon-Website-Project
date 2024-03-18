@@ -4,6 +4,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     toggleImageModal: false,
     toggleEditModal: false,
+    togglePostModal: false,
+    toggleEditPostModal: false,
 };
 
 const modalSlice = createSlice({
@@ -17,8 +19,16 @@ const modalSlice = createSlice({
         setToggleEditModal: (state) => {
             state.toggleEditModal = !state.toggleEditModal;
         },
+
+        setTogglePostModal: (state) => {
+            state.togglePostModal = !state.togglePostModal;
+        },
+
+        setToggleEditPostModal: (state) => {
+            state.toggleEditPostModal = !state.toggleEditPostModal;
+        },
     }
 });
 
-export const { setToggleImageModal, setToggleEditModal, } = modalSlice.actions;
+export const { setToggleImageModal, setToggleEditModal, setTogglePostModal, setToggleEditPostModal } = modalSlice.actions;
 export default modalSlice.reducer;

@@ -3,8 +3,8 @@ import { useState, useRef, useEffect} from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 /* import react-redux */
-import { useDispatch } from "react-redux";
-import { setLogin } from "../redux/userReducer.js";
+import { useDispatch, useSelector} from "react-redux";
+import { setLogout,setLogin } from "../redux/userReducer.js";
 
 /* Import useFetch custom hook */
 import useFetch from './useFetch.js';
@@ -28,6 +28,11 @@ const LoginPage = () => {
     const [emailErrMsg, setEmailErrMsg] = useState("");
     const [passwordErrMsg, setPasswordErrMsg] = useState("");
 
+    /* States from redux store */
+    const user = useSelector((state) => {
+        return state.user.user;
+    });
+
     /* Access action from redux store */
     const dispatch = useDispatch();
 
@@ -43,7 +48,7 @@ const LoginPage = () => {
         setUserInputPassword(userPasswordInput);
     }
 
-    const handleValidation = (e) => {
+    const handleValidation = async(e) => {
         e.preventDefault();
 
         /* Initialize variable and states */
@@ -77,14 +82,12 @@ const LoginPage = () => {
             password: userInputPassword,
         };
 
-        fetch(url, {
+        await fetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json'},
             body: JSON.stringify(userInput),
         })
         .then((res) => {
-            // status code = 200: success
-            // status code = 404: user is not found in database 
             if (res.ok) {
                 /* Find the user in database successfully */
                 emailTextfieldRef.current.className = 'form-control email-textfield';
@@ -118,6 +121,10 @@ const LoginPage = () => {
     return (
         <div>
             <LoginNavbar />
+            {/* Logout the user first */}
+            {user ? dispatch(setLogout()) : null}
+
+            
             <div className="login-container" id="container">
                 {/* { isLoading && <div>Loading...</div>} */}
                 <div className="grid-container">

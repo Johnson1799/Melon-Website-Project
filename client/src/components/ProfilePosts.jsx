@@ -3,26 +3,68 @@ import React, {useEffect, useState} from "react";
 
 /* Import redux stuff */
 import { useSelector, useDispatch } from "react-redux";
+import { updateUserPosts } from '../redux/userReducer';
 
 /* Import components */
 import Post from './Post.jsx';
 
-/* Import assets */
-import postImg1 from '../assets/postImg1.jpg';
-import postImg2 from '../assets/postImg2.jpg';
-import postImg3 from '../assets/postImg3.jpg';
-import postImg4 from '../assets/postImg4.png';
-import postImg5 from '../assets/postImg5.jpg';
-import postImg6 from '../assets/postImg6.jpg';
-
 const ProfilePosts = () => {
+    /* States */
+    const [isLoading, setIsLoading] = useState(false);
+
+    /* redux state */
+    const user = useSelector((state) => {
+        return state.user.user;
+    })
+    const token = useSelector((state) => {
+        return state.user.token;
+    })
+    const userPosts = useSelector((state) => {
+        return state.user.userPosts;
+    })
+
+    /* Access action from redux store */
+    const dispatch = useDispatch();
+
+    /* Load all the posts from the user */
+    const getUserPosts = async() => {
+        const userId = user?._id;
+        setIsLoading(true);
+
+        const url = `http://localhost:3001/posts/${userId}`;
+        await fetch(url, {
+            method: "GET",
+            headers: { 
+                Authorization: `Bearer ${token}`, 
+            },
+        })
+        .then((res)=>{
+            if (!res.ok){
+                throw new Error(`Get request in (${url}) failed`);
+            }
+            return res.json();
+        })
+        .then((data) =>{
+            if (data.posts){
+                dispatch(updateUserPosts({userPosts: data.posts}));
+                setIsLoading(false);
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    }
+    useEffect(() => {
+        getUserPosts();
+    }, []);
+
     return ( 
         <div className="profile-post-container">
-            <Post image={postImg1}/>
-            <Post image={postImg5}/>
-            <Post image={postImg6}/>
-            <Post image={postImg4}/>
-            <Post image={postImg5}/>
+            {(user && userPosts) ? 
+                userPosts.map((post, index)=> (
+                    <Post key={index} postIndex={index} image={post?.postImgURL} title={post?.title} description={post?.description} date={post?.createdAt?.toString()?.slice(0, 10)}/>
+                ))
+            : null}
         </div>
     );
 }

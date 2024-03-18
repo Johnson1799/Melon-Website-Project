@@ -1,37 +1,150 @@
 import Post from "../models/Post.js";
 import User from "../models/User.js";
+import {v2 as cloudinary} from 'cloudinary';
+import { extractPublicId } from 'cloudinary-build-url';
+
+/* Cloudinary database configuration */
+cloudinary.config({ 
+    cloud_name: process.env.cloud_name, 
+    api_key: process.env.api_key, 
+    api_secret: process.env.api_secret,
+});
 
 /* Post-creating function */
 export const createPost = async(req,res) => {
-    try {
         // grab the attributes from request object
-        const {userId, description, picturePath } = req.body;
+        const userId = req.params.userId;
+        const postImgURL = req.body.postImgURL;     // base64 URL
+        const title = req.body.title;
+        const description = req.body.description;
+        const isPrivate = req.body.isPrivate;
 
-        // find the user in database by the id of the user
+        // console.log(`title: ${title}  description: ${description}  isPrivate: ${isPrivate}`);
+
+        /* Upload the post to Cloudinary and get the image url */
+        const randomNum= Date.now();
+        const uploadedImage = await cloudinary.uploader.upload(postImgURL[0],{
+            upload_preset: 'posts_unsigned_upload', 
+            public_id: `${userId}_${randomNum}`, 
+            allowed_formats: ['png', 'jpg', 'jpeg', 'svg', 'ico', 'jfif', 'webp'],
+        }, 
+        (err,data) => {
+            if (err){
+                console.log(err);
+            }
+        });
+
+        /* Create a post in MongoDB */
         const user = await User.findById(userId);
 
-        // create new post document
         const newPost = new Post({
-            userId,
+            userId: user._id,
             userName: user.userName,
-            description,
+            title: title,
+            description: description,
             userAvatarURL: user.userAvatarURL,
-            postImgURL,
+            postImgURL: uploadedImage.url,
             likes: {},
-            comments: []
+            comments: [],
+            isPrivate: isPrivate,
         })
         await newPost.save();
-
-        // find all the posts in the database
-        const post = await Post.find();
-
-        // send the post info to front-end
-        res.status(201).json(post);
+    
+        const post = await Post.findOne({userId: user._id, postImgURL: uploadedImage.url}); 
+        
+    try {
+        res.status(200).json({postURL: uploadedImage.url, post:post});
 
     } catch (err) {
         res.status(409).json({message: err.message});
     }
 }
+
+/* Get user's posts function */
+export const getUserPosts = async (req,res) =>{
+    try {
+        // grab the other user id in request object
+        const userId = req.params.userId;
+
+        // find the user's posts in the database
+        const posts = await Post.find({userId:userId});
+
+        // send the post info to front-end
+        res.status(200).json({posts: posts});
+
+    } catch (err) {
+        res.status(404).json({message: err.message});
+    }
+}
+
+/* Update a post */
+export const updatePost = async (req,res) => {
+    try {
+        const userId = req.params.userId;
+        const postId = req.body.postId;
+        const title = req.body.title;
+        const description = req.body.description;
+        const isPrivate = req.body.isPrivate;
+    
+        /* Update the 'post' schema in MongoDB */
+        const user = await User.findById(userId);
+        if (!user){
+            return res.status(404).json({ message: 'User not found' });
+        }
+        else{
+            let updatedPostInfo = await Post.findOneAndUpdate({_id: postId}, { $set: {title: title, description: description, isPrivate: isPrivate}}, {new: true});
+            if (updatedPostInfo){
+                res.status(200).json(updatedPostInfo);
+            }
+        }
+    } catch (err) {
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
+
+
+/* Delete user post */
+export const deleteUserPost = async (req,res) => {
+    try {
+        const userId = req.params.userId;
+        const postId = req.params.postId;
+        const postImgURL = req.body.postImgURL;
+    
+        /* Remove the post in MongoDB */
+        const user = await User.findById(userId);
+        if (!user){
+            return res.status(404).json({ message: 'User not found' });
+        }
+        else{
+            const updatedList = user.posts.filter((imageUrl,index) => imageUrl !== postImgURL);
+            await User.updateOne({_id: userId}, {$set: {posts: updatedList}})
+            .catch((err) =>{
+                return res.status(404).json({ message: err });
+            })
+
+            const deletedPost = await Post.findByIdAndDelete(postId);
+            if (!deletedPost){
+                return res.status(404).json({ message: 'Post not found' });
+            }
+
+            /* Remove the post in Cloudinary */
+            const publicId = extractPublicId(postImgURL);
+            const result = await cloudinary.uploader.destroy(publicId);
+            if (!result){
+                return res.status(404).json({ message: 'Post not found' });
+            }
+
+            return res.status(200).json({ message: 'Post Deletion Successful' });
+        }
+
+        
+    } catch (err) {
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
+
 
 /* Get all the posts from database function */
 export const getAllPosts = async (req,res) =>{
@@ -41,23 +154,6 @@ export const getAllPosts = async (req,res) =>{
 
         // send the post info to front-end
         res.status(201).json(post);
-
-    } catch (err) {
-        res.status(404).json({message: err.message});
-    }
-}
-
-/* Get user's posts function */
-export const getUserPosts = async (req,res) =>{
-    try {
-        // grab the other user id in request object
-        const { userId } = req.body;
-
-        // find the user's posts in the database
-        const post = await Post.find({userId});
-
-        // send the post info to front-end
-        res.status(200).json(post);
 
     } catch (err) {
         res.status(404).json({message: err.message});

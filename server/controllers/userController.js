@@ -48,7 +48,12 @@ export const updateUserInfo = async(req,res) => {
     const editedData = req.body;
 
     try{
-        const updatedUser = await User.findOneAndUpdate({_id: userId}, editedData, {new: true});
+        let updatedUser;
+        if (editedData.posts){
+            updatedUser = await User.findOneAndUpdate({_id: userId}, {$push: editedData}, {new: true});
+        } else{
+            updatedUser = await User.findOneAndUpdate({_id: userId}, editedData, {new: true});
+        }
         if (updatedUser){
             res.json(updatedUser);
         }
@@ -65,7 +70,7 @@ export const updateUserAvatar = async(req,res) => {
 
     const uploadedImage = await cloudinary.uploader.upload(imageURL,{
         upload_preset: 'avatar_unsigned_upload', 
-        public_id: `${userId}avatar`, 
+        public_id: `${userId}_avatar`, 
         allowed_formats: ['png', 'jpg', 'jpeg', 'svg', 'ico', 'jfif', 'webp']
     }, 
     (err,data) => {

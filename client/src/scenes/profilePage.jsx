@@ -1,16 +1,19 @@
 import React, {useEffect, useState } from "react";
-import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 /* Import redux stuff */
 import { useSelector, useDispatch } from "react-redux";
-import { setToggleImageModal, setToggleEditModal, setUserAvatar } from "../redux/modalReducer";
+import { setToggleImageModal, setToggleEditModal, setTogglePostModal } from "../redux/modalReducer";
+import { updateUser, updateUserPost } from "../redux/userReducer";
 
 /* Import components */
 import MainNavbar from "components/MainNavbar";
 import ImageModal from "components/ImageModal";
 import EditModal from "components/EditModal";
+import PostModal from "components/PostModal";
 import MainBackgroundDesign from "components/MainBackgroundDesign";
 import ProfilePosts from "components/ProfilePosts";
+import EditPostModal from "../components/EditPostModal";
 
 
 const ProfilePage = () => {
@@ -21,29 +24,40 @@ const ProfilePage = () => {
     const toggleEditModalState = useSelector((state) => {
         return state.modal.toggleEditModal;
     });
-
+    const togglePostModalState = useSelector((state) => {
+        return state.modal.togglePostModal;
+    });
+    const toggleEditPostModalState = useSelector((state)=>{
+        return state.modal.toggleEditPostModal;
+    })
+    const user = useSelector((state) => {
+        return state.user.user;
+    });
     const token = useSelector((state) => {
         return state.user.token;
     });
 
     /* Access action from redux store */
     const dispatch = useDispatch();
+    
 
     /* States */
-    const [user, setUser] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [isPostButtonClicked, setIsPostButtonClicked] = useState(true);
     const [isVideoButtonClicked, setIsVideoButtonClicked] = useState(false);
 
-    const {userId} = useParams();
+    /* Navigation hook */
+    const navigate = useNavigate();
 
     /* Handler */
     const handleImageEditButtonClick  = (e) => {
         dispatch(setToggleImageModal());
     }
-
     const handlePersonalProfileButtonClick = (e) => {
         dispatch(setToggleEditModal());
+    }
+    const handleAddPostButtonClick  = (e) => {
+        dispatch(setTogglePostModal());
     }
 
     const handlePostButtonClicked = (e) => {
@@ -55,14 +69,16 @@ const ProfilePage = () => {
         setIsVideoButtonClicked(true);
     }
 
-    /* Fetch user data from server */
+    /* Fetch user data from server when routing to Profile page */
     const getUser = () => {
         const fetchUserIdUrl = `http://localhost:3001/users/user/${userId}`;
 
         setIsLoading(true);
         fetch(fetchUserIdUrl, {
-          method: "GET",
-          headers: { Authorization: `Bearer ${token}` },
+            method: "GET",
+            headers: { 
+                Authorization: `Bearer ${token}`
+            },
         })
         .then((res)=>{
             if (!res.ok){
@@ -72,32 +88,41 @@ const ProfilePage = () => {
         })
         .then((data) =>{
             if (data.user){
-                setUser(data.user);
+                dispatch(updateUser({user: data.user}));
                 setIsLoading(false);
             }
         })
         .catch((err) => {
             console.log(err);
+            navigate("/");
         });
     };
+
     useEffect(() => {
         getUser();
     }, []);
 
+    /* Initialize */
+    const userId = user?._id; 
+
+
     /* Update the edited data to database */
     const handleDataReceivedFromChild = async (editedData) => {
-        if (editedData.userAvatarURL){
-            setIsLoading(true);
+        setIsLoading(true);
 
-            /* Upload user avatar to Cloudinary database */
+        /* Upload user avatar to Cloudinary database */
+        if (editedData.userAvatarURL){
             const url = `http://localhost:3001/users/user/update/avatar/${userId}`;
+            const data = {
+                image: editedData.userAvatarURL,
+            }
             await fetch(url,{
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`,
                 },
-                body: JSON.stringify({ image: editedData.userAvatarURL }),
+                body: JSON.stringify(data),
             })
             .then((res)=>{
                 if(!res.ok){
@@ -108,38 +133,100 @@ const ProfilePage = () => {
             .then((data)=>{
                 /* Update userAvatarURL attribute in MongoDB */
                 editedData =  {userAvatarURL: data.url};
-                setIsLoading(false);
             })
             .catch((err)=>{
                 console.error('Error updating user avatar:', err);
             });
-        }
-        /* Update 'email', 'contact', 'address' and 'description' attributes or 'userAvatarURL' attribute in MongoDB */
-        setIsLoading(true);
-        const url = `http://localhost:3001/users/user/${userId}/update`;
-        await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify(editedData),
-        })
-        .then((res) => {
-            if (!res.ok) {
-                throw new Error('Fail to Update User Information to Database');
+
+        } 
+        /* Upload user post to Cloudinary database and create 'post' document in MongoDB */
+        else if (editedData.postImgURL){
+            const url = `http://localhost:3001/posts/create/${userId}`;
+            const data = {
+                postImgURL: editedData.postImgURL, 
+                title: editedData.title, 
+                description: editedData.description,
+                isPrivate: editedData.isPrivate,
             }
-            return res.json();
-        })
-        .then((updatedUserData) => {
-            setUser(updatedUserData);
-        })
-        .catch((err) => {
-            console.error('Error updating user data:', err);
-        });
+            await fetch(url,{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify(data),
+            })
+            .then((res)=>{
+                if(!res.ok){
+                    throw new Error("Can't Access the Server");
+                }
+                return res.json();
+            })
+            .then((data)=>{
+                /* Update the redux state */
+                dispatch(updateUserPost(data.post));
+                
+                /* Update 'posts' attribute to MongoDB */
+                editedData = {posts: data.postURL};
+            })
+            .catch((err)=>{
+                console.error('Error creating a post:', err);
+            });
+        }
+
+        if (editedData.postId){
+            /* Update 'post' schema in MongoDB */
+            const url = `http://localhost:3001/posts/update/${userId}`;
+            await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify(editedData),
+            })
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error('Fail to Update post to Database');
+                }
+                return res.json();
+            })
+            .then((data) => {
+                dispatch(updateUserPost(data));
+                setIsLoading(false);
+            })
+            .catch((err) => {
+                console.error('Error updating user data:', err);
+            });
+        } else {
+            /* Update 'email', 'contact', 'address', 'description', 'userAvatarURL', 'posts' attribute to 'user' schema in MongoDB */
+            const url = `http://localhost:3001/users/user/${userId}/update`;
+            await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify(editedData),
+            })
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error('Fail to Update User Information to Database');
+                }
+                return res.json();
+            })
+            .then((updatedUserData) => {
+                dispatch(updateUser({user: updatedUserData}));
+                setIsLoading(false);
+            })
+            .catch((err) => {
+                console.error('Error updating user data:', err);
+            });
+        }
+
+        
         
     }
-    
 
     return (
         <div>
@@ -174,7 +261,7 @@ const ProfilePage = () => {
                             </div>
                         </div>
 
-                        <div className="personal-details-container">
+                        <div className="personal-details-container" >
                             <button onClick={handlePersonalProfileButtonClick}><i className="fa-solid fa-user-pen"></i></button>
                             <div className="profile-personal-details">
                                 <p><i className="fa-solid fa-envelope icon"></i>{user?.email}</p>
@@ -190,9 +277,15 @@ const ProfilePage = () => {
 
                         {/* Profile Post */}
                         <button className={isPostButtonClicked ? "post-button clicked" : "post-button not-clicked"} onClick={handlePostButtonClicked}><i className="fa-regular fa-images"></i></button>
+                        {(isPostButtonClicked) && <ProfilePosts />}
+
                         <button className={isVideoButtonClicked ? "video-button clicked" : "video-button not-clicked"} onClick={handleVideoButtonClicked}><i className="fa-solid fa-film"></i></button>
-                        <button className="add-post-button"><i className="fa-solid fa-plus"></i></button>
-                        {isPostButtonClicked && <ProfilePosts />}
+                        
+                        <button className="add-post-button" onClick={handleAddPostButtonClick}><i className="fa-solid fa-plus"></i></button>
+                        {(togglePostModalState && user) && <PostModal sendDataToParent={handleDataReceivedFromChild}/>}
+
+                        {(toggleEditPostModalState && user) && <EditPostModal sendDataToParent={handleDataReceivedFromChild}/>}
+                        
                         
 
                     </div>        

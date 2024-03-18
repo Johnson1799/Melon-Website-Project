@@ -110,7 +110,6 @@ mongoose.connect(process.env.MongoDB_URL)       // Connect to MongoDB by URL def
     if (!Post.findOne()){
         Post.insertMany(postsData);
     }
-    
 }) 
 .catch((err)=>{
     console.log("Fail to connect to Database");

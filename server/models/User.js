@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 /* Create 'User' Schema */
+const schemaName = 'user';
 const UserSchema = new mongoose.Schema({
     userName: { type: String, default:''},
     userNickname: { type: String, default:''},
@@ -14,11 +15,12 @@ const UserSchema = new mongoose.Schema({
     followers: {type: Number, default: 0},
     posts: {type: Array, default: []},
 
-}, {timestamps: true });
+},
+{ collection: `${schemaName}`, timestamps: true});
 
 
 /* Create 'User' model from 'User' Schema */
-const User = mongoose.model('User', UserSchema);
+const User = mongoose.model(`${schemaName}`, UserSchema);
 
 /* Export the module */
 export default User; 

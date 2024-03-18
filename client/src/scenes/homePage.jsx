@@ -12,7 +12,7 @@ const HomePage = () => {
         <div className="profile-container">
             <MainNavbar />
             HomePage    
-            <br /><p>{user._id}</p>
+            <br /><p>{user?._id}</p>
         </div>
     )
 }

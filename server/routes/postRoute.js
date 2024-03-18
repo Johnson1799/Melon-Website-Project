@@ -1,17 +1,23 @@
 import express from "express";
-import { getAllPosts, getUserPosts, likePost } from "../controllers/postController.js";
+import { createPost, getUserPosts, deleteUserPost, updatePost } from "../controllers/postController.js";
 import {verifyToken} from "../middleware/authorization.js";
 
 const router = express.Router();
 
-/* Routes to homepage */
-router.get("/",getAllPosts);
+/* Create a post to MongoDB and Cloudinary */
+router.post("/create/:userId" , createPost);
 
-/* Routes to user post */
-router.get("/:userId/posts",getUserPosts);
+/* Update a specific post information */
+router.post("/update/:userId" , verifyToken, updatePost);
 
-/* Update the routes*/
-router.patch("/:id/like", likePost);
+/* Get all the user posts */
+router.get("/:userId", verifyToken, getUserPosts);
+
+/* Delete a specific post */
+router.delete("/delete/:userId/:postId", verifyToken, deleteUserPost);
+
+// /* Update the routes*/
+// router.patch("/:id/like", likePost);
 
 // export the router
 export default router;

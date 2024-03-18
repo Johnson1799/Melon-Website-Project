@@ -96,8 +96,10 @@ const RegisterPage = () => {
 
             fetch(url,{
                 method: 'POST',
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(updatedUser)
+                headers: { 
+                    "Content-Type": "application/json" 
+                },
+                body: JSON.stringify(updatedUser),
             })
             .then(res => {
                 if (res.ok) {

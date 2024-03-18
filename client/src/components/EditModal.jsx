@@ -49,9 +49,6 @@ const EditModal = (props) => {
         setToggleEditUserName(!toggleEditUserNameState);
         setToggleEditUserNickname(!toggleEditUserNicknameState);
     }
-    // const toggleEditUserNickname = (e) => {
-    //     setToggleEditUserNickname(!toggleEditUserNicknameState);
-    // }
     const toggleEditEmail = (e) => {
         setToggleEditEmail(!toggleEditEmailState);
     }
