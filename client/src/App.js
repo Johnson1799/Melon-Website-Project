@@ -1,17 +1,20 @@
-/* Import React */
+/* Import react library */
 import React from 'react';
 import { BrowserRouter, Routes, Route} from 'react-router-dom';
 
-/* Import React-Crop stylesheet */
+/* Import react-crop stylesheet */
 import 'react-image-crop/dist/ReactCrop.css';
 
-/* Import Redux-Persist */
+/* Import redux library */
+import { Provider } from "react-redux";
+
+/* Import redux persist library */
 import { PersistGate } from "redux-persist/integration/react";
 
-/* Import React-Rudex */
-import { useSelector, Provider } from "react-redux";
+/* Import rudux store and persister */
+import { store, persistor } from './redux/store/store';
 
-/* Import scenes files*/
+/* Import scenes */
 import HomePage from 'scenes/homePage.jsx';
 import LoginPage from 'scenes/loginPage.jsx';
 import ProfilePage from 'scenes/profilePage.jsx';
@@ -19,9 +22,6 @@ import RegisterPage from 'scenes/registerPage.jsx';
 import AboutPage from 'scenes/aboutPage.jsx';
 import MessagePage from 'scenes/messagePage';
 import SettingPage from 'scenes/settingPage';
-
-/* Import rudux store and persister */
-import { store, persistor } from '../src/redux/store.js';
 
 
 function App() {

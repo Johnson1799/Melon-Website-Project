@@ -1,18 +1,22 @@
+/* Import components */
+import LoginNavbar from "../components/Navbar/LoginNavbar";
+
 /* Import assets */
 import teamateIcon1 from '../assets/human-icon.png';
-
-/* Import component */
-import LoginNavbar from "components/LoginNavbar.jsx";
 
 const AboutPage = () => {
     return ( 
         <div>
+            {/* Display Navbar */}
             <LoginNavbar />
+
+            {/* Display the heading 'About Us' */}
             <div className="about-container"> 
                 <div className='aboutus-text-container'>
                     <h1>About Us</h1>
                 </div>
 
+                {/* Display the grid content */}
                 <div className="aboutus-grid-container">
                     {/* Column 1 */}
                     <div className="c1">

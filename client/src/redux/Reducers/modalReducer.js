@@ -1,3 +1,4 @@
+/* Import redux library */
 import { createSlice } from "@reduxjs/toolkit";
 
 /* Define States */

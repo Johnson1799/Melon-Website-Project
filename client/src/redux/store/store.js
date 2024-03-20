@@ -1,14 +1,14 @@
-/* Import Redux-Persist */
+/* Import redux library */
+import { configureStore } from "@reduxjs/toolkit";
+
+/* Import redux-persist library */
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
-/* Import React-Rudex */
-import { configureStore } from "@reduxjs/toolkit";
+/* Import root reducer */
+import { rootReducer } from "../Reducers/root/rootReducer";
 
-/* Import rootReducer */
-import { rootReducer } from "./rootReducer";
-
-/* Redux-Persist Configuration */
+/* Redux-persist Configuration */
 const persistConfig = { 
     key: "root", 
     storage: storage, 
@@ -18,7 +18,7 @@ const persistConfig = {
 /* Persist all the reducers */
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-/* middleware configyration */
+/* Middleware configeration */
 const middleware = (getDefaultMiddleware) =>
   getDefaultMiddleware({
     serializableCheck: {
@@ -26,13 +26,13 @@ const middleware = (getDefaultMiddleware) =>
     },
   });
 
-/* Define Redux Store */
+/* Define redux store */
 const store = configureStore({
     reducer: persistedReducer,
     middleware: middleware
 });
 
-/* Create Redux Persistor */
+/* Create redux persistor */
 const persistor = persistStore(store);
 
 

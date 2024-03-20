@@ -1,9 +1,11 @@
-/* Import react stuff */
+/* Import react libbrary */
 import React, {useEffect, useState} from "react";
 
-/* Import redux stuff */
+/* Import redux library */
 import { useSelector, useDispatch } from "react-redux";
-import { updateUserPosts } from '../redux/userReducer';
+
+/* Import redux reducers */
+import { updateUserPosts } from '../../redux/Reducers/userReducer';
 
 /* Import components */
 import Post from './Post.jsx';
@@ -12,7 +14,7 @@ const ProfilePosts = () => {
     /* States */
     const [isLoading, setIsLoading] = useState(false);
 
-    /* redux state */
+    /* Access states from redux store */
     const user = useSelector((state) => {
         return state.user.user;
     })
@@ -23,7 +25,7 @@ const ProfilePosts = () => {
         return state.user.userPosts;
     })
 
-    /* Access action from redux store */
+    /* Access actions from redux store */
     const dispatch = useDispatch();
 
     /* Load all the posts from the user */
@@ -46,6 +48,7 @@ const ProfilePosts = () => {
         })
         .then((data) =>{
             if (data.posts){
+                /* Put all the loaded posts of the user in redux state */
                 dispatch(updateUserPosts({userPosts: data.posts}));
                 setIsLoading(false);
             }
@@ -55,11 +58,13 @@ const ProfilePosts = () => {
         });
     }
     useEffect(() => {
+        /* Load all the posts from the user in each rendering of webpage */
         getUserPosts();
     }, []);
 
     return ( 
         <div className="profile-post-container">
+            {/* Create all the posts from the user */}
             {(user && userPosts) ? 
                 userPosts.map((post, index)=> (
                     <Post key={index} postIndex={index} image={post?.postImgURL} title={post?.title} description={post?.description} date={post?.createdAt?.toString()?.slice(0, 10)}/>

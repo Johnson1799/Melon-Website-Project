@@ -1,22 +1,23 @@
+/* Import react library */
 import { NavLink } from "react-router-dom";
 
-/* Import redux stuff */
+/* Import redux library */
 import { useSelector, useDispatch } from "react-redux";
-import { setToggle, setIsRouting } from "../redux/slideBarToggleReducer";
+
+/* Import redux reducers */
+import { setToggle, setIsRouting } from "../../redux/Reducers/slideBarToggleReducer";
 
 const MainNavbar = () => {
     /* Access states from redux store */
     const toggleState = useSelector((state) => {
         return state.slideBarToggle.toggle;
     });
-    const isRoutingState = useSelector((state) => {
-        return state.slideBarToggle.isRouting;
-    });
 
     const user = useSelector((state) => {
         return state.user.user;
     });
 
+    /* Find the user id from the redux states */
     const userId = user?._id;
 
     /* Access action from redux store */
@@ -37,13 +38,16 @@ const MainNavbar = () => {
         <div className="main-nav-containter">
             <div className="toggle-container">
                 <div className="logo-container">
+                    
+                    {/* Toggle the Navbar when clicking the 'Melon' logo */}
                     <button onClick={handleToggle}><strong className="logo">Melon</strong></button>
                 </div>
             </div>
             
             <div className="aside-container">
                 <aside className={`${toggleState ? "slidebar-visible" : "slidebar-invisible"}`}>
-                    {/* Slide bar options  */}
+
+                    {/* Route to different page when clicking the buttons in the Navbar */}
                     <div className="sidebar">
                         <NavLink to="/home" className="option" onClick={handleRouteClick}><i className="fa-solid fa-house"></i><strong>Home</strong></NavLink>
                         <NavLink to={`/profile/${userId}`} className="option" onClick={handleRouteClick}><i className="fa-solid fa-circle-user icon"></i><strong>Profile</strong></NavLink>

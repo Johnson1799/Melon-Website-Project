@@ -1,19 +1,21 @@
+/* Import react library */
 import React, {useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 
-/* Import redux stuff */
+/* Import redux library */
 import { useSelector, useDispatch } from "react-redux";
-import { setToggleImageModal, setToggleEditModal, setTogglePostModal } from "../redux/modalReducer";
-import { updateUser, updateUserPost } from "../redux/userReducer";
+
+/* Import redux reducers */
+import { setToggleImageModal, setToggleEditModal, setTogglePostModal } from "../redux/Reducers/modalReducer";
+import { updateUser, updateUserPost } from "../redux/Reducers/userReducer";
 
 /* Import components */
-import MainNavbar from "components/MainNavbar";
-import ImageModal from "components/ImageModal";
-import EditModal from "components/EditModal";
-import PostModal from "components/PostModal";
-import MainBackgroundDesign from "components/MainBackgroundDesign";
-import ProfilePosts from "components/ProfilePosts";
-import EditPostModal from "../components/EditPostModal";
+import MainNavbar from "../components/Navbar/MainNavbar";
+import ImageModal from "../components/Modal/ImageModal";
+import EditModal from "../components/Modal/EditModal";
+import PostModal from "../components/Modal/PostModal";
+import ProfilePosts from "../components/Post/ProfilePosts";
+import EditPostModal from "../components/Modal/EditPostModal";
 
 
 const ProfilePage = () => {
@@ -37,10 +39,9 @@ const ProfilePage = () => {
         return state.user.token;
     });
 
-    /* Access action from redux store */
+    /* Access actions from redux store */
     const dispatch = useDispatch();
     
-
     /* States */
     const [isLoading, setIsLoading] = useState(false);
     const [isPostButtonClicked, setIsPostButtonClicked] = useState(true);
@@ -49,7 +50,7 @@ const ProfilePage = () => {
     /* Navigation hook */
     const navigate = useNavigate();
 
-    /* Handler */
+    /* Handlers */
     const handleImageEditButtonClick  = (e) => {
         dispatch(setToggleImageModal());
     }
@@ -139,6 +140,7 @@ const ProfilePage = () => {
             });
 
         } 
+
         /* Upload user post to Cloudinary database and create 'post' document in MongoDB */
         else if (editedData.postImgURL){
             const url = `http://localhost:3001/posts/create/${userId}`;
@@ -192,6 +194,7 @@ const ProfilePage = () => {
                 return res.json();
             })
             .then((data) => {
+                /* Update the redux state */
                 dispatch(updateUserPost(data));
                 setIsLoading(false);
             })
@@ -199,7 +202,7 @@ const ProfilePage = () => {
                 console.error('Error updating user data:', err);
             });
         } else {
-            /* Update 'email', 'contact', 'address', 'description', 'userAvatarURL', 'posts' attribute to 'user' schema in MongoDB */
+            /* Update 'email', 'contact', 'address', 'description', 'userAvatarURL' and 'posts' attributes to 'user' schema in MongoDB */
             const url = `http://localhost:3001/users/user/${userId}/update`;
             await fetch(url, {
                 method: 'POST',
@@ -216,6 +219,7 @@ const ProfilePage = () => {
                 return res.json();
             })
             .then((updatedUserData) => {
+                /* Update the redux state */
                 dispatch(updateUser({user: updatedUserData}));
                 setIsLoading(false);
             })
@@ -230,27 +234,28 @@ const ProfilePage = () => {
 
     return (
         <div>
+            {/* Display the Navbar */}
             <MainNavbar />
             <div className="profile-container">
                 <div className="profile-grid-container">
-
-                    {/* Edit user avatar button */}
                     <div className="profile-col-1">
-                        
                         <div className="info-container">
-                            {/* Edit User Avatar  */}
+                        
                             <div className="avatar-info">
+                                {/* Edit user avatar button */}
                                 <button className="image-edit-button" onClick={handleImageEditButtonClick}><i className="fa-solid fa-pen"></i></button>
+                                
+                                {/* Display user avatar */}
                                 <img src={user?.userAvatarURL} alt="" />
                             </div>
 
-                            {/* Edit User Information  */}
+                            {/* Display User Information (userame and userNickname) */}
                             <div className="profile-user-info">
                                 <p className="full-name">{user?.userName}</p>
                                 <p className="nickname">{user?.userNickname}</p>
                             </div>
 
-                            {/* Posts and Followers Information  */}
+                            {/* Display User Information (no.of posts, no.of followers and no.of following) */}
                             <div className="profile-account-details">
                                 <p className="title">Posts</p>
                                 <p className="posts">{user?.posts.length}</p>
@@ -261,6 +266,7 @@ const ProfilePage = () => {
                             </div>
                         </div>
 
+                        {/* Display User Information (email, contact, address and description) */}
                         <div className="personal-details-container" >
                             <button onClick={handlePersonalProfileButtonClick}><i className="fa-solid fa-user-pen"></i></button>
                             <div className="profile-personal-details">
@@ -271,27 +277,29 @@ const ProfilePage = () => {
                             </div>
                         </div>
 
-                        {/* Display modals */}
+                        {/* Display 'image' modals when user click the edit avatar button */}
                         {(toggleImageModalState && user) && <ImageModal sendDataToParent={handleDataReceivedFromChild}/>}
+
+                        {/* Display 'edit' modals when user click the edit user information button */}
                         {(toggleEditModalState && user) &&<EditModal user={user} sendDataToParent={handleDataReceivedFromChild}/>}
 
-                        {/* Profile Post */}
+                        {/* Display the user posts when user click the picture icon on the top right category */}
                         <button className={isPostButtonClicked ? "post-button clicked" : "post-button not-clicked"} onClick={handlePostButtonClicked}><i className="fa-regular fa-images"></i></button>
                         {(isPostButtonClicked) && <ProfilePosts />}
 
+                        {/* Display the user videos when user click the video icon on the top right category */}
                         <button className={isVideoButtonClicked ? "video-button clicked" : "video-button not-clicked"} onClick={handleVideoButtonClicked}><i className="fa-solid fa-film"></i></button>
                         
+                        {/* Display 'Post' modals when user click the 'add post' icon on the top right corner */}
                         <button className="add-post-button" onClick={handleAddPostButtonClick}><i className="fa-solid fa-plus"></i></button>
                         {(togglePostModalState && user) && <PostModal sendDataToParent={handleDataReceivedFromChild}/>}
 
+                        {/* Display 'EditPost' modals when user click the edit button in a specific post */}
                         {(toggleEditPostModalState && user) && <EditPostModal sendDataToParent={handleDataReceivedFromChild}/>}
                         
                         
-
                     </div>        
-
                 </div>
-
             </div >
         </div>
     )

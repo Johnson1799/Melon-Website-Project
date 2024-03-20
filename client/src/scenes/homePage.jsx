@@ -1,7 +1,8 @@
-/* Import react-redux */
+/* Import redux library */
 import { useSelector, useDispatch } from "react-redux";
 
-import MainNavbar from "components/MainNavbar";
+/* Import components */
+import MainNavbar from "../components/Navbar/MainNavbar";
 
 const HomePage = () => {
     const user = useSelector((state) => {
@@ -9,7 +10,7 @@ const HomePage = () => {
     });
     
     return (
-        <div className="profile-container">
+        <div className="home-page-container">
             <MainNavbar />
             HomePage    
             <br /><p>{user?._id}</p>

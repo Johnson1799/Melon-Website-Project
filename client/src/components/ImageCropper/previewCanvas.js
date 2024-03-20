@@ -1,13 +1,10 @@
+/* This function used to preview the cropped image in the canvas */
 const previewCanvas = (image, canvas, crop ) => {
     const ctx = canvas.getContext("2d");
     if (!ctx) {
       throw new Error("No 2d context");
     }
   
-    // devicePixelRatio slightly increases sharpness on retina devices
-    // at the expense of slightly slower render times and needing to
-    // size the image back down if you want to download/upload and be
-    // true to the images natural size.
     const pixelRatio = window.devicePixelRatio;
     const scaleX = image.naturalWidth / image.width;
     const scaleY = image.naturalHeight / image.height;
@@ -22,7 +19,6 @@ const previewCanvas = (image, canvas, crop ) => {
     const cropX = crop.x * scaleX;
     const cropY = crop.y * scaleY;
   
-    // Move the crop origin to the canvas origin (0,0)
     ctx.translate(-cropX, -cropY);
     ctx.drawImage(
       image,

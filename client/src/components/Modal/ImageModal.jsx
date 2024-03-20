@@ -1,9 +1,12 @@
-import React, {useEffect, useState, useRef} from "react";
+/* Import react library */
+import React from "react";
 
-/* Import redux stuff */
+/* Import redux library */
 import { useSelector, useDispatch } from "react-redux";
-import { setToggleImageModal } from "../redux/modalReducer";
-import ImageCropper from "./ImageCropper";
+
+/* Import redux reducers */
+import { setToggleImageModal } from "../../redux/Reducers/modalReducer";
+import ImageCropper from "../ImageCropper/ImageCropper";
 
 const ImageModal = (props) => {
     /* Access states from redux store */
@@ -11,21 +14,22 @@ const ImageModal = (props) => {
         return state.modal.toggleImageModal;
     });
 
-    /* Access action from redux store */
+    /* Access actions from redux store */
     const dispatch = useDispatch();
 
     const toggleImageModal = (e) => {
         dispatch(setToggleImageModal());
     };
 
+    /* Send user avatar base64 url to profilePage.jsx */
     const handleDataReceivedFromChild = (userAvatarURL) =>{
-        /* Send imageAvatarURL to profilePage.jsx */
         props.sendDataToParent(userAvatarURL);
         dispatch(setToggleImageModal());
     };
 
     return ( 
         <>
+            {/* Display the 'user avatar image' modal when the user click edit button under the user avatar */}
             {toggleImageModalState && (<div className="modal-container">
                                     <div className="modal-overlay">
                                         <div className="modal-grid-container">

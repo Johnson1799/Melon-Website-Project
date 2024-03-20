@@ -23,8 +23,9 @@ import registerRoute from "./routes/registerRoute.js";
 import loginRoute from "./routes/loginRoute.js";
 
 /* import models files */
-import User from "./models/User.js";
-import Post from "./models/Post.js";
+import User from "./schema/User.js";
+import Post from "./schema/Post.js";
+// import Friend from "./schema/Friend.js";
 
 /* import custom middleware files */
 import { verifyToken } from "./middleware/authorization.js";
@@ -36,19 +37,24 @@ import { usersData, postsData } from "./data/data.js" ;
 /* Middleware Configuration */
 const __filename = fileURLToPath(import.meta.url);  // grab the file URL
 const __dirname = path.dirname(__filename);         // get the directory name
-dotenv.config();                                    // allow to use dotenv files
-// Use Express middleware
+
+/* Allowing to use '.env' files */
+dotenv.config();                         
+
+/* Configure 'Express' middleware */
 const app = express();
 app.use(express.json({limit: '5mb'}));
-// use helmet middleware
+
+/* Configure 'helmet' middleware */
 app.use(helmet());                                                      
 app.use(helmet.crossOriginResourcePolicy({policy: "cross-origin"}));
-// use bodyParser in express middleware
+
+/* Configure 'bodyParser' in 'Express' middleware */
 app.use(bodyParser.json({limit: "30mb", extended: true}));              
 app.use(bodyParser.urlencoded( {limit: "30mb", extended: true}));
-// use cors middleware
-app.use(cors());
 
+/* Configure 'cors' middleware */
+app.use(cors());
 
 /* Setting up the directory for styling */
 app.use("/assets", express.static(path.join(__dirname, 'public/assets')));
@@ -67,33 +73,29 @@ const storage = multer.diskStorage({
 });
 const upload = multer({storage});
 
-/* Routes with files */
-// app.post("/auth/register", upload.single("userIcon"), registerUser);
-// app.post("/posts", verifyToken, upload.single("postPicture"),);
+/* Routes server side 'users' page */
+app.use("/users", userRoute);
 
-/* Routes 'users' page */
-app.use("/users",userRoute);
-
-/* Routes 'login' page */
+/* Routes server side 'login' page */
 app.use("/login",loginRoute);
 
-/* Routes 'register' page */
+/* Routes server side 'register' page */
 app.use("/register",registerRoute);
 
-/* Routes 'posts' page */
+/* Routes server side 'posts' page */
 app.use("/posts", postRoute);
 
 
 /* Database Configuration */
 
-// cloudinary database
+// Cloudinary database configuration 
 cloudinary.config({ 
     cloud_name: process.env.cloud_name, 
     api_key: process.env.api_key, 
     api_secret: process.env.api_secret,
 });
 
-// MongoDB
+// MongoDB database configuration
 const PORT = process.env.PORT;                  // Set the port to 3001 defined in .env
 mongoose.connect(process.env.MongoDB_URL)       // Connect to MongoDB by URL defined in .env file)
 .then(()=>{
@@ -115,11 +117,5 @@ mongoose.connect(process.env.MongoDB_URL)       // Connect to MongoDB by URL def
     console.log("Fail to connect to Database");
 });
 
-// Cloudinary 
-// cloudinary.config({ 
-//   cloud_name: 'dppg4mvct', 
-//   api_key: '563463938471186', 
-//   api_secret: 'IFGe6InsKCKrJBrApYdEkyfZ2qY',
-//   secure: true, 
-// });
+
 

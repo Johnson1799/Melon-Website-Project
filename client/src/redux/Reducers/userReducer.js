@@ -1,12 +1,14 @@
+/* Import redux library */
 import { createSlice } from "@reduxjs/toolkit";
 
-/* Define States */
+/* Define redux states */
 const initialState = {
     token: '',
     user: null,
     userPosts: null,
 };
 
+/* Define redux acitons and reducers */
 const userSlice = createSlice({
     name: "user",
     initialState: initialState,

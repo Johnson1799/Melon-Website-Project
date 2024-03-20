@@ -1,5 +1,5 @@
-import Post from "../models/Post.js";
-import User from "../models/User.js";
+import Post from "../schema/Post.js";
+import User from "../schema/User.js";
 import {v2 as cloudinary} from 'cloudinary';
 import { extractPublicId } from 'cloudinary-build-url';
 
@@ -12,14 +12,12 @@ cloudinary.config({
 
 /* Post-creating function */
 export const createPost = async(req,res) => {
-        // grab the attributes from request object
+        /* grab the data sent from front-end */
         const userId = req.params.userId;
         const postImgURL = req.body.postImgURL;     // base64 URL
         const title = req.body.title;
         const description = req.body.description;
         const isPrivate = req.body.isPrivate;
-
-        // console.log(`title: ${title}  description: ${description}  isPrivate: ${isPrivate}`);
 
         /* Upload the post to Cloudinary and get the image url */
         const randomNum= Date.now();
@@ -50,9 +48,11 @@ export const createPost = async(req,res) => {
         })
         await newPost.save();
     
+        /* Find a specific post from MongoDB */
         const post = await Post.findOne({userId: user._id, postImgURL: uploadedImage.url}); 
         
     try {
+        /* Send that specific post and post url to front-end */
         res.status(200).json({postURL: uploadedImage.url, post:post});
 
     } catch (err) {
@@ -66,10 +66,10 @@ export const getUserPosts = async (req,res) =>{
         // grab the other user id in request object
         const userId = req.params.userId;
 
-        // find the user's posts in the database
+        /* Find all the user posts from MongoDB */
         const posts = await Post.find({userId:userId});
 
-        // send the post info to front-end
+        /* Send all the user posts information to front-end */
         res.status(200).json({posts: posts});
 
     } catch (err) {
@@ -80,6 +80,7 @@ export const getUserPosts = async (req,res) =>{
 /* Update a post */
 export const updatePost = async (req,res) => {
     try {
+        /* grab the data sent from front-end */
         const userId = req.params.userId;
         const postId = req.body.postId;
         const title = req.body.title;
@@ -94,6 +95,7 @@ export const updatePost = async (req,res) => {
         else{
             let updatedPostInfo = await Post.findOneAndUpdate({_id: postId}, { $set: {title: title, description: description, isPrivate: isPrivate}}, {new: true});
             if (updatedPostInfo){
+                /* Send that updated post and post url to front-end */
                 res.status(200).json(updatedPostInfo);
             }
         }
@@ -107,38 +109,41 @@ export const updatePost = async (req,res) => {
 /* Delete user post */
 export const deleteUserPost = async (req,res) => {
     try {
+        /* grab the data sent from front-end */
         const userId = req.params.userId;
         const postId = req.params.postId;
         const postImgURL = req.body.postImgURL;
     
-        /* Remove the post in MongoDB */
+        /* Find a specifc user in MongoDB */
         const user = await User.findById(userId);
         if (!user){
             return res.status(404).json({ message: 'User not found' });
         }
         else{
+            /* Remove a specific post from 'posts' attribute inside the 'user' schema in MongoDB */
             const updatedList = user.posts.filter((imageUrl,index) => imageUrl !== postImgURL);
             await User.updateOne({_id: userId}, {$set: {posts: updatedList}})
             .catch((err) =>{
                 return res.status(404).json({ message: err });
             })
 
+            /* Remove a specific post from inside the 'post' schema in MongoDB */
             const deletedPost = await Post.findByIdAndDelete(postId);
             if (!deletedPost){
                 return res.status(404).json({ message: 'Post not found' });
             }
 
-            /* Remove the post in Cloudinary */
+            /* Remove a specific post from Cloudinary */
             const publicId = extractPublicId(postImgURL);
             const result = await cloudinary.uploader.destroy(publicId);
             if (!result){
                 return res.status(404).json({ message: 'Post not found' });
             }
 
+            /* Send the success message to front-end */
             return res.status(200).json({ message: 'Post Deletion Successful' });
         }
 
-        
     } catch (err) {
         res.status(500).json({ error: 'Internal server error' });
     }

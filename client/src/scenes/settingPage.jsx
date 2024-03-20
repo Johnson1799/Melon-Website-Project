@@ -1,4 +1,5 @@
-import MainNavbar from "components/MainNavbar";
+/* Import components */
+import MainNavbar from "../components/Navbar/MainNavbar";
 
 const SettingPage = () => {
     return ( 

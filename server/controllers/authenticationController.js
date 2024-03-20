@@ -1,22 +1,23 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import User from "../models/User.js"
+import User from "../schema/User.js"
 import dotenv from 'dotenv';
 dotenv.config();
 
 /* Register User function */
 export const registerUser = async (req,res) => {
     try {
-        // Grab the object specified from the 'request' object
+        /* grab the data sent from front-end */
         const {userName, userNickname, password, email, contact, address, description, userAvatarURL, friends, followers, posts} = req.body;
+        
         /* Check if user email is appeared in MongoDB */
         let user = await User.findOne({email:email});
         if(user){
             return res.status(409).send({message:"This Email Has Been Registered"});
         }
-        else{
-            /* Create new user in MongoDB */
 
+        /* Create new user in MongoDB */
+        else{
             // Encrypt the password
             const salt = await bcrypt.genSalt();
             const encryptedPassword = await bcrypt.hash(password, salt);
@@ -53,7 +54,7 @@ export const registerUser = async (req,res) => {
 /* Login Function */
 export const login = async (req,res) => {
     try {
-        // Grab the object specified from the 'request' object
+        /* grab the data sent from front-end */
         const { email, password } = req.body;
 
         // find the user which have that input email

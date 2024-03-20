@@ -1,4 +1,4 @@
-import User from "../models/User.js";
+import User from "../schema/User.js";
 import {v2 as cloudinary} from 'cloudinary';
 import dotenv from 'dotenv';
 dotenv.config();
@@ -24,17 +24,17 @@ export const getUserDatabase = async (req,res) => {
 /* Get user by id function */
 export const getUser = async (req,res) => {
     try {
-        // grab the id attributes from request object
+        /* grab the data sent from front-end */
         const userId = req.params.userId;
 
-        // find the user by the id of the user
+        /* find the user by the id of the user */
         const user = await User.findById(userId);
         
-        // send back user info to front-end
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
 
+        /* Send the user information back to front-end */
         res.status(200).json({user:user});
 
     } catch (err) {
@@ -43,18 +43,21 @@ export const getUser = async (req,res) => {
 }
 
 export const updateUserInfo = async(req,res) => {
+    /* grab the data sent from front-end */
     const userId = req.params.userId;
-
     const editedData = req.body;
 
     try{
         let updatedUser;
         if (editedData.posts){
+            /* Only update the 'posts' attribute in 'user' schema */
             updatedUser = await User.findOneAndUpdate({_id: userId}, {$push: editedData}, {new: true});
         } else{
+            /* Update the all the attributes in 'user' schema */
             updatedUser = await User.findOneAndUpdate({_id: userId}, editedData, {new: true});
         }
         if (updatedUser){
+            /* Send the updated user information back to front-end */
             res.json(updatedUser);
         }
     }
@@ -65,9 +68,11 @@ export const updateUserInfo = async(req,res) => {
 }
 
 export const updateUserAvatar = async(req,res) => {
+    /* grab the data sent from front-end */
     const imageURL = req.body.image;
     const userId = req.params.userId;
 
+    /* Update the user avatar in Cloudinary */
     const uploadedImage = await cloudinary.uploader.upload(imageURL,{
         upload_preset: 'avatar_unsigned_upload', 
         public_id: `${userId}_avatar`, 
@@ -80,6 +85,7 @@ export const updateUserAvatar = async(req,res) => {
     });
 
     try{
+        /* Send the updated user avatar information (e.g url) back to front-end */
         res.status(200).json(uploadedImage);
     } catch (err) {
         console.log(err);

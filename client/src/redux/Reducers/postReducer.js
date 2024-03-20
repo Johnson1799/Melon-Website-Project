@@ -1,10 +1,12 @@
+/* Import redux library */
 import { createSlice } from "@reduxjs/toolkit";
 
-/* Define States */
+/* Define redux states */
 const initialState = {
     postIndex: null,
 };
 
+/* Define redux acitons and reducers */
 const postSlice = createSlice({
     name: "post",
     initialState: initialState,

@@ -1,12 +1,17 @@
-import React, {useEffect, useState, useRef} from "react";
+/* Import react library */
+import React from "react";
 
-/* Import redux stuff */
+/* Import redux library */
 import { useSelector, useDispatch } from "react-redux";
-import {deleteUserPost} from '../redux/userReducer';
-import {setToggleEditPostModal} from '../redux/modalReducer';
-import {setPostIndex} from '../redux/postReducer';
+
+/* Import redux reducers */
+import {deleteUserPost} from '../../redux/Reducers/userReducer';
+import {setToggleEditPostModal} from '../../redux/Reducers/modalReducer';
+import {setPostIndex} from '../../redux/Reducers/postReducer';
+
 
 const ProfileDropdown = (props) => {
+    /* Access states from redux store */
     const userPosts = useSelector((state) => {
         return state.user.userPosts;
     })
@@ -17,20 +22,23 @@ const ProfileDropdown = (props) => {
         return state.user.token;
     })
 
+    /* Access action from redux store */
     const dispatch = useDispatch();
 
+    /* Handlers */
     const toggleEditPostModal = () => {
         dispatch(setToggleEditPostModal());
         dispatch(setPostIndex(props.postIndex));
     }
 
     const handleDeletePost = async (e) => {
-        /* Delete the post in database */
-        const userId = user?._id;                           // MongoDB user id
-        const postId = userPosts[props.postIndex]?._id;     // MongoDB post id
+        const userId = user?._id;                                   // MongoDB user id
+        const postId = userPosts[props.postIndex]?._id;             // MongoDB post id
         const postImgURL = userPosts[props.postIndex].postImgURL;   // Cloudinary postImgURL
         const dataPassToServer = {postImgURL: postImgURL};
         const url = `http://localhost:3001/posts/delete/${userId}/${postId}`;
+
+        /* Delete the post in database (sending delete request to server) */
         await fetch(url, {
             method: "DELETE",
             headers: {
@@ -54,7 +62,7 @@ const ProfileDropdown = (props) => {
             console.log(err);
         });
 
-        /* Delete the post in redux store */
+        /* Delete the specific post in redux store */
         dispatch(deleteUserPost(props.postIndex));
 
         /* Toggle the dropdown */
@@ -64,9 +72,11 @@ const ProfileDropdown = (props) => {
     return ( 
         <ul className="dropdowns-container">
             <li>
+                {/* 'Edit' button in dropdown */}
                 <button onClick={toggleEditPostModal}>Edit<i className="fa-solid fa-pencil icon"></i></button>
             </li>
             <li>
+                {/* 'Delete' button in dropdown */}
                 <button onClick={handleDeletePost}>Delete<i className="fa-solid fa-trash icon icon"></i></button>
             </li>
         </ul>

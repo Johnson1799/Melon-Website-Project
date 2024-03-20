@@ -1,15 +1,13 @@
-import React, {useEffect, useState, useRef} from "react";
+/* Import react library */
+import React, { useState, useRef } from "react";
 
-import ReactCrop, { makeAspectCrop, centerCrop, convertToPixelCrop, } from 'react-image-crop'
-
-/* Import redux stuff */
-import { useSelector, useDispatch } from "react-redux";
-import { setToggleImageModal, setUserAvatar } from "../redux/modalReducer";
+/* Import react-image-crop library */
+import ReactCrop, { makeAspectCrop, centerCrop, convertToPixelCrop, } from 'react-image-crop';
 
 /* Import conponents */
-import previewCanvas from "./previewCanvas.js";
+import previewCanvas from "./previewCanvas";
 
-
+/* Initialization */
 const ASPECT_RATIO = 1;
 const CROP_MIN_WIDTH = 150;
 const CROP_MIN_HEIGHT = 150;
@@ -25,24 +23,33 @@ const ImageCropper = (props) => {
     const [crop, setCrop] = useState(null);
     const [error, setError] = useState('');
 
+    /* Handlers */
     const onSelectFile = (e) => {
         const file = e.target.files[0];
+
+        /* Find the filename */
         if (e.target.files && e.target.files.length > 0) {
             setImageFileName(e.target.files[0].name);
         }
 
+        /* Do some stuffs during loading the image */
         const reader = new FileReader();
         reader.onload = (e) => {
             const imageURL = e.target.result;
 
             /* Check the image size */
             const imageElement = new Image();
+
+            /* Find out the image base64 url */
             imageElement.src = imageURL;
             imageElement.onload = (e) => {
                 if (error){
+                    /* Initialize the 'error' state*/
                     setError("");
                 }
                 const {naturalWidth, naturalHeight} = e.currentTarget;
+
+                 /* Set the error if the image size is smaller than the minimum crop size */
                 if (naturalWidth < CROP_MIN_WIDTH || naturalHeight < CROP_MIN_HEIGHT){
                     setError("Image must be at least 150 x 150 pixels.");
                     return setImage("");
@@ -50,10 +57,13 @@ const ImageCropper = (props) => {
             }
             setImage(imageURL);
         }
+
+        /* Read the content of the file and generate the base64 url of that file */
         reader.readAsDataURL(file);
     }
 
     const onImageLoad = (e) => {
+        /* Setting up the user avatar crop */
         const {width, height} = e.currentTarget;
         const cropWidthInPercent = (CROP_MIN_WIDTH / width) *100;
 
@@ -69,9 +79,11 @@ const ImageCropper = (props) => {
 
     const handleCloseImageModal = (e) => {
         previewCanvas(imageRef.current, previewCanvasRef.current, convertToPixelCrop(crop, imageRef.current.width, imageRef.current.height));
+        
+        /* Find out the cropped user avatar base64 url */
         const userAvatarURL = previewCanvasRef.current.toDataURL();
 
-        /* Send imageAvatarURL to ImageModal.jsx */
+        /* Send cropped user avatar base64 url to ImageModal.jsx */
         const data = {userAvatarURL:userAvatarURL};
         props.sendDataToParent(data);
 
@@ -93,7 +105,6 @@ const ImageCropper = (props) => {
                 </div>
 
             )}
-
             {crop && <canvas className="crop-preview-canvas" ref={previewCanvasRef} />}
 
         </>

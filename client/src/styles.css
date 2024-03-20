@@ -460,13 +460,12 @@ aside .sidebar .option:not(.active):hover .icon{
 
 
 /* Profile Page Design */
-.profile-container{
+.profile-container, .home-page-container{
     display: flex;
     height: 130vh;
     background-color: #dddfe3;
 }
 .profile-grid-container{
-    /* background-color: #478ac9; */
     display: grid;
     position: relative;
     grid-template-columns: repeat(1,1fr); 

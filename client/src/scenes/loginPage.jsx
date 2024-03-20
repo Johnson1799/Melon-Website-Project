@@ -1,39 +1,38 @@
-/* import React */
+/* Import react library */
 import { useState, useRef, useEffect} from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-/* import react-redux */
+/* Import redux library */
 import { useDispatch, useSelector} from "react-redux";
-import { setLogout,setLogin } from "../redux/userReducer.js";
 
-/* Import useFetch custom hook */
-import useFetch from './useFetch.js';
+/* Import redux reducers */
+import { setLogout,setLogin } from "../redux/Reducers/userReducer.js";
 
-/* Import component */
-import LoginNavbar from "components/LoginNavbar.jsx";
+/* Import components */
+import LoginNavbar from "../components/Navbar/LoginNavbar.jsx";
 
 /* Import assets */
-import loginPic from '../assets/loginPic.png';         // 490*367
+import loginPic from '../assets/loginPic.png';         // 490*367 px
 
 const url = "http://localhost:3001/login";
 
 const LoginPage = () => {
-    /* Reference on HTML element */
+    /* Reference to HTML tag */
     const emailTextfieldRef = useRef(null);
     const passwordTextfieldRef = useRef(null);
 
-    /* State hook */
+    /* States */
     const [userInputEmail, setUserInputEmail] = useState("");
     const [userInputPassword, setUserInputPassword] = useState("");
     const [emailErrMsg, setEmailErrMsg] = useState("");
     const [passwordErrMsg, setPasswordErrMsg] = useState("");
 
-    /* States from redux store */
+    /* Access states from redux store */
     const user = useSelector((state) => {
         return state.user.user;
     });
 
-    /* Access action from redux store */
+    /* Access actions from redux store */
     const dispatch = useDispatch();
 
     /* Navigate hook */
@@ -51,8 +50,8 @@ const LoginPage = () => {
     const handleValidation = async(e) => {
         e.preventDefault();
 
-        /* Initialize variable and states */
-        emailTextfieldRef.current.className = 'form-control email-textfield';
+        /* Initialize variables and states */
+        emailTextfieldRef.current.className = 'form-control email-textfield';      
         setEmailErrMsg("");
         passwordTextfieldRef.current.className = 'form-control email-textfield';
         setPasswordErrMsg("");
@@ -107,6 +106,7 @@ const LoginPage = () => {
         })
         .then((data) => {
             if (data.token){
+                /* Update the redux states */
                 delete data.user.password;
                 dispatch(setLogin({token:data.token, user:data.user}));
             } else {
@@ -120,16 +120,18 @@ const LoginPage = () => {
 
     return (
         <div>
+            {/* Display the Navbar */}
             <LoginNavbar />
-            {/* Logout the user first */}
+
+            {/* Logout the user first when routing to Login page each time */}
             {user ? dispatch(setLogout()) : null}
 
             
             <div className="login-container" id="container">
-                {/* { isLoading && <div>Loading...</div>} */}
                 <div className="grid-container">
-
                     {/* Column 1 */}
+
+                    {/* UI design of Login page (image) */}
                     <div className="login-grid-item">
                         <img className="login-gird-picture" src={loginPic} alt="Login Page Melon Background Pciture" />
                     </div>
@@ -138,30 +140,36 @@ const LoginPage = () => {
                     <div className="form-container Signin-grid">
                         <h1 className="Signin-title"><strong>Melon</strong></h1>
                         <form action="/login" method="POST">
+
+                            {/* UI design of Login page (social media icon) */}
                             <div className="social-icons">
                                 <a href="https://www.google.com.hk/" className="icon"><i className="fa-brands fa-google"></i></a>
                                 <a href="https://www.facebook.com/" className="icon"><i className="fa-brands fa-facebook"></i></a>
                                 <a href="https://www.instagram.com/" className="icon"><i className="fa-brands fa-instagram"></i></a>
                             </div>
 
-
+                            {/* 'Email' textfield */}
                             <div className="form-floating mb-3 login-email-container">
                                 <input type="email" className="form-control email-textfield" id="floatingInput" placeholder="Email" ref={emailTextfieldRef} value={userInputEmail} onChange={(e)=>handleEmailInputChange(e.target.value)} required />
                                 <label htmlFor="floatingInput">Email address</label>
                                 <div className="errorMsg">{emailErrMsg}</div>
                             </div>
+
+                            {/* 'Password' textfield */}
                             <div className="form-floating mb-3 login-password-container">
                                 <input type="password" className="form-control password-textfield" id="floatingPassword" placeholder="Password" ref={passwordTextfieldRef} value={userInputPassword} onChange={(e)=>handlePasswordInputChange(e.target.value)} required/>
                                 <label htmlFor="floatingPassword">Password</label>
                                 <div className="errorMsg">{passwordErrMsg}</div>
                             </div>
                         
-
+                            {/* Route to Register page if user do not have account */}
                             <div className="Signup-container">
                                 <small>Do not have an account?</small>
                                 <Link to="/register" className="login-signup-link"><strong>Sign up</strong></Link>
                                 <br />
                             </div>
+
+                            {/* Login button */}
                             <div className="login-button-container">
                                 <button className="Signin-button" onClick={handleValidation}><strong>SIGN IN</strong></button>
                             </div>
@@ -170,6 +178,7 @@ const LoginPage = () => {
                     </div>
                 </div>
 
+                {/* UI design of Login page (background design) */}
                 <div className="login-decoration">
                     <div className="rectangle-decoration">
                         <svg width="1920px" height="693px" >
@@ -180,6 +189,7 @@ const LoginPage = () => {
                         </svg>
                     </div>
                 </div>
+
             </div>
         </div>
         

@@ -1,8 +1,12 @@
-import React, {useEffect, useState} from "react";
+/* Import react library */
+import React, { useState } from "react";
 
-/* Import redux stuff */
+/* Import redux library */
 import { useSelector, useDispatch } from "react-redux";
-import { setToggleEditModal, } from "../redux/modalReducer";
+
+/* Import redux reducers */
+import { setToggleEditModal, } from "../../redux/Reducers/modalReducer";
+
 
 const EditModal = (props) => {
     /* Access states from redux store */
@@ -82,7 +86,7 @@ const EditModal = (props) => {
         setdescription(e.target.value);
     }
 
-    /* Restore previous setting Handler */
+    /* Handlers of restore previous setting */
     const retainUserName = (e) => {
         setUserName(userPreviousUserName);
         setToggleEditUserName(!toggleEditUserNameState);
@@ -123,7 +127,6 @@ const EditModal = (props) => {
         setUserPreviousUserNickname(userNickname);
         setToggleEditUserNickname(!toggleEditUserNicknameState);
     }
-
     const updateEmail = (e) => {
         if (email){
             setHaveEmail(true);
@@ -162,15 +165,18 @@ const EditModal = (props) => {
         setToggleEditDescription(!toggleEditDescriptionState);
     }
 
-    /* Send the edited data to profilePage.jsx */
+    /* Send the edited personal information to profilePage.jsx */
     const handleCloseEditModal = (e) => {
         const data = {userName, userNickname, email, contact, address, description};
         props.sendDataToParent(data);
+
+        /* Close the modal */
         dispatch(setToggleEditModal());
     };
 
     return ( 
         <>
+            {/* Display the 'edit' modal when the user click edit icon in the personal information block */}
             {toggleEditModalState && (<div className="modal-container">
                 <div className="modal-overlay">
                     <div className="modal-grid-container">
@@ -179,17 +185,13 @@ const EditModal = (props) => {
                             <h4 className="title">Edit Personal Information</h4>
                             <hr className="modal-horizontal-line"/>
 
-                            {/* Edit personal information container */}
+                            {/* Personal information edit button */}
                             <div className="edit-container">
                                 <i className="fa-solid fa-signature icon"></i>
                                 {((haveUserName || userName) && !toggleEditUserNameState && toggleEditModalState) && (<strong>{userName}</strong>)}
                                 {((haveUserNickname || userNickname) && !toggleEditUserNicknameState && toggleEditModalState) && (<strong className="userNickname-text">{userNickname}</strong>)}
                                 {!toggleEditUserNameState && toggleEditModalState && <button className="edit-username-button" onClick={toggleEditUserName}><i className="fa-solid fa-pen-clip"></i></button>}
                                 <br />
-
-                                {/* <i className="fa-solid fa-signature icon"></i>
-                                {!toggleEditUserNicknameState && toggleEditModalState && <button className="edit-user-nickname-button" onClick={toggleEditUserNickname}><i className="fa-solid fa-pen-clip"></i></button>}
-                                <br /> */}
 
                                 <i className="fa-solid fa-envelope icon"></i>
                                 {((haveEmail || email) && !toggleEditEmailState && toggleEditModalState) && (<strong>{email}</strong>)}
@@ -213,6 +215,7 @@ const EditModal = (props) => {
             
                             </div>
 
+                            {/* Edit personal information textfield (Username) */}
                             {(toggleEditUserNameState && toggleEditModalState) && 
                                 <div className="username-textfield-container">
                                     <div className="form-floating ">
@@ -223,6 +226,7 @@ const EditModal = (props) => {
                                 </div>
                             }
 
+                            {/* Edit personal information textfield (Nickname) */}
                             {(toggleEditUserNicknameState && toggleEditModalState) && 
                                 <div className="user-nickname-textfield-container">
                                     <div className="form-floating ">
@@ -235,7 +239,7 @@ const EditModal = (props) => {
                                 </div>
                             }
 
-                            {/* Email edit textfield */}
+                            {/* Edit personal information textfield (email) */}
                             {(toggleEditEmailState && toggleEditModalState) && 
                                 <div className="email-textfield-container">
                                     <div className="form-floating ">
@@ -248,6 +252,7 @@ const EditModal = (props) => {
                                 </div>
                             }
 
+                            {/* Edit personal information textfield (Contact) */}
                             {(toggleEditContactState && toggleEditModalState) && 
                                 <div className="contact-textfield-container">
                                     <div className="form-floating">
@@ -261,6 +266,7 @@ const EditModal = (props) => {
                                 </div>
                             }
 
+                            {/* Edit personal information textfield (Address) */}
                             {(toggleEditAddressState && toggleEditModalState) && 
                                 <div className="address-textfield-container">
                                     <div className="form-floating">
@@ -273,6 +279,7 @@ const EditModal = (props) => {
                                 </div>
                             }
 
+                            {/* Edit personal information textfield (Description) */}
                             {(toggleEditDescriptionState && toggleEditModalState) && 
                                 <div className="description-textfield-container">
                                     <div className="form-floating">
@@ -285,6 +292,7 @@ const EditModal = (props) => {
                                 </div>
                             }
 
+                            {/* Modal close button */}
                             <button className="close-button" onClick={handleCloseEditModal}><i className="fa-solid fa-xmark"></i></button>
                         </div>
                     </div>
