@@ -1,27 +1,25 @@
 import jwt from "jsonwebtoken";
+import dotenv from 'dotenv';
+dotenv.config();
 
 /* Token-verifying function */
 export const verifyToken = async(req,res,next) => {
     try{
-        let token = req.header("Authorization");
-
-        // display err message if token cannot be found
+        /* Grab the user token */
+        const token = req.headers.authorization.split(' ')[1];
+        
+        /* Display err message if token cannot be found */
         if (!token){
-            return res.status(403).send("Access Denied");
+            return res.status(403).send({message:"Access Denied"});
         }
 
-        // grab the user token from 'Authorization' header
-        if (token.startsWith("Bearer ")){
-            token = token.slice(7, tokens.length).trimLeft();
-        }
-
-        // Verify the token
-        const verified = jwt.verify(token, process.env.JWT_SECRET_STRING);
-        req.user = verified;
+        /* Verify the user token */
+        const verified = jwt.verify(token, process.env.JWT_SECRET);
+        req.userId = verified.userId;
         next();
     } 
     catch (err) {
         // send the error message to front-end
-        res.status(500).json({error: err.message});
+        res.status(403).json({message: "Access Denied"});
     }
 }
