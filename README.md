@@ -1,3 +1,8 @@
+To clone this branch into your local computoer:
+------------------------------------------------------
+### `git clone -b <branchname> <remote-repo-url>`
+
+
 First, you need to run the server
 -----------------------------------------------------------------------------------
 1. In VSCode, right click the 'server' folder and click 'Open In Integrated Terminal'
