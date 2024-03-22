@@ -7,13 +7,16 @@ import { useSelector, useDispatch } from "react-redux";
 /* Import redux reducers */
 import {deleteUserPost} from '../../redux/Reducers/userReducer';
 import {setToggleEditPostModal} from '../../redux/Reducers/modalReducer';
-import {setPostIndex} from '../../redux/Reducers/postReducer';
+import { setPostIndex, deleteProfilePost } from '../../redux/Reducers/postReducer';
 
 
 const ProfileDropdown = (props) => {
     /* Access states from redux store */
     const userPosts = useSelector((state) => {
         return state.user.userPosts;
+    })
+    const profilePosts = useSelector((state) => {
+        return state.post.profilePosts;
     })
     const user = useSelector((state) => {
         return state.user.user;
@@ -57,13 +60,15 @@ const ProfileDropdown = (props) => {
             if (data.message){
                 console.log(data.message);
             }
+            /* Delete the specific post in redux store */
+            dispatch(deleteUserPost(props.postIndex));
         })
         .catch((err) => {
             console.log(err);
         });
 
-        /* Delete the specific post in redux store */
-        dispatch(deleteUserPost(props.postIndex));
+        /* Implement this in friendProfile.jsx*/
+        dispatch(deleteProfilePost(props.postIndex));
 
         /* Toggle the dropdown */
         props.setToggleDropDownList();

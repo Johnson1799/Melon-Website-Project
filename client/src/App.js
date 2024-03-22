@@ -17,7 +17,7 @@ import { store, persistor } from './redux/store/store';
 /* Import scenes */
 import HomePage from 'scenes/homePage.jsx';
 import LoginPage from 'scenes/loginPage.jsx';
-import ProfilePage from 'scenes/profilePage.jsx';
+import UserProfilePage from 'scenes/userProfilePage.jsx';
 import RegisterPage from 'scenes/registerPage.jsx';
 import AboutPage from 'scenes/aboutPage.jsx';
 import MessagePage from 'scenes/messagePage';
@@ -44,7 +44,7 @@ function App() {
                 <Route path='/home' element={<HomePage />} />
 
                 {/* Route to Profile Page */}
-                <Route path='/profile/:userId' element={<ProfilePage />} />
+                <Route path='/profile/:userId' element={<UserProfilePage />} />
 
                 {/* Route to Message Page */}
                 <Route path='/message' element={<MessagePage />} />

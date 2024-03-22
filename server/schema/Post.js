@@ -10,8 +10,8 @@ const PostSchema = new mongoose.Schema({
     description: {type: String},
     userAvatarURL: {type: String},
     postImgURL: {type: String},
-    likes: {type: Map, of: Boolean},        // a Map object with boolean value
-    comments: {type: Array, default: []},
+    likes: [{type: String, default: []}],        // a Map object with boolean value
+    comments: {type: [String], default: []},
     isPrivate: {type: Boolean, default:false},
 
 },

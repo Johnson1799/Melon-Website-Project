@@ -42,7 +42,7 @@ export const createPost = async(req,res) => {
             description: description,
             userAvatarURL: user.userAvatarURL,
             postImgURL: uploadedImage.url,
-            likes: {},
+            likes: [],
             comments: [],
             isPrivate: isPrivate,
         })
@@ -150,7 +150,6 @@ export const deleteUserPost = async (req,res) => {
 };
 
 
-
 /* Get all the posts from database function */
 export const getAllPosts = async (req,res) =>{
     try {
@@ -165,33 +164,59 @@ export const getAllPosts = async (req,res) =>{
     }
 }
 
-/* Like post function */
-export const likePost = async (req,res) =>{
+
+/* Like/unlike post function */
+export const updateLikePost = async (req,res) =>{
     try {
-        // grab the attributes in request object
-        const { id } = req.params;      // post id in MongoDB
-        const {userId} = req.body;      // userId attribute in Post Schema
+        /* grab the data sent from front-end */
+        const profileUserId = req.params.userId;        
+        const profileUser = await User.findById(profileUserId);
+        
 
-        // find the post using user's id
-        const post = await Post.findById(id);
-
-        // check whether the user click the like button of the post
-        const isLiked = post.likes.get(userId);
-        if (isLiked) {
-            // unlike the post (set the value to be false in 'userId' key)
-            post.likes.delete(userId);
-        } else {
-            // likes the post (set the value to be true in 'userId' key)
-            post.likes.set(userId, true);
+        if (!profileUser){
+            return res.status(404).json({ message: 'User not found' });
         }
+        else {
+            /* grab the data sent from front-end */
+            const postIndex = req.body.postIndex;
+            const postImgURL = profileUser.posts[postIndex];
 
-        // update the likes attribute in the post
-        const updatedPost = await Post.findByIdAndUpdate(id, { likes: post.likes }, { new: true });
+            /* Find a specific post and update the likes  */
+            const post = await Post.findOne({postImgURL: postImgURL});
 
-        // send the updated post info to front-end
-        res.status(200).json(updatedPost);
+            if (!post){
+                return res.status(404).json({ message: 'Post not found' });
+            } 
+            else{
+                /* Find whether the user have like the post */
+                const userId = req.body.userId;
+                let isLiked = false;            
+                post.likes.some((likedUserId) => {
+                    if (likedUserId === userId) {
+                        isLiked = true;
+                        return true;    // Exit the loop
+                    }
+                    return false;
+                });
+                console.log(post.likes);
+
+
+                if (!isLiked){
+                    /* If the user haven't like the post before, trigger like the post */
+                    await Post.findOneAndUpdate({postImgURL: postImgURL}, { $push: {likes: profileUserId }}, {new: true});
+                }
+                else {
+                    /* If the user have like the post before, trigger unlike the post */
+                    await Post.findOneAndUpdate({postImgURL: postImgURL}, { $pull: {likes: profileUserId }});
+                }
+
+                return res.status(200).json({isLiked: isLiked});
+            }
+
+        }
 
     } catch (err) {
         res.status(404).json({message: err.message});
     }
 }
+

@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 /* Import redux reducers */
 import { setToggleImageModal, setToggleEditModal, setTogglePostModal } from "../redux/Reducers/modalReducer";
 import { updateUser, updateUserPost } from "../redux/Reducers/userReducer";
+import { setProfilePosts } from "../redux/Reducers/postReducer";
 
 /* Import components */
 import MainNavbar from "../components/Navbar/MainNavbar";
@@ -18,7 +19,7 @@ import ProfilePosts from "../components/Post/ProfilePosts";
 import EditPostModal from "../components/Modal/EditPostModal";
 
 
-const ProfilePage = () => {
+const UserProfilePage = () => {
     /* Access states from redux store */
     const toggleImageModalState = useSelector((state) => {
         return state.modal.toggleImageModal;
@@ -99,8 +100,38 @@ const ProfilePage = () => {
         });
     };
 
+    /* This function should be implement in friendProfile.jsx */
+    const getProfilePosts = async() => {
+        const fetchUserIdUrl = `http://localhost:3001/posts/${userId}`;
+
+        setIsLoading(true);
+        await fetch(fetchUserIdUrl, {
+            method: "GET",
+            headers: { 
+                Authorization: `Bearer ${token}`,
+            },
+        })
+        .then((res)=>{
+            if (!res.ok){
+                throw new Error(`Get request in (${fetchUserIdUrl}) failed`);
+            }
+            return res.json();
+        })
+        .then((data) =>{
+            if (data.posts){
+                dispatch(setProfilePosts(data.posts));
+                setIsLoading(false);
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+            navigate("/");
+        });
+    }
+
     useEffect(() => {
         getUser();
+        getProfilePosts();
     }, []);
 
     /* Initialize */
@@ -228,7 +259,8 @@ const ProfilePage = () => {
             });
         }
 
-        
+        /* Refresh the webpage */
+        window.location.reload();
         
     }
 
@@ -305,4 +337,4 @@ const ProfilePage = () => {
     )
 }
 
-export default ProfilePage;
+export default UserProfilePage;
