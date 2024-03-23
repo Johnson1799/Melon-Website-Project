@@ -1,5 +1,5 @@
 import express from "express";
-import { getUserDatabase, getUser, updateUserInfo, updateUserAvatar } from "../controllers/userController.js";
+import { getUserDatabase, getUser, getSimilarUsers, updateUserInfo, updateUserAvatar,  } from "../controllers/userController.js";
 import { verifyToken } from "../middleware/authorization.js";
 import dotenv from 'dotenv';
 dotenv.config();
@@ -8,6 +8,9 @@ const router = express.Router();
 
 /* Routes to User database */
 router.get("/database", getUserDatabase);
+
+/* Get users by similar username */
+router.get("/:userName", verifyToken, getSimilarUsers);
 
 /* Routes to specific user page by id */
 router.get("/user/:userId", verifyToken, getUser);

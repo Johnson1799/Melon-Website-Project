@@ -435,7 +435,7 @@ aside .sidebar .option .icon{
     transition: all 0.3s ease;
 }
 aside .sidebar .option:last-child{
-    top: 48%;
+    top: 47%;
 }
 aside .sidebar .option.active{
     color: #db545a;
@@ -460,9 +460,9 @@ aside .sidebar .option:not(.active):hover .icon{
 
 
 /* Profile Page Design */
-.profile-container, .home-page-container{
+.profile-container, .home-page-container, .other-profile-container{
     display: flex;
-    height: 130vh;
+    height: 140vh;
     background-color: #dddfe3;
 }
 .profile-grid-container{
@@ -647,6 +647,79 @@ aside .sidebar .option:not(.active):hover .icon{
     color: #db545a;
     border: 3px solid transparent;
 }
+.friends-container{
+    position: relative;
+    background-color: #d0d0d0;
+    top: 15.5%;
+    width: 30%;
+    height: 37%;
+    border-radius: 30px;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding-top: 55px;
+}
+.friends-container:hover{
+    box-shadow: 10px 10px 40px rgba(0,0,0,0.15);
+}
+.friends-container::-webkit-scrollbar{
+    width: 5px;
+    height: 8px;
+    background-color: #bbbbbbc3; 
+}
+.friends-container::-webkit-scrollbar-thumb{
+    background: #3b3e41;
+}
+.friends-container .title{
+    position: absolute;
+    top: 8%;
+    left: 7%;
+    font-size: 15px;
+    font-weight: 700; 
+}
+.friends-container .add-friend-button{
+    position: absolute;
+    top: 8%;
+    left: 85%;
+    border: none;
+    background-color: transparent;
+    font-size: 19px;
+    z-index: 1;
+}
+.friends-container .add-friend-button:hover i{
+    color: #db545a;
+}
+.friends-container .friend{
+    position: absolute;
+    display: flex;
+    gap: 20px;
+    left: 7%;
+    width: 85%;
+    align-items: center;
+}
+.friends-container .friend button, .friend-avatar{
+    position: relative;
+    border-radius: 100%;
+    width: 35px;
+    height: 35px;
+    border: none;
+    background-color: transparent;
+}
+.friends-container .friend img, .friend-avatar img{
+    position: absolute;
+    object-fit: contain;
+    border-radius: 100%;
+    width: 35px;
+    height: 35px;
+    top: 0;
+    left: 0;
+}
+.friends-container .friend-name{
+    font-size: 14px;
+    font-weight: 600; 
+}
+
 
 
 
@@ -667,6 +740,10 @@ aside .sidebar .option:not(.active):hover .icon{
     left: 30%;
     box-shadow: 10px 10px 20px rgba(0,0,0,0.4);
     overflow: auto;
+}
+.modal-grid-container.smaller{
+    top: 25%;
+    height: 50%;
 }
 .modal-grid-container::-webkit-scrollbar{
     width: 5px;
@@ -1374,3 +1451,90 @@ input:checked + .slider:before{
     top: 0%
 }
 
+
+/* Search Bar Desgin*/
+.search-bar-container{
+    position: relative;
+    top: 12%;
+    left: 15%;
+    width: 70%;
+    height: 2.5rem;
+    border: none;
+    border-radius: 10px;
+    padding: 0 15px;
+    box-shadow: 0px 0px 8px #ddd;
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    align-items: center;
+}
+.search-bar-container input{
+    background-color: transparent;
+    border: none;
+    height: 100%;
+    font-size: 1.25rem;
+    width: 100%;
+    margin-left: 5px;
+}
+.search-bar-container input::placeholder{
+    position: absolute;
+    top: 25%;
+    font-weight: 600;
+    font-size: 14px;
+}
+input:focus {
+    outline: none;
+}
+.search-bar-container .icon{
+    z-index: 1;
+}
+.search-bar-container .clear-text-button{
+    border: none;
+    background-color: transparent;
+}
+
+
+
+/* Search list Design */
+.search-list-container{
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 100%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0px 0px 8px #ddd;
+    border-radius: 10px;
+    margin-top: 1rem;
+    max-height: 195px;
+    overflow-y: auto;
+    z-index: 0;
+}
+.search-list-container::-webkit-scrollbar{
+    width: 5px;
+    background-color: #3b3e41; 
+}
+.search-list-container::-webkit-scrollbar-thumb{
+    background: #e4e4e4c3;
+}
+.search-result .friend-button{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 15px 20px;
+    border: none;
+    background-color: transparent;
+}
+.search-result .friend-button:hover{
+    background-color: #d7d7d7;
+}
+.search-result .user-name{
+    font-size: 15px;
+    font-weight: 600;
+    color: #4e4e4e;
+    padding-left: 20px;
+}
+.search-result:hover {
+    background-color: #efefef;
+}

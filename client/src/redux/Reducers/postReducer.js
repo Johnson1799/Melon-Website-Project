@@ -4,6 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 /* Define redux states */
 const initialState = {
     postIndex: null,
+    profileUser: null,
     profilePosts: [],
 };
 
@@ -16,8 +17,16 @@ const postSlice = createSlice({
             state.postIndex = action.payload;
         },
 
+        setProfileUser: (state, action) => {
+            state.profileUser = action.payload;
+        },
+
         setProfilePosts : (state, action) => {
             state.profilePosts = action.payload;
+        },
+
+        updateProfilePosts: (state, action) => {
+            state.profilePosts = action.payload.profilePosts;
         },
 
         deleteProfilePost: (state, action) => {
@@ -48,12 +57,15 @@ const postSlice = createSlice({
             else{
                 console.error("User have not like this post");
             }
+        },
+
+        resetPostState: (state) => {
+            state.postIndex = null;
+            state.profileUser = null;
+            state.profilePosts = [];
         }
-
-
-
     }
 });
 
-export const { setPostIndex, setProfilePosts, addLikePost, removeLikePost, deleteProfilePost, } = postSlice.actions;
+export const { setPostIndex, setProfilePosts, updateProfilePosts, addLikePost, removeLikePost, deleteProfilePost, setProfileUser, resetPostState} = postSlice.actions;
 export default postSlice.reducer;

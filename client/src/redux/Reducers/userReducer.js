@@ -6,6 +6,7 @@ const initialState = {
     token: '',
     user: null,
     userPosts: null,
+    userPostIndex: null,
 };
 
 /* Define redux acitons and reducers */
@@ -16,11 +17,11 @@ const userSlice = createSlice({
         setLogin: (state,action) => {
             state.token = action.payload.token;
             state.user=action.payload.user;
+            state.userPosts = action.payload.userPosts;
         },
-
-        setLogout: (state) => {
-            state.token = null;
-            state.user = null;
+         
+        setUserPostIndex: (state,action) => {
+            state.userPostIndex = action.payload;
         },
 
         updateUser: (state, action) => {
@@ -58,8 +59,35 @@ const userSlice = createSlice({
             }
         },
 
+        addLikeUserPost : (state, action) => {
+            const userId = action.payload.userId;
+            const postIndex = action.payload.postIndex;
+
+            state.userPosts[postIndex].likes = [...state.userPosts[postIndex].likes, userId];
+        },
+
+        removeLikeUserPost: (state,action) => {
+            const userId = action.payload.userId;
+            const postIndex = action.payload.postIndex;
+
+            if (state.userPosts[postIndex].likes.length > 0){
+                const updatedLikesList = state.userPosts[postIndex].likes.filter((likeUserId,index) => likeUserId !== userId);
+                state.userPosts[postIndex].likes = updatedLikesList;
+            }
+            else{
+                console.error("User have not like this post");
+            }
+        },
+
+        resetUserState: (state) => {
+            state.token = '';
+            state.user = null;
+            state.userPosts = null;
+            state.userPostIndex = null;
+        },
+
     }
 });
 
-export const { setLogin, setLogout, updateUser, updateUserPosts, updateUserPost, deleteUserPost } = userSlice.actions;
+export const { setLogin, setUserPostIndex, updateUser, updateUserPosts, updateUserPost, deleteUserPost, addLikeUserPost, removeLikeUserPost, resetUserState, } = userSlice.actions;
 export default userSlice.reducer;

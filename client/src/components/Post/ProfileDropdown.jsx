@@ -5,7 +5,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 /* Import redux reducers */
-import {deleteUserPost} from '../../redux/Reducers/userReducer';
+import {deleteUserPost, setUserPostIndex} from '../../redux/Reducers/userReducer';
 import {setToggleEditPostModal} from '../../redux/Reducers/modalReducer';
 import { setPostIndex, deleteProfilePost } from '../../redux/Reducers/postReducer';
 
@@ -14,9 +14,6 @@ const ProfileDropdown = (props) => {
     /* Access states from redux store */
     const userPosts = useSelector((state) => {
         return state.user.userPosts;
-    })
-    const profilePosts = useSelector((state) => {
-        return state.post.profilePosts;
     })
     const user = useSelector((state) => {
         return state.user.user;
@@ -31,7 +28,6 @@ const ProfileDropdown = (props) => {
     /* Handlers */
     const toggleEditPostModal = () => {
         dispatch(setToggleEditPostModal());
-        dispatch(setPostIndex(props.postIndex));
     }
 
     const handleDeletePost = async (e) => {

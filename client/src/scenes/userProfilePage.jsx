@@ -15,8 +15,10 @@ import MainNavbar from "../components/Navbar/MainNavbar";
 import ImageModal from "../components/Modal/ImageModal";
 import EditModal from "../components/Modal/EditModal";
 import PostModal from "../components/Modal/PostModal";
+import AddFriendsModal from "../components/Modal/AddFriendsModal";
 import ProfilePosts from "../components/Post/ProfilePosts";
 import EditPostModal from "../components/Modal/EditPostModal";
+import UserProfileFriend from "../components/Friend/UserProfileFriend";
 
 
 const UserProfilePage = () => {
@@ -33,6 +35,9 @@ const UserProfilePage = () => {
     const toggleEditPostModalState = useSelector((state)=>{
         return state.modal.toggleEditPostModal;
     })
+    const toggleAddFriendsState = useSelector((state) => {
+        return state.modal.toggleAddFriendsModal;
+    });
     const user = useSelector((state) => {
         return state.user.user;
     });
@@ -73,10 +78,10 @@ const UserProfilePage = () => {
 
     /* Fetch user data from server when routing to Profile page */
     const getUser = () => {
-        const fetchUserIdUrl = `http://localhost:3001/users/user/${userId}`;
+        const url = `http://localhost:3001/users/user/${userId}`;
 
         setIsLoading(true);
-        fetch(fetchUserIdUrl, {
+        fetch(url, {
             method: "GET",
             headers: { 
                 Authorization: `Bearer ${token}`
@@ -84,7 +89,7 @@ const UserProfilePage = () => {
         })
         .then((res)=>{
             if (!res.ok){
-                throw new Error(`Get request in (${fetchUserIdUrl}) failed`);
+                throw new Error(`Get request in (${url}) failed`);
             }
             return res.json();
         })
@@ -100,38 +105,8 @@ const UserProfilePage = () => {
         });
     };
 
-    /* This function should be implement in friendProfile.jsx */
-    const getProfilePosts = async() => {
-        const fetchUserIdUrl = `http://localhost:3001/posts/${userId}`;
-
-        setIsLoading(true);
-        await fetch(fetchUserIdUrl, {
-            method: "GET",
-            headers: { 
-                Authorization: `Bearer ${token}`,
-            },
-        })
-        .then((res)=>{
-            if (!res.ok){
-                throw new Error(`Get request in (${fetchUserIdUrl}) failed`);
-            }
-            return res.json();
-        })
-        .then((data) =>{
-            if (data.posts){
-                dispatch(setProfilePosts(data.posts));
-                setIsLoading(false);
-            }
-        })
-        .catch((err) => {
-            console.log(err);
-            navigate("/");
-        });
-    }
-
     useEffect(() => {
         getUser();
-        getProfilePosts();
     }, []);
 
     /* Initialize */
@@ -258,9 +233,8 @@ const UserProfilePage = () => {
                 console.error('Error updating user data:', err);
             });
         }
-
         /* Refresh the webpage */
-        window.location.reload();
+        // window.location.reload();
         
     }
 
@@ -309,15 +283,20 @@ const UserProfilePage = () => {
                             </div>
                         </div>
 
+                        <UserProfileFriend user={user}/>
+
                         {/* Display 'image' modals when user click the edit avatar button */}
                         {(toggleImageModalState && user) && <ImageModal sendDataToParent={handleDataReceivedFromChild}/>}
 
                         {/* Display 'edit' modals when user click the edit user information button */}
                         {(toggleEditModalState && user) &&<EditModal user={user} sendDataToParent={handleDataReceivedFromChild}/>}
 
+                        {/* Display 'addFriends' modals when user click the edit user information button */}
+                        {(toggleAddFriendsState && user) && <AddFriendsModal user={user} sendDataToParent={handleDataReceivedFromChild} />}
+
                         {/* Display the user posts when user click the picture icon on the top right category */}
                         <button className={isPostButtonClicked ? "post-button clicked" : "post-button not-clicked"} onClick={handlePostButtonClicked}><i className="fa-regular fa-images"></i></button>
-                        {(isPostButtonClicked) && <ProfilePosts />}
+                        {(isPostButtonClicked) && <ProfilePosts isUser={true}/>}
 
                         {/* Display the user videos when user click the video icon on the top right category */}
                         <button className={isVideoButtonClicked ? "video-button clicked" : "video-button not-clicked"} onClick={handleVideoButtonClicked}><i className="fa-solid fa-film"></i></button>

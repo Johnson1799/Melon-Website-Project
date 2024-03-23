@@ -22,6 +22,7 @@ import RegisterPage from 'scenes/registerPage.jsx';
 import AboutPage from 'scenes/aboutPage.jsx';
 import MessagePage from 'scenes/messagePage';
 import SettingPage from 'scenes/settingPage';
+import FriendProfile from 'scenes/friendProfile';
 
 
 function App() {
@@ -45,6 +46,9 @@ function App() {
 
                 {/* Route to Profile Page */}
                 <Route path='/profile/:userId' element={<UserProfilePage />} />
+
+                {/* Route to Profile Page */}
+                <Route path='/profile/other/:profileId' element={<FriendProfile />} />
 
                 {/* Route to Message Page */}
                 <Route path='/message' element={<MessagePage />} />

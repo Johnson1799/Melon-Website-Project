@@ -198,16 +198,15 @@ export const updateLikePost = async (req,res) =>{
                     }
                     return false;
                 });
-                console.log(post.likes);
 
 
                 if (!isLiked){
                     /* If the user haven't like the post before, trigger like the post */
-                    await Post.findOneAndUpdate({postImgURL: postImgURL}, { $push: {likes: profileUserId }}, {new: true});
+                    await Post.findOneAndUpdate({postImgURL: postImgURL}, { $push: {likes: userId }}, {new: true});
                 }
                 else {
                     /* If the user have like the post before, trigger unlike the post */
-                    await Post.findOneAndUpdate({postImgURL: postImgURL}, { $pull: {likes: profileUserId }});
+                    await Post.findOneAndUpdate({postImgURL: postImgURL}, { $pull: {likes: userId }});
                 }
 
                 return res.status(200).json({isLiked: isLiked});

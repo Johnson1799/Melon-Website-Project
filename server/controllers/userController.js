@@ -42,6 +42,34 @@ export const getUser = async (req,res) => {
     }
 }
 
+/* Get user with similar username */
+export const getSimilarUsers = async (req,res) => {
+    try {
+        /* grab the data sent from front-end */
+        const userName = req.params.userName;
+        const regex = new RegExp(userName, 'i');    // 'i' flag for case-insensitive search
+
+        /* find the users by the username */
+        const users = await User.find({userName: regex});
+        
+        if (!users) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        /* Send the users information back to front-end */
+        users.forEach(user=> {
+            delete user.password
+        });
+        res.status(200).json({users:users});
+
+    } catch (err) {
+        res.status(404).json({ message: err.message});
+    }
+}
+
+
+
+
 export const updateUserInfo = async(req,res) => {
     /* grab the data sent from front-end */
     const userId = req.params.userId;

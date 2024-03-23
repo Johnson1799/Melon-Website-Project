@@ -19,6 +19,7 @@ const MainNavbar = () => {
 
     /* Find the user id from the redux states */
     const userId = user?._id;
+    const profileId = `65fcf2c2310469dbac43c6c5`;
 
     /* Access action from redux store */
     const dispatch = useDispatch();

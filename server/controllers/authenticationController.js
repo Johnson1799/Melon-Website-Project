@@ -1,8 +1,10 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import User from "../schema/User.js"
+import User from "../schema/User.js";
+import Post from "../schema/Post.js";
 import dotenv from 'dotenv';
 dotenv.config();
+
 
 /* Register User function */
 export const registerUser = async (req,res) => {
@@ -74,8 +76,11 @@ export const login = async (req,res) => {
         // create a token (using jwt) and make a secret string for the token
         const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
 
+        /* Find all the posts for the user*/
+        const posts = await Post.find({userId: user._id});
+
         // send the token and user information to front-end
-        res.status(200).json({token:token, user:user});
+        res.status(200).json({token:token, user:user, userPosts: posts});
     }
     catch (err) {
         // send the error message to front-end

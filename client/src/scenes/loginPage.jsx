@@ -6,15 +6,16 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector} from "react-redux";
 
 /* Import redux reducers */
-import { setLogout,setLogin } from "../redux/Reducers/userReducer.js";
+import { resetUserState ,setLogin } from "../redux/Reducers/userReducer.js";
+import { resetPostState } from "../redux/Reducers/postReducer.js";
+import { resetSlideBarState } from "../redux/Reducers/slideBarToggleReducer.js";
+import { resetModalState } from "../redux/Reducers/modalReducer.js";
 
 /* Import components */
 import LoginNavbar from "../components/Navbar/LoginNavbar.jsx";
 
 /* Import assets */
 import loginPic from '../assets/loginPic.png';         // 490*367 px
-
-const url = "http://localhost:3001/login";
 
 const LoginPage = () => {
     /* Reference to HTML tag */
@@ -81,6 +82,7 @@ const LoginPage = () => {
             password: userInputPassword,
         };
 
+        const url = "http://localhost:3001/login";
         await fetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json'},
@@ -108,7 +110,7 @@ const LoginPage = () => {
             if (data.token){
                 /* Update the redux states */
                 delete data.user.password;
-                dispatch(setLogin({token:data.token, user:data.user}));
+                dispatch(setLogin({token:data.token, user:data.user, userPosts: data.userPosts}));
             } else {
                 console.log(data.message);
             }
@@ -118,13 +120,20 @@ const LoginPage = () => {
         });
     }
 
+    const setLogout = () => {
+        dispatch(resetUserState());
+        dispatch(resetPostState());
+        dispatch(resetModalState());
+        dispatch(resetSlideBarState());
+    }
+
     return (
         <div>
             {/* Display the Navbar */}
             <LoginNavbar />
 
             {/* Logout the user first when routing to Login page each time */}
-            {user ? dispatch(setLogout()) : null}
+            {user ? setLogout() : null}
 
             
             <div className="login-container" id="container">
