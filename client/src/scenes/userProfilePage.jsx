@@ -1,6 +1,7 @@
 /* Import react library */
 import React, {useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 /* Import redux library */
 import { useSelector, useDispatch } from "react-redux";
@@ -201,8 +202,17 @@ const UserProfilePage = () => {
             })
             .then((data) => {
                 /* Update the redux state */
+                console.log(data);
                 dispatch(updateUserPost(data));
                 setIsLoading(false);
+
+                /* Display toast */
+                toast.success(`Post has been successfully uploaded`, {
+                    style: {
+                        background: 'white',
+                        color: 'black',
+                    },
+                });
             })
             .catch((err) => {
                 console.error('Error updating user data:', err);
@@ -228,13 +238,19 @@ const UserProfilePage = () => {
                 /* Update the redux state */
                 dispatch(updateUser({user: updatedUserData}));
                 setIsLoading(false);
+
+                /* Display toast */
+                toast.success(`Personal information has been successfully edited`, {
+                    style: {
+                        background: 'white',
+                        color: 'black',
+                    },
+                });
             })
             .catch((err) => {
                 console.error('Error updating user data:', err);
             });
         }
-        /* Refresh the webpage */
-        // window.location.reload();
         
     }
 
@@ -249,14 +265,14 @@ const UserProfilePage = () => {
                         
                             <div className="avatar-info">
                                 {/* Edit user avatar button */}
-                                <button className="image-edit-button" onClick={handleImageEditButtonClick}><i className="fa-solid fa-pen"></i></button>
+                                <button className="image-edit-button profile-page" onClick={handleImageEditButtonClick}><i className="fa-solid fa-pen"></i></button>
                                 
                                 {/* Display user avatar */}
                                 <img src={user?.userAvatarURL} alt="" />
                             </div>
 
                             {/* Display User Information (userame and userNickname) */}
-                            <div className="profile-user-info">
+                            <div className="profile-user-info profile-page">
                                 <p className="full-name">{user?.userName}</p>
                                 <p className="nickname">{user?.userNickname}</p>
                             </div>

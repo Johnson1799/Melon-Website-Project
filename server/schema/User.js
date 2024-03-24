@@ -12,6 +12,7 @@ const UserSchema = new mongoose.Schema({
     description: {type: String, default:''},
     userAvatarURL: {type: String, default:''},
     friends: {type: Array, default: []},
+    friendRequests: {type: Array, default: []},
     followers: {type: Number, default: 0},
     posts: {type: Array, default: []},
 

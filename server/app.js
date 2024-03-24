@@ -19,6 +19,7 @@ import { createPost } from "./controllers/postController.js";
 /* import route files */
 import userRoute from "./routes/userRoute.js";
 import postRoute from "./routes/postRoute.js";
+import friendRoute from "./routes/friendRoute.js";
 import registerRoute from "./routes/registerRoute.js";
 import loginRoute from "./routes/loginRoute.js";
 
@@ -73,17 +74,20 @@ const storage = multer.diskStorage({
 });
 const upload = multer({storage});
 
-/* Routes server side 'users' page */
-app.use("/users", userRoute);
-
 /* Routes server side 'login' page */
 app.use("/login",loginRoute);
 
 /* Routes server side 'register' page */
 app.use("/register",registerRoute);
 
+/* Routes server side 'users' page */
+app.use("/users", userRoute);
+
 /* Routes server side 'posts' page */
 app.use("/posts", postRoute);
+
+/* Routes server side 'friend' page */
+app.use("/friends", friendRoute);
 
 
 /* Database Configuration */

@@ -283,8 +283,8 @@ const EditModal = (props) => {
                             {(toggleEditDescriptionState && toggleEditModalState) && 
                                 <div className="description-textfield-container">
                                     <div className="form-floating">
-                                        <input type="text" className="form-control text-textfield" id="floatingInput" placeholder="Self-Description" value={description} onChange={handleDescriptionEditChange} />
-                                        <label htmlFor="floatingInput">Description</label>
+                                        <textarea type="text" className="form-control text-textfield" style={{width: '342px' , height: '95px'}} id="floatingTextarea2" placeholder="Self-Description" value={description} onChange={handleDescriptionEditChange} />
+                                        <label htmlFor="floatingTextarea2">Description</label>
                                         {/* <div className="errorMsg">{emailErrMsg}</div> */}
                                     </div>
                                     <button className="edit-button" onClick={updateDescription} >Edit</button>

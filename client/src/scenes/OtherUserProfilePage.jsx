@@ -5,14 +5,22 @@ import { useNavigate } from 'react-router-dom';
 /* Import redux library */
 import { useSelector, useDispatch } from "react-redux";
 
+/* Import redux reducers */
+import { setProfilePosts, setProfileUser } from "../redux/Reducers/postReducer";
+import { updateUser } from "../redux/Reducers/userReducer";
+
 /* Import components */
 import MainNavbar from "../components/Navbar/MainNavbar";
 import ProfilePosts from "../components/Post/ProfilePosts";
-import { setProfileUser, setProfilePosts } from "../redux/Reducers/postReducer";
 
 
-const FriendProfile = () => {
+
+
+const OtherUserProfilePage = () => {
     /* Access states from redux store */ 
+    const user = useSelector((state) => {
+        return state.user.user;
+    });
     const profileUser = useSelector((state) => {
         return state.post.profileUser;
     });
@@ -26,6 +34,9 @@ const FriendProfile = () => {
     /* States */
     const [isPostButtonClicked, setIsPostButtonClicked] = useState(true);
     const [isVideoButtonClicked, setIsVideoButtonClicked] = useState(false);
+    const [isFriend, setIsFriend] = useState(false);
+    const [disableFollowButton, setDisableFollowButton] = useState(false);
+    const [followText, setFollowText] = useState('');
 
     /* Navigation hook */
     const navigate = useNavigate();
@@ -43,7 +54,6 @@ const FriendProfile = () => {
 
     const getProfilePosts = async () => {
         const url = `http://localhost:3001/posts/${profileUser?._id}`;
-
         await fetch(url, {
             method: "GET",
             headers: { 
@@ -67,10 +77,84 @@ const FriendProfile = () => {
         });
     }
 
+    const checkIsFriend = () => {
+        user?.friends.forEach(friend => {
+            if (friend._id === profileUser?._id){
+                setIsFriend(true);
+            }
+        })
+    }
+
+    const checkIsRequestSent = () => {
+        const isRequestSent = profileUser?.friendRequests?.includes(user?._id);
+        if (isRequestSent){
+            setFollowText("Request Sent");
+            setDisableFollowButton(true);
+        }
+        else{
+            setFollowText("Follow");
+            setDisableFollowButton(false);
+        }
+    }
+
     useEffect(() => {
         getProfilePosts();
+        checkIsFriend();
+        checkIsRequestSent();
     },[])
-    
+
+
+    const sendingFriendRequest = async() => {
+        const url = `http://localhost:3001/friends/send/request/${user?._id}/${profileUser?._id}`;
+        await fetch(url, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
+        .then((res) => {
+            if (!res.ok) {
+                throw new Error('Fail to send friend request ');
+            }
+            return res.json();
+        })
+        .then((data) => {
+            dispatch(setProfileUser(data.profileUser));
+            setFollowText('Request Sent');
+            setDisableFollowButton(true);
+        })
+        .catch((err) => {
+            console.error('Error updating user data:', err);
+        });
+
+    }
+
+
+    const unfollowUser = async() => {
+        const url = `http://localhost:3001/friends/remove/${user?._id}/${profileUser?._id}`;
+        await fetch(url, {
+            method: "POST",
+            headers: { 
+                Authorization: `Bearer ${token}`,
+            },
+        })
+        .then((res)=>{
+            if (!res.ok){
+                throw new Error(`Get request in (${url}) failed`);
+            }
+            return res.json();
+        })
+        .then((data) =>{
+            dispatch(updateUser({user:data.user}));
+            dispatch(setProfileUser(data.profileUser));
+            setIsFriend(false);
+            console.log("You unfollow this user");
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    }
+
     return (  
         <div>
             {/* Display the Navbar */}
@@ -78,7 +162,7 @@ const FriendProfile = () => {
             <div className="other-profile-container">
             <div className="profile-grid-container">
                     <div className="profile-col-1">
-                        <div className="info-container">
+                        <div className="info-container larger">
                         
                             <div className="avatar-info">
                                 {/* Display user avatar */}
@@ -94,17 +178,20 @@ const FriendProfile = () => {
                             {/* Display User Information (no.of posts, no.of followers and no.of following) */}
                             <div className="profile-account-details">
                                 <p className="title">Posts</p>
-                                <p className="posts">{profileUser?.posts.length}</p>
+                                <p className="posts">{profileUser?.posts?.length}</p>
                                 <p className="title">Followers</p>
                                 <p className="followers">{profileUser?.followers}</p>
                                 <p className="title">Following</p>
-                                <p className="following">{profileUser?.friends.length}</p>
+                                <p className="following">{profileUser?.friends?.length}</p>
                             </div>
+
+                            {!isFriend && <button className={`follow-button ${followText}`} onClick={sendingFriendRequest} disabled={disableFollowButton}>{followText}</button>}
+                            {isFriend && <button className="unfollow-button" onClick={unfollowUser}>Unfollow<i className="fa-solid fa-user-xmark"></i></button>}
                         </div>
 
                         {/* Display User Information (email, contact, address and description) */}
-                        <div className="personal-details-container" >
-                            <div className="profile-personal-details">
+                        <div className="personal-details-container smaller">
+                            <div className="profile-personal-details smaller">
                                 <p><i className="fa-solid fa-phone-volume icon"></i>{profileUser?.contact}</p>
                                 <p><i className="fa-solid fa-location-crosshairs icon"></i>{profileUser?.address}</p>
                                 <p><i className="fa-solid fa-comment-dots icon"></i>{profileUser?.description}</p>
@@ -125,4 +212,4 @@ const FriendProfile = () => {
     );
 }
  
-export default FriendProfile;
+export default OtherUserProfilePage;

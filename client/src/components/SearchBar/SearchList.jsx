@@ -1,5 +1,7 @@
 /* Import react library */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, } from 'react';
+import { useParams } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 /* Import redux library */
 import { useSelector, useDispatch } from "react-redux";
@@ -11,7 +13,8 @@ const SearchList = (props) => {
     const [fetchResult, setFetchResult] = useState(null);
     const [selectedUser, setSelectedUser] = useState(null);
     const [toggleSearchList, setToggleSearchList] = useState(false);
-    // const [toggleUserDetail, setToggleUserDetail] = useState(false);
+
+    const userId = useParams().userId;
 
     const token = useSelector((state) => {
         return state.user.token;
@@ -23,8 +26,48 @@ const SearchList = (props) => {
         setSelectedUser(user);
         setToggleSearchList(false);
         props.sendDataToParent(user);
-        // setToggleUserDetail(true);
     }
+
+    const sendAddFriendRequest = async(selectedUser) => {
+        const url = `http://localhost:3001/friends/send/request/${userId}/${selectedUser._id}`;
+        await fetch(url, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
+        .then((res) => {
+            if (!res.ok) {
+                throw new Error('Fail to send friend request ');
+            }
+            return res.json();
+        })
+        .then((data) => {
+            if (data.message){
+                /* Display the toast */
+                toast.success(`${data.message}`, {
+                    style: {
+                        background: 'white',
+                        color: 'black',
+                    },
+                });
+            } 
+            else {
+                toast.error(`${data.error}`, {
+                    style: {
+                        background: 'white',
+                        color: 'black',
+                    },
+                });
+            }
+        })
+        .catch((err) => {
+            console.error(err);
+        });
+
+        setToggleSearchList(false);
+    }
+
 
     const fetchData = async() => {
         const url = `http://localhost:3001/users/${props.input}`;
@@ -42,7 +85,11 @@ const SearchList = (props) => {
         })
         .then((data) => {
             if (data.users){
-                setFetchResult(data.users);
+                /* Excluede the user himself */
+                const resultList = data.users.filter(result => result._id !== userId);
+
+                /* Update states */
+                setFetchResult(resultList);
                 setToggleSearchList(true);
             }
         })
@@ -67,10 +114,12 @@ const SearchList = (props) => {
                                     <img className="friend-avatar" src={`${resultUser.userAvatarURL}`} alt="" />
                                     <span className='user-name'>{resultUser.userName}</span>
                                 </button>
+                                <button className='add-friend-button' onClick={() => sendAddFriendRequest(resultUser)}><i className="fa-solid fa-user-plus"></i></button>
                             </div>
                     ))
                 )}
             </div> 
+            
 
         </>
     );

@@ -28,8 +28,8 @@ const userSlice = createSlice({
             state.user = action.payload.user;
         },
 
-        updateUserPosts: (state, action) => {
-            state.userPosts = action.payload.userPosts;
+        setUserPosts: (state, action) => {
+            state.userPosts = action.payload;
         },
 
         updateUserPost: (state, action) => {
@@ -89,5 +89,5 @@ const userSlice = createSlice({
     }
 });
 
-export const { setLogin, setUserPostIndex, updateUser, updateUserPosts, updateUserPost, deleteUserPost, addLikeUserPost, removeLikeUserPost, resetUserState, } = userSlice.actions;
+export const { setLogin, setUserPostIndex, updateUser, setUserPosts, updateUserPost, deleteUserPost, addLikeUserPost, removeLikeUserPost, resetUserState, } = userSlice.actions;
 export default userSlice.reducer;

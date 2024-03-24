@@ -25,10 +25,6 @@ const postSlice = createSlice({
             state.profilePosts = action.payload;
         },
 
-        updateProfilePosts: (state, action) => {
-            state.profilePosts = action.payload.profilePosts;
-        },
-
         deleteProfilePost: (state, action) => {
             const postId = action.payload;
             if (state.profilePosts.length > 0){
@@ -67,5 +63,5 @@ const postSlice = createSlice({
     }
 });
 
-export const { setPostIndex, setProfilePosts, updateProfilePosts, addLikePost, removeLikePost, deleteProfilePost, setProfileUser, resetPostState} = postSlice.actions;
+export const { setPostIndex, setProfilePosts, addLikePost, removeLikePost, deleteProfilePost, setProfileUser, resetPostState} = postSlice.actions;
 export default postSlice.reducer;

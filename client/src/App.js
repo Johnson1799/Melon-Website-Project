@@ -1,6 +1,7 @@
 /* Import react library */
 import React from 'react';
 import { BrowserRouter, Routes, Route} from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 
 /* Import react-crop stylesheet */
 import 'react-image-crop/dist/ReactCrop.css';
@@ -22,12 +23,14 @@ import RegisterPage from 'scenes/registerPage.jsx';
 import AboutPage from 'scenes/aboutPage.jsx';
 import MessagePage from 'scenes/messagePage';
 import SettingPage from 'scenes/settingPage';
-import FriendProfile from 'scenes/friendProfile';
+import OtherUserProfilePage from 'scenes/OtherUserProfilePage';
+import InboxPage from 'scenes/inboxPage';
 
 
 function App() {
   return (
     <div className="App">
+      <Toaster toastOptions={{className: 'custom-toast',}} />
       <Provider store={ store }>
         <PersistGate loading={ null } persistor={ persistor }>
           <BrowserRouter>
@@ -44,14 +47,17 @@ function App() {
                 {/* Route to Home Page */}
                 <Route path='/home' element={<HomePage />} />
 
-                {/* Route to Profile Page */}
+                {/* Route to User Profile Page */}
                 <Route path='/profile/:userId' element={<UserProfilePage />} />
 
-                {/* Route to Profile Page */}
-                <Route path='/profile/other/:profileId' element={<FriendProfile />} />
+                {/* Route to Other User Profile Page */}
+                <Route path='/profile/other/:profileId' element={<OtherUserProfilePage />} />
 
                 {/* Route to Message Page */}
                 <Route path='/message' element={<MessagePage />} />
+
+                {/* Route to Inbox Page */}
+                <Route path='/inbox/:userId' element={<InboxPage />} />
 
                 {/* Route to Setting Page */}
                 <Route path='/setting' element={<SettingPage />} />

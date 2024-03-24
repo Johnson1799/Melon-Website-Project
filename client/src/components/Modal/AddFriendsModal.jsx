@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 /* Import redux library */
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 
 /* Import redux reducers */
 import { setToggleAddFriendsModal, } from "../../redux/Reducers/modalReducer";
@@ -14,26 +14,12 @@ import SearchBar from "../SearchBar/SearchBar";
 
 
 const AddFriendsModal = (props) => {
-    /* Access states from redux store */
 
     /* Access action from redux store */
     const dispatch = useDispatch();
 
-    /* States */
-
-
     /* Navagate hook */
     const navigate = useNavigate();
-
-    /* Toggle Editing Handler */
-  
-    /* Textfield On Change Handler */
-  
-
-    /* Send the edited personal information to profilePage.jsx */
-    const handleCloseEditModal = (e) => {
-        
-    };
 
     const toggleAddFriendsModal = () => {
         dispatch(setToggleAddFriendsModal());

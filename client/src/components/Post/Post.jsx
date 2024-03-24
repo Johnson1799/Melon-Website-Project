@@ -49,16 +49,16 @@ const Post = (props) => {
     const checkUserLikes = () => {
         let userIsLike;
         if (props.isUser){
-            userIsLike = userPost.likes.includes(userId);
+            userIsLike = userPost?.likes?.includes(userId);
         } else {
-            userIsLike = profilePost.likes.includes(userId);
+            userIsLike = profilePost?.likes?.includes(userId);
         }
         setIsLiked(userIsLike);
     }
 
     useEffect(() => {
         checkUserLikes();
-        
+
         /* Trigger toggle the dropdown when the mouse click outside the browser */
         function handleClickOutside(e) {
           if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -108,7 +108,6 @@ const Post = (props) => {
                     dispatch(addLikePost({userId: userId, postIndex: props.postIndex}));
                 }
                 setIsLiked(true);
-                // likeButtonRef.current.className = 'fa-solid fa-heart like-icon liked';
             } else {
                 /* Unlike the post and update to the redux state */
                 if (props.isUser){
@@ -120,7 +119,6 @@ const Post = (props) => {
                     dispatch(removeLikePost({userId: userId, postIndex: props.postIndex}));
                 }
                 setIsLiked(false);
-                // likeButtonRef.current.className = 'fa-regular fa-heart like-icon unliked';
             }
         })
         .catch((err) => {

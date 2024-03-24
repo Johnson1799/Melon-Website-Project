@@ -10,7 +10,7 @@ dotenv.config();
 export const registerUser = async (req,res) => {
     try {
         /* grab the data sent from front-end */
-        const {userName, userNickname, password, email, contact, address, description, userAvatarURL, friends, followers, posts} = req.body;
+        const {userName, userNickname, password, email, contact, address, description, userAvatarURL, friends, friendRequests, followers, posts} = req.body;
         
         /* Check if user email is appeared in MongoDB */
         let user = await User.findOne({email:email});
@@ -35,6 +35,7 @@ export const registerUser = async (req,res) => {
                 description,
                 userAvatarURL, 
                 friends,
+                friendRequests,
                 followers,
                 posts,
             });

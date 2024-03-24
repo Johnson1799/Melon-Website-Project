@@ -5,8 +5,8 @@ import React, {useEffect, useState} from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 /* Import redux reducers */
-import { updateUserPosts } from '../../redux/Reducers/userReducer';
-import { updateProfilePosts } from '../../redux/Reducers/postReducer';
+import { setUserPosts } from '../../redux/Reducers/userReducer';
+import { resetPostState, setProfilePosts } from '../../redux/Reducers/postReducer';
 
 /* Import components */
 import Post from './Post.jsx';
@@ -14,6 +14,8 @@ import Post from './Post.jsx';
 const ProfilePosts = (props) => {
     /* States */
     const [isLoading, setIsLoading] = useState(false);
+    const [profilePosts, setLocalProfilePosts] = useState(null);
+    const [userPosts, setLocalUserPosts] = useState(null);
 
     /* Access states from redux store */
     const user = useSelector((state) => {
@@ -25,12 +27,7 @@ const ProfilePosts = (props) => {
     const token = useSelector((state) => {
         return state.user.token;
     })
-    const userPosts = useSelector((state) => {
-        return state.user.userPosts;
-    })
-    const profilePosts = useSelector((state) => {
-        return state.post.profilePosts;
-    })
+
 
     /* Access actions from redux store */
     const dispatch = useDispatch();
@@ -38,8 +35,6 @@ const ProfilePosts = (props) => {
     /* Load all the posts from the user */
     const getUserPosts = async() => {
         const userId = user?._id;
-        setIsLoading(true);
-
         const url = `http://localhost:3001/posts/${userId}`;
         await fetch(url, {
             method: "GET",
@@ -56,8 +51,11 @@ const ProfilePosts = (props) => {
         .then((data) =>{
             if (data.posts){
                 /* Put all the loaded posts of the user in redux state */
-                dispatch(updateUserPosts({userPosts: data.posts}));
-                setIsLoading(false);
+                dispatch(setUserPosts(data.posts));
+
+                /* Update states */
+                setLocalUserPosts(data.posts);
+
             }
         })
         .catch((err) => {
@@ -68,8 +66,6 @@ const ProfilePosts = (props) => {
     /* Load all the posts from the user */
     const getOtherUserPosts = async() => {
         const otherUserId = profileUser?._id;
-        setIsLoading(true);
-
         const url = `http://localhost:3001/posts/${otherUserId}`;
         await fetch(url, {
             method: "GET",
@@ -86,8 +82,11 @@ const ProfilePosts = (props) => {
         .then((data) =>{
             if (data.posts){
                 /* Put all the loaded posts of the user in redux state */
-                dispatch(updateProfilePosts({profilePosts: data.posts}));
-                setIsLoading(false);
+                dispatch(setProfilePosts(data.posts));
+
+                /* Update states */
+                setLocalProfilePosts(data.posts);
+                
             }
         })
         .catch((err) => {
@@ -97,12 +96,14 @@ const ProfilePosts = (props) => {
 
     useEffect(() => {
         /* Load all the posts from the user in each rendering of webpage */
+        setIsLoading(true);
         if (props.isUser){
             getUserPosts();
         }
         else{
             getOtherUserPosts();
         }
+        setIsLoading(false);
     }, []);
 
     return ( 
@@ -110,14 +111,14 @@ const ProfilePosts = (props) => {
             {/* Get all the posts (user) */}
             {(user && userPosts && props.isUser) ? 
                 userPosts.map((post, index)=> (
-                    <Post key={index} postIndex={index} image={post?.postImgURL} title={post?.title} description={post?.description} date={post?.createdAt?.toString()?.slice(0, 10)} isUser={props.isUser}/>
+                    <Post key={index} postIndex={index} image={post?.postImgURL} title={post?.title} description={post?.description} date={post?.createdAt?.toString()?.slice(0, 10)} isUser={true} />
                 ))
             : null}
 
             {/* Get all the posts (other users) */}
             {(profileUser && profilePosts && !props.isUser) ? 
                 profilePosts.map((post, index)=> (
-                    <Post key={index} postIndex={index} image={post?.postImgURL} title={post?.title} description={post?.description} date={post?.createdAt?.toString()?.slice(0, 10)} isUser={props.isUser}/>
+                    <Post key={index} postIndex={index} image={post?.postImgURL} title={post?.title} description={post?.description} date={post?.createdAt?.toString()?.slice(0, 10)} isUser={false} />
                 ))
             : null}
         </div>
