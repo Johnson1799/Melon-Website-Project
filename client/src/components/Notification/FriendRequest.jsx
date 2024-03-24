@@ -92,8 +92,14 @@ const FriendRequest = (props) => {
         })
         .then((data) => {
             console.log(data);
+
+            const updatedFriendRequestData = friendsRequestData.filter(friendRequest => friendRequest._id !== requestUserId);
+            setFriendsRequestData(updatedFriendRequestData);
+            
             /* Update the no.of friend requests */
-            dispatch(setCountFriendRequests(--countFriendRequests));
+            // dispatch(setCountFriendRequests(countFriendRequests-1));
+
+
            
         })
         .catch((err) => {
@@ -123,7 +129,7 @@ const FriendRequest = (props) => {
             setFriendsRequestData(updatedFriendRequestData);
 
             /* Update the no.of friend requests */
-            dispatch(setCountFriendRequests(--countFriendRequests));
+            // dispatch(setCountFriendRequests(countFriendRequests-1));
 
         })
         .catch((err) => {
