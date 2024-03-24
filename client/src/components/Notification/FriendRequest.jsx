@@ -93,12 +93,12 @@ const FriendRequest = (props) => {
         .then((data) => {
             console.log(data);
 
+            /* Update the no.of friend requests */
+            dispatch(setCountFriendRequests(countFriendRequests-1));
+
+            /* Delete a specific friend request */
             const updatedFriendRequestData = friendsRequestData.filter(friendRequest => friendRequest._id !== requestUserId);
             setFriendsRequestData(updatedFriendRequestData);
-            
-            /* Update the no.of friend requests */
-            // dispatch(setCountFriendRequests(countFriendRequests-1));
-
 
            
         })
@@ -124,12 +124,14 @@ const FriendRequest = (props) => {
         })
         .then((data) => {
             console.log(data);
+
+            /* Update the no.of friend requests */
+            dispatch(setCountFriendRequests(countFriendRequests-1));
+
             /* Delete a specific friend request */
             const updatedFriendRequestData = friendsRequestData.filter(friendRequest => friendRequest._id !== requestUserId);
             setFriendsRequestData(updatedFriendRequestData);
 
-            /* Update the no.of friend requests */
-            // dispatch(setCountFriendRequests(countFriendRequests-1));
 
         })
         .catch((err) => {

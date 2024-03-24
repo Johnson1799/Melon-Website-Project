@@ -26,3 +26,12 @@ Changes:
 4. I modify the authenication and arthorization when user login (e.g password encryption and verifying using token during routing each pages)
 5. I improve the Profile page UI (added post container in the left-hand side of profile page) 
 6. Add the 'post' functionality in profile page (create posts, delete post, edit post)
+7. I make the like button, user can like the posts
+8. User now can add friends
+
+Reminders
+-----------------------------------------------------------------------------------
+1. The comment function still not yet start.
+2. HomepageUI still not yet created
+3. DM function still not yet start
+   
