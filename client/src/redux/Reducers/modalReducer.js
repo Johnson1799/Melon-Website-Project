@@ -7,6 +7,8 @@ const initialState = {
     toggleEditModal: false,
     togglePostModal: false,
     toggleEditPostModal: false,
+    toggleAddFriendsModal:false,
+
 };
 
 const modalSlice = createSlice({
@@ -28,8 +30,20 @@ const modalSlice = createSlice({
         setToggleEditPostModal: (state) => {
             state.toggleEditPostModal = !state.toggleEditPostModal;
         },
+
+        setToggleAddFriendsModal: (state) => {
+            state.toggleAddFriendsModal = !state.toggleAddFriendsModal;
+        },
+
+        resetModalState: (state)=>{
+            state.toggleImageModal = false;
+            state.toggleEditModal = false;
+            state.toggleEditPostModal = false;
+            state.togglePostModal = false;
+            state.toggleAddFriendsModal = false;
+        }
     }
 });
 
-export const { setToggleImageModal, setToggleEditModal, setTogglePostModal, setToggleEditPostModal } = modalSlice.actions;
+export const { setToggleImageModal, setToggleEditModal, setTogglePostModal, setToggleEditPostModal, setToggleAddFriendsModal, resetModalState, } = modalSlice.actions;
 export default modalSlice.reducer;

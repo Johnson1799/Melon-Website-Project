@@ -8,9 +8,6 @@ import RegisterImg from '../assets/register-img.jpeg';
 /* Import components */
 import LoginNavbar from "components/Navbar/LoginNavbar.jsx";
 
-/* Server route url */
-const url = "http://localhost:3001/register";
-
 const RegisterPage = () => {
     /* Reference to HTML tag */
     const emailTextfieldRef = useRef(null);
@@ -90,6 +87,8 @@ const RegisterPage = () => {
                 password: userInputPassword,
             };
 
+            /* Server route url */
+            const url = "http://localhost:3001/register";
             fetch(url,{
                 method: 'POST',
                 headers: { 

@@ -1,14 +1,16 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import User from "../schema/User.js"
+import User from "../schema/User.js";
+import Post from "../schema/Post.js";
 import dotenv from 'dotenv';
 dotenv.config();
+
 
 /* Register User function */
 export const registerUser = async (req,res) => {
     try {
         /* grab the data sent from front-end */
-        const {userName, userNickname, password, email, contact, address, description, userAvatarURL, friends, followers, posts} = req.body;
+        const {userName, userNickname, password, email, contact, address, description, userAvatarURL, friends, friendRequests, followers, posts} = req.body;
         
         /* Check if user email is appeared in MongoDB */
         let user = await User.findOne({email:email});
@@ -33,6 +35,7 @@ export const registerUser = async (req,res) => {
                 description,
                 userAvatarURL, 
                 friends,
+                friendRequests,
                 followers,
                 posts,
             });
@@ -74,8 +77,11 @@ export const login = async (req,res) => {
         // create a token (using jwt) and make a secret string for the token
         const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
 
+        /* Find all the posts for the user*/
+        const posts = await Post.find({userId: user._id});
+
         // send the token and user information to front-end
-        res.status(200).json({token:token, user:user});
+        res.status(200).json({token:token, user:user, userPosts: posts});
     }
     catch (err) {
         // send the error message to front-end

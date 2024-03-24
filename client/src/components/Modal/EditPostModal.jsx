@@ -19,7 +19,7 @@ const EditPostModal = (props) => {
     })
     const editedPostInfo = useSelector((state)=>{
         const usersPost = state.user.userPosts;
-        const postIndex = state.post.postIndex;
+        const postIndex = state.user.userPostIndex;
         return usersPost[postIndex];
     })
 

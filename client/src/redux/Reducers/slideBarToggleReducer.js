@@ -18,9 +18,14 @@ const slideBarToggleSlice = createSlice({
 
         setIsRouting: (state, action) => {
             state.isRouting = action.payload;
+        },
+
+        resetSlideBarState: (state) => {
+            state.toggle = false;
+            state.isRouting = false;
         }
     }
 });
 
-export const { setToggle, setIsRouting} = slideBarToggleSlice.actions;
+export const { setToggle, setIsRouting, resetSlideBarState} = slideBarToggleSlice.actions;
 export default slideBarToggleSlice.reducer;

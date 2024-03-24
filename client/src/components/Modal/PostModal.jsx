@@ -115,6 +115,7 @@ const PostModal = (props) => {
 
         /* Close the modal */
         dispatch(setTogglePostModal());
+
     }
 
     /* Setting the error */

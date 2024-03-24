@@ -1,6 +1,7 @@
 /* Import react library */
 import React, {useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 /* Import redux library */
 import { useSelector, useDispatch } from "react-redux";
@@ -8,17 +9,20 @@ import { useSelector, useDispatch } from "react-redux";
 /* Import redux reducers */
 import { setToggleImageModal, setToggleEditModal, setTogglePostModal } from "../redux/Reducers/modalReducer";
 import { updateUser, updateUserPost } from "../redux/Reducers/userReducer";
+import { setProfilePosts } from "../redux/Reducers/postReducer";
 
 /* Import components */
 import MainNavbar from "../components/Navbar/MainNavbar";
 import ImageModal from "../components/Modal/ImageModal";
 import EditModal from "../components/Modal/EditModal";
 import PostModal from "../components/Modal/PostModal";
+import AddFriendsModal from "../components/Modal/AddFriendsModal";
 import ProfilePosts from "../components/Post/ProfilePosts";
 import EditPostModal from "../components/Modal/EditPostModal";
+import UserProfileFriend from "../components/Friend/UserProfileFriend";
 
 
-const ProfilePage = () => {
+const UserProfilePage = () => {
     /* Access states from redux store */
     const toggleImageModalState = useSelector((state) => {
         return state.modal.toggleImageModal;
@@ -32,6 +36,9 @@ const ProfilePage = () => {
     const toggleEditPostModalState = useSelector((state)=>{
         return state.modal.toggleEditPostModal;
     })
+    const toggleAddFriendsState = useSelector((state) => {
+        return state.modal.toggleAddFriendsModal;
+    });
     const user = useSelector((state) => {
         return state.user.user;
     });
@@ -72,10 +79,10 @@ const ProfilePage = () => {
 
     /* Fetch user data from server when routing to Profile page */
     const getUser = () => {
-        const fetchUserIdUrl = `http://localhost:3001/users/user/${userId}`;
+        const url = `http://localhost:3001/users/user/${userId}`;
 
         setIsLoading(true);
-        fetch(fetchUserIdUrl, {
+        fetch(url, {
             method: "GET",
             headers: { 
                 Authorization: `Bearer ${token}`
@@ -83,7 +90,7 @@ const ProfilePage = () => {
         })
         .then((res)=>{
             if (!res.ok){
-                throw new Error(`Get request in (${fetchUserIdUrl}) failed`);
+                throw new Error(`Get request in (${url}) failed`);
             }
             return res.json();
         })
@@ -195,8 +202,17 @@ const ProfilePage = () => {
             })
             .then((data) => {
                 /* Update the redux state */
+                console.log(data);
                 dispatch(updateUserPost(data));
                 setIsLoading(false);
+
+                /* Display toast */
+                toast.success(`Post has been successfully uploaded`, {
+                    style: {
+                        background: 'white',
+                        color: 'black',
+                    },
+                });
             })
             .catch((err) => {
                 console.error('Error updating user data:', err);
@@ -222,13 +238,19 @@ const ProfilePage = () => {
                 /* Update the redux state */
                 dispatch(updateUser({user: updatedUserData}));
                 setIsLoading(false);
+
+                /* Display toast */
+                toast.success(`Personal information has been successfully edited`, {
+                    style: {
+                        background: 'white',
+                        color: 'black',
+                    },
+                });
             })
             .catch((err) => {
                 console.error('Error updating user data:', err);
             });
         }
-
-        
         
     }
 
@@ -243,14 +265,14 @@ const ProfilePage = () => {
                         
                             <div className="avatar-info">
                                 {/* Edit user avatar button */}
-                                <button className="image-edit-button" onClick={handleImageEditButtonClick}><i className="fa-solid fa-pen"></i></button>
+                                <button className="image-edit-button profile-page" onClick={handleImageEditButtonClick}><i className="fa-solid fa-pen"></i></button>
                                 
                                 {/* Display user avatar */}
                                 <img src={user?.userAvatarURL} alt="" />
                             </div>
 
                             {/* Display User Information (userame and userNickname) */}
-                            <div className="profile-user-info">
+                            <div className="profile-user-info profile-page">
                                 <p className="full-name">{user?.userName}</p>
                                 <p className="nickname">{user?.userNickname}</p>
                             </div>
@@ -277,15 +299,20 @@ const ProfilePage = () => {
                             </div>
                         </div>
 
+                        <UserProfileFriend user={user}/>
+
                         {/* Display 'image' modals when user click the edit avatar button */}
                         {(toggleImageModalState && user) && <ImageModal sendDataToParent={handleDataReceivedFromChild}/>}
 
                         {/* Display 'edit' modals when user click the edit user information button */}
                         {(toggleEditModalState && user) &&<EditModal user={user} sendDataToParent={handleDataReceivedFromChild}/>}
 
+                        {/* Display 'addFriends' modals when user click the edit user information button */}
+                        {(toggleAddFriendsState && user) && <AddFriendsModal user={user} sendDataToParent={handleDataReceivedFromChild} />}
+
                         {/* Display the user posts when user click the picture icon on the top right category */}
                         <button className={isPostButtonClicked ? "post-button clicked" : "post-button not-clicked"} onClick={handlePostButtonClicked}><i className="fa-regular fa-images"></i></button>
-                        {(isPostButtonClicked) && <ProfilePosts />}
+                        {(isPostButtonClicked) && <ProfilePosts isUser={true}/>}
 
                         {/* Display the user videos when user click the video icon on the top right category */}
                         <button className={isVideoButtonClicked ? "video-button clicked" : "video-button not-clicked"} onClick={handleVideoButtonClicked}><i className="fa-solid fa-film"></i></button>
@@ -305,4 +332,4 @@ const ProfilePage = () => {
     )
 }
 
-export default ProfilePage;
+export default UserProfilePage;

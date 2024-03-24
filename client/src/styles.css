@@ -435,7 +435,7 @@ aside .sidebar .option .icon{
     transition: all 0.3s ease;
 }
 aside .sidebar .option:last-child{
-    top: 48%;
+    top: 38%;
 }
 aside .sidebar .option.active{
     color: #db545a;
@@ -460,9 +460,9 @@ aside .sidebar .option:not(.active):hover .icon{
 
 
 /* Profile Page Design */
-.profile-container, .home-page-container{
+.profile-container, .home-page-container, .other-profile-container, .inbox-page-container{
     display: flex;
-    height: 130vh;
+    height: 140vh;
     background-color: #dddfe3;
 }
 .profile-grid-container{
@@ -485,6 +485,14 @@ aside .sidebar .option:not(.active):hover .icon{
     top: 5%;
     background-color: #d0d0d0;
 }
+.info-container.larger{
+    position: relative;
+    width: 30%;
+    height: 50%;
+    border-radius: 30px;
+    top: 5%;
+    background-color: #d0d0d0;
+}
 .info-container:hover{
     box-shadow: 10px 10px 40px rgba(0,0,0,0.15);
 }
@@ -501,7 +509,7 @@ aside .sidebar .option:not(.active):hover .icon{
     border-radius: 100%;
     width: 150px;
     height: 150px;
-    top: 12%;
+    top: 10%;
     left: 12%;
 }
 .info-container .avatar-info button{
@@ -511,9 +519,13 @@ aside .sidebar .option:not(.active):hover .icon{
     border-radius: 100%;
     background-color: #ffffffbf;
     color: #db545a;
-    left: 29%;
-    top: 55%;
+    left: 28%;
+    top: 48%;
     z-index: 1;
+}
+.info-container .avatar-info button.profile-page{
+    left: 28%;
+    top: 53%;
 }
 .info-container .avatar-info button:hover{
     border: 2px solid #7e7e7e;
@@ -526,8 +538,11 @@ aside .sidebar .option:not(.active):hover .icon{
     align-items: center;
     width: 59%;
     height: 30%;
-    top: 67%;
+    top: 58%;
     left: 3.1%;
+}
+.profile-user-info.profile-page{
+    top: 66%;
 }
 .profile-user-info .full-name{
     color: #444444;
@@ -562,18 +577,9 @@ aside .sidebar .option:not(.active):hover .icon{
     top: 10%;
     border-radius: 30px;
     background-color: #d0d0d0;
-    overflow: auto; 
 }
 .personal-details-container:hover{
     box-shadow: 10px 10px 40px rgba(0,0,0,0.15);
-}
-.personal-details-container::-webkit-scrollbar{
-    width: 5px;
-    height: 8px;
-    background-color: #bbbbbbc3; 
-}
-.personal-details-container::-webkit-scrollbar-thumb{
-    background: #3b3e41;
 }
 .personal-details-container button{
     position: absolute;
@@ -589,9 +595,24 @@ aside .sidebar .option:not(.active):hover .icon{
 }
 .profile-personal-details{
     position: absolute;
+    display: flex;
+    flex-direction: column;
     top: 12%;
+    max-height: 200px;
+    width: 100%;
     padding-left: 25px;
-    padding-right: 25px;
+    overflow: auto; 
+}
+.profile-personal-details.smaller{
+    max-height: 148px;
+}
+.profile-personal-details::-webkit-scrollbar{
+    width: 5px;
+    height: 8px;
+    background-color: #bbbbbbc3; 
+}
+.profile-personal-details::-webkit-scrollbar-thumb{
+    background: #3b3e41;
 }
 .personal-details-container .icon{
     border: 2px solid #343434;
@@ -604,6 +625,7 @@ aside .sidebar .option:not(.active):hover .icon{
 .personal-details-container p{
     font-size: 13px;
     font-weight: 500;
+    max-width: 270px;
 }
 .post-button{
     position: absolute;
@@ -647,7 +669,133 @@ aside .sidebar .option:not(.active):hover .icon{
     color: #db545a;
     border: 3px solid transparent;
 }
+.friends-container{
+    position: relative;
+    background-color: #d0d0d0;
+    top: 15.5%;
+    width: 30%;
+    height: 40%;
+    border-radius: 30px;
+    gap: 15px;
+    padding-top: 55px;
+}
+.friends-container:hover{
+    box-shadow: 10px 10px 40px rgba(0,0,0,0.15);
+}
+.friends-container .title{
+    position: absolute;
+    top: 8%;
+    left: 7%;
+    font-size: 15px;
+    font-weight: 700; 
+}
+.friends-container .add-friend-button{
+    position: absolute;
+    top: 8%;
+    left: 85%;
+    border: none;
+    background-color: transparent;
+    font-size: 19px;
+    z-index: 1;
+}
+.friends-container .add-friend-button:hover i{
+    color: #db545a;
+}
+.friend-list{
+    position: relative;
+    max-height: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    overflow: auto;
+}
+.friend-list::-webkit-scrollbar{
+    width: 5px;
+    height: 8px;
+    background-color: #bbbbbbc3; 
+}
+.friend-list::-webkit-scrollbar-thumb{
+    background: #3b3e41;
+}
+.friend-list .friend{
+    position: relative;
+    display: flex;
+    gap: 20px;
+    left: 7%;
+    width: 85%;
+    align-items: center;
+    padding: 10px 10px;
+    border-radius: 20px;
+}
+.friend-list .friend:hover{
+    background-color: #d8d8d8;
+}
+.friend-list .friend button, .friend-avatar{
+    position: relative;
+    border-radius: 100%;
+    width: 35px;
+    height: 35px;
+    border: none;
+    background-color: transparent;
+}
+.friend-list .friend img, .friend-avatar img{
+    position: absolute;
+    object-fit: contain;
+    border-radius: 100%;
+    width: 35px;
+    height: 35px;
+    top: 0;
+    left: 0;
+}
+.friend-list .friend-name{
+    font-size: 14px;
+    font-weight: 600; 
+}
 
+
+
+/* Other Profile page Design*/
+.info-container .follow-button{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    position: absolute;
+    top: 85%;
+    left: 30%;
+    border: 2px solid #db545a;
+    background-color: #db545a;
+    color: #fff;
+    border-radius: 20px;
+    padding: 5px 42px;
+    font-weight: 700;
+}
+.info-container .follow-button.Request.Sent{
+    left: 23%;
+    background-color: #db545b81;
+    border: 2px solid transparent;
+}
+.info-container .unfollow-button{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    position: absolute;
+    top: 85%;
+    left: 30%;
+    border: 2px solid #343434;
+    background-color: transparent;
+    color: #343434;
+    border-radius: 20px;
+    padding: 5px 20px;
+    font-weight: 700;
+}
+.info-container .unfollow-button:hover{
+    background-color: #343434;
+    color: #fff;
+}
+.personal-details-container.smaller{
+    top: 10%;
+    height: 25%;
+}
 
 
 
@@ -667,6 +815,10 @@ aside .sidebar .option:not(.active):hover .icon{
     left: 30%;
     box-shadow: 10px 10px 20px rgba(0,0,0,0.4);
     overflow: auto;
+}
+.modal-grid-container.smaller{
+    top: 25%;
+    height: 50%;
 }
 .modal-grid-container::-webkit-scrollbar{
     width: 5px;
@@ -835,6 +987,16 @@ aside .sidebar .option:not(.active):hover .icon{
 .user-nickname-textfield-container .user-nickname-textfield:hover, .username-textfield-container .username-textfield:hover, .email-textfield-container .email-textfield:hover, .contact-textfield-container .text-textfield:hover, .address-textfield-container .text-textfield:hover, .description-textfield-container .text-textfield:hover{
     box-shadow: 4px 4px 10px rgba(219,84,90,1);
 }
+.description-textfield-container .text-textfield::-webkit-scrollbar{
+    width: 5px;
+    height: 8px;
+    background-color: #3b3e41; 
+}
+.description-textfield-container .text-textfield::-webkit-scrollbar-thumb{
+    background: #bbbbbbc3;
+}
+
+
 
 
 
@@ -912,7 +1074,7 @@ aside .sidebar .option:not(.active):hover .icon{
     flex-direction: column;
     background-color: #d0d0d0;
     border-radius: 10px;
-    height: 420px;
+    height: 475px;
 }
 .post-container:hover{
     box-shadow: 5px 5px 20px rgba(0,0,0,0.15);
@@ -966,8 +1128,8 @@ aside .sidebar .option:not(.active):hover .icon{
     line-height: 22px;
     padding-left: 15px;
     padding-right: 15px;
-    
 }
+
 
 /* Post DropDowns list Design */
 .dropdowns-container{
@@ -1305,6 +1467,15 @@ input:checked + .slider:before{
     margin: 5px 5px;
     font-size: 14px;
     background-color: #dadada;
+    overflow: auto;
+}
+.post-image-preview-info-container textarea::-webkit-scrollbar{
+    width: 5px;
+    height: 8px;
+    background-color: #bbbbbbc3; 
+}
+.post-image-preview-info-container textarea::-webkit-scrollbar-thumb{
+    background: #3b3e41;
 }
 .post-image-preview-info-container .textfield-container label{
     font-size: 13px;
@@ -1333,4 +1504,279 @@ input:checked + .slider:before{
 }
 .post-image-preview-info-container form .submit-button:hover{
     border: 3px solid #db545a;
+}
+.post-container .post-like-comment{
+    display: flex;
+    position: absolute;
+    left: 70%;
+    top: 93%; 
+    gap: 20px;
+}
+.post-container button{
+    position: relative;
+    display: flex;
+    gap: 5px;
+    border: none;
+    background-color: transparent;
+}
+.post-container button:hover .like-icon{
+    color: #db545a;
+}
+.post-container .liked{
+    color: #db545a;
+}
+.post-container button:hover .comment-icon{
+    color: #db545a;
+}
+.post-container .no-of-likes, .post-container .no-of-comment{
+    position: absolute;
+    font-size: 13px;
+    font-weight: 600;
+    left: 100%;
+    top: 0%
+}
+
+
+/* Search Bar Desgin*/
+.search-bar-container{
+    position: relative;
+    top: 12%;
+    left: 15%;
+    width: 70%;
+    height: 2.5rem;
+    border: none;
+    border-radius: 10px;
+    padding: 0 15px;
+    box-shadow: 0px 0px 8px #ddd;
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    align-items: center;
+}
+.search-bar-container input{
+    background-color: transparent;
+    border: none;
+    height: 100%;
+    font-size: 1.25rem;
+    width: 100%;
+    margin-left: 5px;
+}
+.search-bar-container input::placeholder{
+    position: absolute;
+    top: 25%;
+    font-weight: 600;
+    font-size: 14px;
+}
+input:focus {
+    outline: none;
+}
+.search-bar-container .icon{
+    z-index: 1;
+}
+.search-bar-container .clear-text-button{
+    border: none;
+    background-color: transparent;
+}
+
+
+
+/* Search list Design */
+.search-list-container{
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 100%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0px 0px 8px #ddd;
+    border-radius: 10px;
+    margin-top: 1rem;
+    max-height: 195px;
+    overflow-y: auto;
+    z-index: 0;
+}
+.search-list-container::-webkit-scrollbar{
+    width: 5px;
+    background-color: #3b3e41; 
+}
+.search-list-container::-webkit-scrollbar-thumb{
+    background: #e4e4e4c3;
+}
+.search-result{
+    display: flex;
+    flex-direction: row;
+}
+.search-result .friend-button{
+    display: flex;
+    align-items: center;
+    width: 90%;
+    height: 100%;
+    padding: 15px 20px;
+    border: none;
+    background-color: transparent;
+}
+.search-result .friend-button:hover{
+    background-color: #d7d7d7;
+}
+.search-result:hover .add-friend-button{
+    background-color: #d7d7d7;
+}
+.search-result .user-name{
+    font-size: 15px;
+    font-weight: 600;
+    color: #4e4e4e;
+    padding-left: 20px;
+}
+.search-result .add-friend-button{
+    width: 10%;
+    border: none;
+    background-color: transparent;
+}
+.search-result .add-friend-button:hover{
+    color: #db545a;
+    background-color: transparent;
+}
+.search-result:hover {
+    background-color: #efefef;
+}
+
+
+
+
+/* Inbox Page Design */
+.inbox-grid-container{
+    display: grid;
+    position: relative;
+    grid-template-columns: repeat(1,1fr); 
+    max-width: 1200px;
+    max-height: 900px;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 280px;
+}
+.inbox-grid-container .main-title{
+    position: absolute;
+    top: 10%;
+    left: 5%;
+    font-size: 30px;
+    font-weight: 700;
+    color: #db545a;
+}
+.notification-container{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: absolute;
+    top: 23%;
+    left: 5%;
+    background-color: #d0d0d0;
+    border-radius: 20px;
+    width: 90%;
+    height: 100%;
+    padding: 30px 40px;
+    overflow-y: scroll;
+}
+.notification-container::-webkit-scrollbar{
+    width: 5px;
+    background-color: #e4e4e4c3; 
+}
+.notification-container::-webkit-scrollbar-thumb{
+    background: #3b3e41;
+}
+
+
+
+/* Friend Request Design */
+.friend-request-container{
+    position: relative;
+    display: flex;
+    gap: 7px;
+    padding: 10px 10px;
+    flex-direction: column;
+    background-color: #c5c5c5;
+    border-radius: 25px;
+}
+.friend-request-container:hover{
+    background-color: #b8b8b8ad;
+    box-shadow: 10px 10px 20px rgba(0,0,0,0.25);
+}
+.friend-request-container .notification-title{
+    position: relative;
+    left: 2%;
+    font-size: 15px;
+    font-weight: 700;
+    color: #db545a;
+}
+.user-notification-info{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4%;
+    width: 85%;
+    height: 100%;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+.user-notification-info .friend-request-user-avatar{
+    object-fit: contain;
+    border-radius: 100%;
+    width: 60px;
+    height: 60px;
+    top: 0;
+    left: 0;
+}
+.name-container{
+    display: flex;
+    flex-direction: column;
+}
+.name-container .friend-request-username{
+    font-size: 20px;
+    font-weight: 700;
+    color: #4e4e4e;
+}
+.name-container .friend-request-user-nickname{
+    font-size: 12px;
+    font-weight: 600;
+    color: #4e4e4e;
+}
+.friend-request-container .accept-refuse-buttons{
+    position: absolute;
+    top: 38%;
+    display: flex;
+    flex-direction: row-reverse;
+    padding-right: 15px;
+    gap: 25px;
+    left: 85%;
+}
+.accept-refuse-buttons .refuse-button, .accept-refuse-buttons .accept-button{
+    border: 2px dotted;
+    border-radius: 100%;
+    padding: 0px 7px;
+    font-size: 20px;
+    background-color: transparent;
+}
+.accept-refuse-buttons .refuse-button{
+    color: #db545a;
+}
+.accept-refuse-buttons .refuse-button:hover{
+    color: #ffffffd0;
+    border: 2px solid #db545a;
+    background-color: #db545a;
+}
+.accept-refuse-buttons .accept-button{
+    color: #81a757;
+}
+.accept-refuse-buttons .accept-button:hover{
+    color: #ffffffd0;
+    border: 2px solid #81a757;
+    background-color: #81a757;
+}
+
+
+/* toast Design */
+.custom-toast{
+    max-width: 500px;
+    width: fit-content;
 }

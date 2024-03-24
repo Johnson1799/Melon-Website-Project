@@ -8,6 +8,10 @@ const HomePage = () => {
     const user = useSelector((state) => {
        return state.user.user;
     });
+
+    const RouteProfile = (e) =>{
+
+    }
     
     return (
         <div className="home-page-container">
