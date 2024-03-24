@@ -1,5 +1,6 @@
 /* Import react library */
 import React from "react";
+import toast from 'react-hot-toast';
 
 /* Import redux library */
 import { useSelector, useDispatch } from "react-redux";
@@ -58,16 +59,27 @@ const ProfileDropdown = (props) => {
             }
             /* Delete the specific post in redux store */
             dispatch(deleteUserPost(props.postIndex));
+
+            /* Implement this in friendProfile.jsx*/
+            dispatch(deleteProfilePost(props.postIndex));
+
+            /* Toggle the dropdown */
+            props.setToggleDropDownList();
+
+            /* Display toast */
+            toast.success(`Post has been successfully deleted`, {
+                style: {
+                    background: 'white',
+                    color: 'black',
+                },
+            });
         })
         .catch((err) => {
             console.log(err);
         });
-
-        /* Implement this in friendProfile.jsx*/
-        dispatch(deleteProfilePost(props.postIndex));
-
-        /* Toggle the dropdown */
-        props.setToggleDropDownList();
+        
+        /* Refresh the webpage */
+        window.location.reload()
     }
 
     return ( 

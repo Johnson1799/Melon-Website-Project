@@ -34,7 +34,7 @@ const EditPostModal = (props) => {
     const [description, setDescription] = useState(editedPostInfo?.description);
     const [isPrivate, setIsPrivate] = useState(editedPostInfo?.isPrivate);
 
-    /* Send the edited post information (e.g postId, edited title, edited description, edited isPrivate) to profilePage.jsx */
+    /* Send the edited post information (e.g postId, edited title, edited description, edited isPrivate) to userProfilePage.jsx */
     const editPost = () => {
         const data = {postId: editedPostInfo?._id ,title: title, description: description, isPrivate: isPrivate};
         console.log(data);

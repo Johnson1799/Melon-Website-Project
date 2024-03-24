@@ -251,7 +251,7 @@ const UserProfilePage = () => {
                 console.error('Error updating user data:', err);
             });
         }
-        
+        window.location.reload()
     }
 
     return (
