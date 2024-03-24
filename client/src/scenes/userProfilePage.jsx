@@ -204,7 +204,6 @@ const UserProfilePage = () => {
                 /* Update the redux state */
                 console.log(data);
                 dispatch(updateUserPost(data));
-                setIsLoading(false);
 
                 /* Display toast */
                 toast.success(`Post has been successfully uploaded`, {
@@ -237,7 +236,6 @@ const UserProfilePage = () => {
             .then((updatedUserData) => {
                 /* Update the redux state */
                 dispatch(updateUser({user: updatedUserData}));
-                setIsLoading(false);
 
                 /* Display toast */
                 toast.success(`Personal information has been successfully edited`, {
@@ -245,12 +243,16 @@ const UserProfilePage = () => {
                         background: 'white',
                         color: 'black',
                     },
+
+                    duration: 4000,
                 });
             })
             .catch((err) => {
                 console.error('Error updating user data:', err);
             });
+
         }
+        setIsLoading(true);
         window.location.reload()
     }
 
@@ -258,6 +260,16 @@ const UserProfilePage = () => {
         <div>
             {/* Display the Navbar */}
             <MainNavbar />
+
+            {/* Display the Spinner */}
+            {isLoading && 
+                (<div className="spinning-overlay">
+                    <div className="spinner-border" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </div>
+                </div>)
+            }
+
             <div className="profile-container">
                 <div className="profile-grid-container">
                     <div className="profile-col-1">

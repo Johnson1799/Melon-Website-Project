@@ -1,5 +1,5 @@
 /* Import react library */
-import React from "react";
+import React, { useState } from "react";
 import toast from 'react-hot-toast';
 
 /* Import redux library */
@@ -77,22 +77,25 @@ const ProfileDropdown = (props) => {
         .catch((err) => {
             console.log(err);
         });
-        
+
         /* Refresh the webpage */
         window.location.reload()
     }
 
     return ( 
-        <ul className="dropdowns-container">
-            <li>
-                {/* 'Edit' button in dropdown */}
-                <button onClick={toggleEditPostModal}>Edit<i className="fa-solid fa-pencil icon"></i></button>
-            </li>
-            <li>
-                {/* 'Delete' button in dropdown */}
-                <button onClick={handleDeletePost}>Delete<i className="fa-solid fa-trash icon icon"></i></button>
-            </li>
-        </ul>
+        <>
+
+            <ul className="dropdowns-container">
+                <li>
+                    {/* 'Edit' button in dropdown */}
+                    <button onClick={toggleEditPostModal}>Edit<i className="fa-solid fa-pencil icon"></i></button>
+                </li>
+                <li>
+                    {/* 'Delete' button in dropdown */}
+                    <button onClick={handleDeletePost}>Delete<i className="fa-solid fa-trash icon icon"></i></button>
+                </li>
+            </ul>
+        </>
     );
 }
  

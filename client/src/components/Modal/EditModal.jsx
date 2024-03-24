@@ -48,6 +48,8 @@ const EditModal = (props) => {
     const [toggleEditAddressState, setToggleEditAddress] = useState(false);
     const [toggleEditDescriptionState, setToggleEditDescription] = useState(false);
 
+    const [isEdited, setIsEdited] = useState(false);
+
     /* Toggle Editing Handler */
     const toggleEditUserName = (e) => {
         setToggleEditUserName(!toggleEditUserNameState);
@@ -112,6 +114,7 @@ const EditModal = (props) => {
 
     /* Update Handler */
     const updateUserName = (e) => {
+        setIsEdited(true);
         if (userName){
             setHaveUserName(true);
         } else {
@@ -128,6 +131,7 @@ const EditModal = (props) => {
         setToggleEditUserNickname(!toggleEditUserNicknameState);
     }
     const updateEmail = (e) => {
+        setIsEdited(true);
         if (email){
             setHaveEmail(true);
         } else {
@@ -137,6 +141,7 @@ const EditModal = (props) => {
         setToggleEditEmail(!toggleEditEmailState);
     }
     const updateContact = (e) => {
+        setIsEdited(true);
         if (contact){
             setHaveContact(true);
         } else {
@@ -146,6 +151,7 @@ const EditModal = (props) => {
         setToggleEditContact(!toggleEditContactState);
     }
     const updateAddress = (e) => {
+        setIsEdited(true);
         if (address){
             setHaveAddress(true);
         } else {
@@ -156,6 +162,7 @@ const EditModal = (props) => {
         
     }
     const updateDescription = (e) => {
+        setIsEdited(true);
         if (description){
             setHaveDescription(true);
         } else {
@@ -167,8 +174,10 @@ const EditModal = (props) => {
 
     /* Send the edited personal information to profilePage.jsx */
     const handleCloseEditModal = (e) => {
-        const data = {userName, userNickname, email, contact, address, description};
-        props.sendDataToParent(data);
+        if (isEdited){
+            const data = {userName, userNickname, email, contact, address, description};
+            props.sendDataToParent(data);
+        }
 
         /* Close the modal */
         dispatch(setToggleEditModal());
