@@ -25,6 +25,7 @@ import MessagePage from 'scenes/messagePage';
 import SettingPage from 'scenes/settingPage';
 import OtherUserProfilePage from 'scenes/OtherUserProfilePage';
 import InboxPage from 'scenes/inboxPage';
+import AdminPage from 'scenes/adminPage';
 
 
 function App() {
@@ -61,6 +62,9 @@ function App() {
 
                 {/* Route to Setting Page */}
                 <Route path='/setting' element={<SettingPage />} />
+
+                {/* Route to Admin Page */}
+                <Route path='/admin' element={<AdminPage />} />
 
               </Routes>
           </BrowserRouter>

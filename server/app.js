@@ -12,27 +12,19 @@ import {v2 as cloudinary} from 'cloudinary';
 import path from "path";
 import { fileURLToPath } from "url";
 
-/* import controller files */
-import { registerUser } from "./controllers/authenticationController.js";
-import { createPost } from "./controllers/postController.js";
-
 /* import route files */
 import userRoute from "./routes/userRoute.js";
 import postRoute from "./routes/postRoute.js";
 import friendRoute from "./routes/friendRoute.js";
 import registerRoute from "./routes/registerRoute.js";
 import loginRoute from "./routes/loginRoute.js";
+import adminRoute from "./routes/adminRoute.js";
 
-/* import models files */
-import User from "./schema/User.js";
-import Post from "./schema/Post.js";
-// import Friend from "./schema/Friend.js";
+/* Import models files */
+import Admin from "./schema/Admin.js";
 
-/* import custom middleware files */
-import { verifyToken } from "./middleware/authorization.js";
-
-/* import data files */
-import { usersData, postsData } from "./data/data.js" ;
+/* Import data files */
+import { adminData } from "./data/data.js" ;
 
 
 /* Middleware Configuration */
@@ -89,6 +81,9 @@ app.use("/posts", postRoute);
 /* Routes server side 'friend' page */
 app.use("/friends", friendRoute);
 
+/* Routes server side 'admin' page */
+app.use("/admin", adminRoute);
+
 
 /* Database Configuration */
 
@@ -102,20 +97,16 @@ cloudinary.config({
 // MongoDB database configuration
 const PORT = process.env.PORT;                  // Set the port to 3001 defined in .env
 mongoose.connect(process.env.MongoDB_URL)       // Connect to MongoDB by URL defined in .env file)
-.then(()=>{
+.then(async()=>{
     app.listen(PORT,(result) => {
-        console.log(`Successfully connect to Database with Server Port ${PORT}`)
+        console.log(`Successfully connect to Database with Server Port ${PORT}`);
     });
-    
-    // Insert the user data to the database
-    if (!User.findOne()) {
-        User.insertMany(usersData); 
-    }
 
-    // Insert the post data to the database
-    if (!Post.findOne()){
-        Post.insertMany(postsData);
+    /* Insert the admin data to the database */
+    if (!await Admin.findOne()){
+        Admin.insertMany(adminData);
     }
+    
 }) 
 .catch((err)=>{
     console.log("Fail to connect to Database");

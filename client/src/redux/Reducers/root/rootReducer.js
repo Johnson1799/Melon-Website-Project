@@ -7,6 +7,7 @@ import modalReducer from "../modalReducer";
 import postReducer from "../postReducer";
 import userReducer from "../userReducer";
 import notificationReducer from "../notificationReducer";
+import adminReducer from "../adminReducer";
 
 export const rootReducer = combineReducers({
     slideBarToggle: slideBarToggleReducer,
@@ -14,5 +15,6 @@ export const rootReducer = combineReducers({
     modal: modalReducer,
     user:userReducer,
     notification:notificationReducer,
+    admin:adminReducer,
     
 });

@@ -1787,10 +1787,57 @@ input:focus {
     position: absolute;
     width: 100%;
     height: 140vh;
-    z-index: 2;
+    z-index: 1;
 }
 .spinner-border{
     position: fixed;
     top: 50%;
     left: 50%;
+}
+
+/* Admin page Design */
+.admin-page-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 80px;
+}
+.admin-page-container .button-container{
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+}
+.admin-page-container .button-container button{
+    border: none;
+    background-color: #db545a;
+    border-radius: 20px;
+    color: #fff;
+    font-weight: 600;
+    padding: 7px 15px;
+}
+.admin-page-container .button-container .refresh-button{
+    background-color: transparent;
+    color: #db545a;
+    font-size: 18px;
+}
+.admin-page-container span{
+    position: absolute;
+    left: 45.5%;
+    top: 10%;
+    font-size: 25px;
+    font-weight: 700;
+}
+.user-table-container, .post-table-container{
+    max-width: 1200px;
+    height: 550px;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+.post-table-container::-webkit-scrollbar, .user-table-container::-webkit-scrollbar{
+    width: 5px;
+    background-color: #e4e4e4c3; 
+}
+.post-table-container::-webkit-scrollbar-thumb, .user-table-container::-webkit-scrollbar-thumb {
+    background: #3b3e41;
 }

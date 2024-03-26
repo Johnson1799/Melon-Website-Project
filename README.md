@@ -28,10 +28,10 @@ Changes:
 6. Add the 'post' functionality in profile page (create posts, delete post, edit post)
 7. I make the like button, user can like the posts
 8. User now can add friends
+9. Admin User account is created (account: admin@admin  password: admin123)
 
 Reminders
 -----------------------------------------------------------------------------------
 1. The comment function still not yet start.
-2. HomepageUI still not yet created
-3. DM function still not yet start
+2. HomepageUI still not yet created.
    

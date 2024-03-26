@@ -84,7 +84,6 @@ export const acceptFriendRequest = async (req,res) =>{
 
         /* Delete the 'friendRequests' attribute from the user and update the 'follower' attribute */
         const updatedUser = await User.findOneAndUpdate({_id: userId}, { $pull: {friendRequests: requestUserId}, $inc: { followers: 1 }}, {new: true}).select('_id userName userNickname userAvatarURL');
-        console.log(updatedUser)
         if (!updatedUser){
             return res.status(404).json({ message: "User not found" });
         } 

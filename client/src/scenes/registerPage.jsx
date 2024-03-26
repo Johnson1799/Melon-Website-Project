@@ -8,6 +8,8 @@ import RegisterImg from '../assets/register-img.jpeg';
 /* Import components */
 import LoginNavbar from "components/Navbar/LoginNavbar.jsx";
 
+const adminEmail = 'admin@admin';
+
 const RegisterPage = () => {
     /* Reference to HTML tag */
     const emailTextfieldRef = useRef(null);
@@ -57,7 +59,7 @@ const RegisterPage = () => {
             setEmailErrMsg("Email is required");
             emailIsValid = false;
         }
-        if (!userInputEmail.includes('@')){
+        if (!userInputEmail.includes('@') || userInputEmail === adminEmail){
             emailTextfieldRef.current.className = 'form-control is-invalid email-textfield';
             setEmailErrMsg("Invalid email format");
             emailIsValid = false;

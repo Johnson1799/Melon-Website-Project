@@ -1,5 +1,5 @@
 /* Import react library */
-import { useState, useRef, useEffect} from "react";
+import { useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 /* Import redux library */
@@ -10,12 +10,15 @@ import { resetUserState ,setLogin } from "../redux/Reducers/userReducer.js";
 import { resetPostState } from "../redux/Reducers/postReducer.js";
 import { resetSlideBarState } from "../redux/Reducers/slideBarToggleReducer.js";
 import { resetModalState } from "../redux/Reducers/modalReducer.js";
+import { setAdmin, resetAdminState } from "../redux/Reducers/adminReducer.js";
 
 /* Import components */
 import LoginNavbar from "../components/Navbar/LoginNavbar.jsx";
 
 /* Import assets */
 import loginPic from '../assets/loginPic.png';         // 490*367 px
+
+const adminAccount = {email: 'admin@admin', password:'admin123'};
 
 const LoginPage = () => {
     /* Reference to HTML tag */
@@ -31,6 +34,9 @@ const LoginPage = () => {
     /* Access states from redux store */
     const user = useSelector((state) => {
         return state.user.user;
+    });
+    const admin = useSelector((state) => {
+        return state.admin.adminId;
     });
 
     /* Access actions from redux store */
@@ -82,50 +88,97 @@ const LoginPage = () => {
             password: userInputPassword,
         };
 
-        const url = "http://localhost:3001/login";
-        await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json'},
-            body: JSON.stringify(userInput),
-        })
-        .then((res) => {
-            if (res.ok) {
-                /* Find the user in database successfully */
-                emailTextfieldRef.current.className = 'form-control email-textfield';
-                passwordTextfieldRef.current.className = 'form-control password-textfield';
-                console.log('Login successful');
-                setEmailErrMsg("");
-                setPasswordErrMsg("");
-                navigate('/home');
-            } else {
-                /* Fail to find the user in database */
-                emailTextfieldRef.current.className = 'form-control is-invalid email-textfield';
-                passwordTextfieldRef.current.className = 'form-control is-invalid password-textfield';
-                setEmailErrMsg("Incorrect Email or Password");
-                setPasswordErrMsg("Incorrect Email or Password");
-            }
-            return res.json();
-        })
-        .then((data) => {
-            if (data.token){
-                /* Update the redux states */
-                delete data.user.password;
-                dispatch(setLogin({token:data.token, user:data.user, userPosts: data.userPosts}));
-            } else {
-                console.log(data.message);
-            }
-        })
-        .catch((err) => {
-            console.log('Error during login:', err);
-        });
+        if (userInputEmail !== adminAccount.email && userInputEmail !== adminAccount.password){
+            /* Login User */
+            const url = "http://localhost:3001/login";
+            await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json'},
+                body: JSON.stringify(userInput),
+            })
+            .then((res) => {
+                if (res.ok) {
+                    /* Find the user in database successfully */
+                    emailTextfieldRef.current.className = 'form-control email-textfield';
+                    passwordTextfieldRef.current.className = 'form-control password-textfield';
+                    console.log('Login successful');
+                    setEmailErrMsg("");
+                    setPasswordErrMsg("");
+                    navigate('/home');
+                } else {
+                    /* Fail to find the user in database */
+                    emailTextfieldRef.current.className = 'form-control is-invalid email-textfield';
+                    passwordTextfieldRef.current.className = 'form-control is-invalid password-textfield';
+                    setEmailErrMsg("Incorrect Email or Password");
+                    setPasswordErrMsg("Incorrect Email or Password");
+                }
+                return res.json();
+            })
+            .then((data) => {
+                if (data.token){
+                    /* Update the redux states */
+                    delete data.user.password;
+                    dispatch(setLogin({token:data.token, user:data.user, userPosts: data.userPosts}));
+
+                } else {
+                    console.log(data.message);
+                }
+            })
+            .catch((err) => {
+                console.log('Error during login:', err);
+            });
+        }
+        else{
+            /* Login Admin Account */
+            const url = "http://localhost:3001/admin/login";
+            await fetch(url, {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(userInput),
+            })
+            .then((res) => {
+                if (res.ok) {
+                    /* Find the admin in database successfully */
+                    emailTextfieldRef.current.className = 'form-control email-textfield';
+                    passwordTextfieldRef.current.className = 'form-control password-textfield';
+                    console.log('Login admin successful');
+                    setEmailErrMsg("");
+                    setPasswordErrMsg("");
+                    navigate(`/admin`);
+                } else {
+                    /* Fail to find the admin in database */
+                    emailTextfieldRef.current.className = 'form-control is-invalid email-textfield';
+                    passwordTextfieldRef.current.className = 'form-control is-invalid password-textfield';
+                    setEmailErrMsg("Incorrect Email or Password");
+                    setPasswordErrMsg("Incorrect Email or Password");
+                }
+                return res.json();
+            })
+            .then((data) => {
+                if (data.adminId){
+                    dispatch(setAdmin({adminId: data.adminId, token: data.token}));
+                }
+            })
+            .catch((err) => {
+                console.log('Error during login:', err);
+            });
+
+        }
     }
 
-    const setLogout = () => {
+    const setLogoutUser = () => {
         dispatch(resetUserState());
         dispatch(resetPostState());
         dispatch(resetModalState());
         dispatch(resetSlideBarState());
     }
+
+    const setLogoutAdmin = () => {
+        dispatch(resetAdminState());
+    }
+
 
     return (
         <div>
@@ -133,9 +186,9 @@ const LoginPage = () => {
             <LoginNavbar />
 
             {/* Logout the user first when routing to Login page each time */}
-            {user ? setLogout() : null}
-
-            
+            {(user) ? setLogoutUser() : null}
+            {(admin) ? setLogoutAdmin() : null}
+ 
             <div className="login-container" id="container">
                 <div className="grid-container">
                     {/* Column 1 */}

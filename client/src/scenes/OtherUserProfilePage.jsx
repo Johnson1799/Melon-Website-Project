@@ -77,8 +77,8 @@ const OtherUserProfilePage = () => {
         });
     }
 
-    const checkIsFriend = () => {
-        user?.friends.forEach(friend => {
+    const checkIsFriend = async() => {
+        await user?.friends.forEach(friend => {
             if (friend._id === profileUser?._id){
                 setIsFriend(true);
             }

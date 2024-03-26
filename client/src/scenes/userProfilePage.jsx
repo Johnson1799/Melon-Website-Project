@@ -78,11 +78,11 @@ const UserProfilePage = () => {
     }
 
     /* Fetch user data from server when routing to Profile page */
-    const getUser = () => {
+    const getUser = async() => {
         const url = `http://localhost:3001/users/user/${userId}`;
 
         setIsLoading(true);
-        fetch(url, {
+        await fetch(url, {
             method: "GET",
             headers: { 
                 Authorization: `Bearer ${token}`
