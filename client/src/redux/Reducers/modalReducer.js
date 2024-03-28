@@ -45,5 +45,5 @@ const modalSlice = createSlice({
     }
 });
 
-export const { setToggleImageModal, setToggleEditModal, setTogglePostModal, setToggleEditPostModal, setToggleAddFriendsModal, resetModalState, } = modalSlice.actions;
+export const { setToggleImageModal, setToggleEditModal, setTogglePostModal, setToggleEditPostModal, setToggleAddFriendsModal, resetModalState} = modalSlice.actions;
 export default modalSlice.reducer;

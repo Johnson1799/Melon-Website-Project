@@ -6,11 +6,12 @@ import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
 
 /* Import redux reducers */
-import { removeLikePost, addLikePost, setPostIndex } from '../../redux/Reducers/postReducer';
+import { removeLikePost, addLikePost, setPostIndex, setToggleLargePost, setLargePost, setLargePostIsLiked } from '../../redux/Reducers/postReducer';
 import { addLikeUserPost, removeLikeUserPost, setUserPostIndex } from "../../redux/Reducers/userReducer";
 
 /* Import components */
 import ProfileDropdown from "./ProfileDropdown";
+import LargePost from "./LargePost";
 
 const Post = (props) => {
     /* Reference to a HTML tag */
@@ -32,6 +33,9 @@ const Post = (props) => {
     const token = useSelector((state) => {
         return state.user.token;
     })
+    const largePost = useSelector((state) => {
+        return state.post.largePost;
+    })
 
     const dispatch = useDispatch();
 
@@ -42,6 +46,7 @@ const Post = (props) => {
     /* Handlers */
     const openDropdownList = (e) => {
         setToggleDropDownList(!toggleDropDownList);
+        dispatch(setToggleLargePost(false));
         dispatch(setUserPostIndex(props.postIndex));
     }
 
@@ -61,18 +66,28 @@ const Post = (props) => {
 
         /* Trigger toggle the dropdown when the mouse click outside the browser */
         function handleClickOutside(e) {
-          if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-            setToggleDropDownList(false);
-          }
+            if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+                setToggleDropDownList(false);
+            }
         }
+
+        function handleClickPost(e) {
+            if (dropdownRef.current && dropdownRef.current.contains(e.target)) {
+                /* Display the Large Post */
+                dispatch(setToggleLargePost(true));
+            }
+        }
+
     
         /* Check the 'click' event is occured */
         document.addEventListener('click', handleClickOutside);
+        dropdownRef.current.addEventListener('click', handleClickPost);
         return () => {
             document.removeEventListener('click', handleClickOutside);
+            dropdownRef.current.removeEventListener('click', handleClickPost);
         };
 
-    }, []);
+    }, [largePost?.isLiked]);
 
 
     const toggleLike = async(e) => {
@@ -108,6 +123,7 @@ const Post = (props) => {
                     dispatch(addLikePost({userId: userId, postIndex: props.postIndex}));
                 }
                 setIsLiked(true);
+                dispatch(setLargePostIsLiked(true));
             } else {
                 /* Unlike the post and update to the redux state */
                 if (props.isUser){
@@ -119,6 +135,7 @@ const Post = (props) => {
                     dispatch(removeLikePost({userId: userId, postIndex: props.postIndex}));
                 }
                 setIsLiked(false);
+                dispatch(setLargePostIsLiked(false));
             }
         })
         .catch((err) => {
@@ -126,14 +143,26 @@ const Post = (props) => {
         });
     }
 
-
-
-    const toggleComment = (e) => {
-
+    const displayLargePost = () => {
+        /* Set the Large Post Information */
+        const data = {
+            postIndex: props.postIndex,
+            image: props.image,
+            title: props.title,
+            date: props.date,
+            description: props.description, 
+            likes: props.isUser ? userPost?.likes?.length : profilePost?.likes?.length,
+            isLiked: isLiked,
+            isUser: props.isUser,
+            isHomePageLargePost: false,
+        }
+        dispatch(setLargePost(data));
+        
     }
 
     return ( 
-        <div className="post-container" ref={dropdownRef}>
+        <div className="post-container" ref={dropdownRef} onClick={displayLargePost}>
+            
             {/* Display post image */}
             <img src={props.image} alt="This is post Img" className="post-image"/>
 
@@ -152,8 +181,8 @@ const Post = (props) => {
 
             {/* Display post information (e.g like button, comment button ) */}
             <div className="post-like-comment">
-                <button className="post-like" onClick={toggleLike}><i className={`${isLiked? 'fa-solid':'fa-regular'} fa-heart like-icon ${isLiked ? 'liked':'unliked'}`} ></i><p className="no-of-likes">{props.isUser ? userPost?.likes?.length : profilePost?.likes?.length }</p></button>
-                <button className="post-comment" onClick={toggleComment}><i className="fa-regular fa-comment comment-icon"></i><p className="no-of-comment">2</p></button>
+                <button className="post-like" onClick={toggleLike}><i className={`${(isLiked)? 'fa-solid':'fa-regular'} fa-heart like-icon ${(isLiked) ? 'liked':'unliked'}`} ></i><p className="no-of-likes">{props.isUser ? userPost?.likes?.length : profilePost?.likes?.length }</p></button>
+                <button className="post-comment"><i className="fa-regular fa-comment comment-icon"></i><p className="no-of-comment">2</p></button>
             </div>
         </div>
     );

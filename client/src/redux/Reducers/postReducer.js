@@ -1,11 +1,14 @@
 /* Import redux library */
 import { createSlice } from "@reduxjs/toolkit";
+import { setToggle } from "./slideBarToggleReducer";
 
 /* Define redux states */
 const initialState = {
     postIndex: null,
     profileUser: null,
     profilePosts: [],
+    toggleLargePost: false,
+    largePost: null,
 };
 
 /* Define redux acitons and reducers */
@@ -23,6 +26,20 @@ const postSlice = createSlice({
 
         setProfilePosts : (state, action) => {
             state.profilePosts = action.payload;
+        },
+
+        setToggleLargePost: (state,action) => {
+            state.toggleLargePost = action.payload;
+        },
+
+        setLargePost: (state,action) => {
+            state.largePost = action.payload;
+        },
+
+        setLargePostIsLiked: (state,action) =>{
+            if (state.largePost){
+                state.largePost.isLiked = action.payload;
+            }
         },
 
         deleteProfilePost: (state, action) => {
@@ -63,5 +80,5 @@ const postSlice = createSlice({
     }
 });
 
-export const { setPostIndex, setProfilePosts, addLikePost, removeLikePost, deleteProfilePost, setProfileUser, resetPostState} = postSlice.actions;
+export const { setPostIndex, setProfilePosts, setToggleLargePost, setLargePost, setLargePostIsLiked, addLikePost, removeLikePost, deleteProfilePost, setProfileUser, resetPostState} = postSlice.actions;
 export default postSlice.reducer;

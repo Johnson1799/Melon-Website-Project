@@ -1119,6 +1119,7 @@ aside .sidebar .option:not(.active):hover .icon{
 .post-container .post-content{
     display: -webkit-box;
     overflow: hidden;
+    word-break: break-word;
     text-overflow: ellipsis;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
@@ -1136,7 +1137,7 @@ aside .sidebar .option:not(.active):hover .icon{
     padding: 7px 10px;
     position: absolute;
     list-style-type: none;
-    top: 14%;
+    top: 11%;
     left: 64%;
     background-color: #fff;
     border-radius: 10px;
@@ -1807,6 +1808,8 @@ input:focus {
     display: flex;
     flex-direction: row;
     gap: 30px;
+    position: relative;
+    left: 12.5%;
 }
 .admin-page-container .button-container button{
     border: none;
@@ -1840,4 +1843,67 @@ input:focus {
 }
 .post-table-container::-webkit-scrollbar-thumb, .user-table-container::-webkit-scrollbar-thumb {
     background: #3b3e41;
+}
+
+
+/* Large Post Design */
+.large-post-overlay{
+    background-color: #3b3e4169;
+    position: relative;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 140vh;
+    z-index: 2;
+}
+.large-post-grid{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    top: 4%;
+    left: 35%;
+}
+.post-container.large{
+    width: 500px;
+    height: 620px;
+    background-color: #d7d7d7;
+    overflow-y: auto;
+}
+.post-image.large{
+    height: 370px;
+}
+.post-info .post-title.large{
+    font-size: 20px;
+}
+.post-content.large{
+    display: inline-block;
+    overflow-y: auto;
+    overflow-x: hidden;
+    word-break: break-word;
+    font-size: 14px;
+    height: 18%;
+}
+.post-content.large::-webkit-scrollbar{
+    width: 5px;
+    height: 8px;
+    background-color: #bbbbbbc3; 
+}
+.post-content.large::-webkit-scrollbar-thumb{
+    background: #3b3e41;
+}
+.post-like-comment.large{
+    top: 95%; 
+    left: 75%;
+} 
+.post-like-comment.large button{
+    font-size: 18px;
+    left: 20%;
+}
+.large-post-close-button{
+    position: absolute;
+    width: fit-content;
+    top: 1.2%;
+    left: 93%;
+    font-size: 18px;
+    color: #db545a;
 }

@@ -7,8 +7,8 @@ import { useSelector, useDispatch } from "react-redux";
 
 /* Import redux reducers */
 import {deleteUserPost, setUserPostIndex} from '../../redux/Reducers/userReducer';
-import {setToggleEditPostModal} from '../../redux/Reducers/modalReducer';
-import { setPostIndex, deleteProfilePost } from '../../redux/Reducers/postReducer';
+import { setToggleEditPostModal } from '../../redux/Reducers/modalReducer';
+import { setPostIndex, setToggleLargePost, deleteProfilePost, } from '../../redux/Reducers/postReducer';
 
 
 const ProfileDropdown = (props) => {
@@ -28,10 +28,14 @@ const ProfileDropdown = (props) => {
 
     /* Handlers */
     const toggleEditPostModal = () => {
-        dispatch(setToggleEditPostModal());
+        dispatch(setToggleEditPostModal(true));
+        props.setToggleDropDownList();
+        dispatch(setToggleLargePost(false));
     }
 
     const handleDeletePost = async (e) => {
+        dispatch(setToggleLargePost(false));
+
         const userId = user?._id;                                   // MongoDB user id
         const postId = userPosts[props.postIndex]?._id;             // MongoDB post id
         const postImgURL = userPosts[props.postIndex].postImgURL;   // Cloudinary postImgURL

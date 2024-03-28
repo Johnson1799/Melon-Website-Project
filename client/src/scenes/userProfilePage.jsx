@@ -20,6 +20,7 @@ import AddFriendsModal from "../components/Modal/AddFriendsModal";
 import ProfilePosts from "../components/Post/ProfilePosts";
 import EditPostModal from "../components/Modal/EditPostModal";
 import UserProfileFriend from "../components/Friend/UserProfileFriend";
+import LargePost from "components/Post/LargePost";
 
 
 const UserProfilePage = () => {
@@ -39,6 +40,9 @@ const UserProfilePage = () => {
     const toggleAddFriendsState = useSelector((state) => {
         return state.modal.toggleAddFriendsModal;
     });
+    const toggleLargePost = useSelector((state) => {
+        return state.post.toggleLargePost;
+    })
     const user = useSelector((state) => {
         return state.user.user;
     });
@@ -256,6 +260,10 @@ const UserProfilePage = () => {
         window.location.reload()
     }
 
+    const receivePostInfo = (post) => {
+        console.log(post);
+    }
+
     return (
         <div>
             {/* Display the Navbar */}
@@ -271,6 +279,16 @@ const UserProfilePage = () => {
             }
 
             <div className="profile-container">
+
+                {/* Display Larger post Info */}
+                {toggleLargePost && 
+                    (<div className="large-post-overlay">
+                        <div className="large-post-grid">
+                            <LargePost />
+                        </div>
+                    </div>
+                )}
+
                 <div className="profile-grid-container">
                     <div className="profile-col-1">
                         <div className="info-container">
@@ -335,8 +353,7 @@ const UserProfilePage = () => {
 
                         {/* Display 'EditPost' modals when user click the edit button in a specific post */}
                         {(toggleEditPostModalState && user) && <EditPostModal sendDataToParent={handleDataReceivedFromChild}/>}
-                        
-                        
+
                     </div>        
                 </div>
             </div >
