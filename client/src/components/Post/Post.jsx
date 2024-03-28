@@ -36,6 +36,9 @@ const Post = (props) => {
     const largePost = useSelector((state) => {
         return state.post.largePost;
     })
+    // const toggleLargePost = useSelector((state) =>{
+    //     return state.post.toggleLargePost;
+    // })
 
     const dispatch = useDispatch();
 
@@ -82,12 +85,13 @@ const Post = (props) => {
         /* Check the 'click' event is occured */
         document.addEventListener('click', handleClickOutside);
         dropdownRef.current.addEventListener('click', handleClickPost);
+
         return () => {
             document.removeEventListener('click', handleClickOutside);
-            dropdownRef.current.removeEventListener('click', handleClickPost);
         };
 
     }, [largePost?.isLiked]);
+    
 
 
     const toggleLike = async(e) => {

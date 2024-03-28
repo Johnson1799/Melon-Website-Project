@@ -112,7 +112,7 @@ const LargePost = () => {
 
 
     const toggleComment = (e) => {
-
+        
     }
 
     const closeLargePost = (e) => {
