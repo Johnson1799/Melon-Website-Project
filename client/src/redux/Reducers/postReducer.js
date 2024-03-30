@@ -48,8 +48,9 @@ const postSlice = createSlice({
         }, 
 
         updateGuestLargePostComments: (state,action) => {
-            if (state.guestLargePost){
+            if (state.guestLargePost && state.profilePosts[state.postIndex]){
                 state.guestLargePost.comments=action.payload;
+                state.profilePosts[state.postIndex].comments=action.payload;
             }
         },
 

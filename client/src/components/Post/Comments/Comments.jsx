@@ -87,6 +87,7 @@ const Comments = (props) => {
 
         /* Clear the text in textfield */
         setComment("");
+
     }
 
     return ( 

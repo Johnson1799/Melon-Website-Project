@@ -26,14 +26,14 @@ export const registerUser = async (req,res) => {
 
             // Create a new user document with a encrypted password initialized
             const newUser = new User({
-                userName,
+                userName: email.split('@')[0],
                 userNickname,
                 password: encryptedPassword,
                 email, 
                 contact,
                 address,
                 description,
-                userAvatarURL, 
+                userAvatarURL: `https://res.cloudinary.com/dppg4mvct/image/upload/v1711785845/avatar/default_user_avatar.png`,
                 friends,
                 friendRequests,
                 followers,

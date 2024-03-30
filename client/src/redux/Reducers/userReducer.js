@@ -102,8 +102,9 @@ const userSlice = createSlice({
         }, 
 
         updateLargePostComments: (state,action) => {
-            if (state.largePost){
+            if (state.largePost && state.userPosts[state.userPostIndex]){
                 state.largePost.comments=action.payload;
+                state.userPosts[state.userPostIndex].comments=action.payload;
             }
         },
 
