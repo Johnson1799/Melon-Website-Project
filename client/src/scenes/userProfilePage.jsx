@@ -8,8 +8,8 @@ import { useSelector, useDispatch } from "react-redux";
 
 /* Import redux reducers */
 import { setToggleImageModal, setToggleEditModal, setTogglePostModal } from "../redux/Reducers/modalReducer";
-import { updateUser, updateUserPost } from "../redux/Reducers/userReducer";
-import { setProfilePosts } from "../redux/Reducers/postReducer";
+import { updateUser, updateUserPost, setToggleLargePost } from "../redux/Reducers/userReducer";
+import { setProfilePosts, } from "../redux/Reducers/postReducer";
 
 /* Import components */
 import MainNavbar from "../components/Navbar/MainNavbar";
@@ -20,7 +20,8 @@ import AddFriendsModal from "../components/Modal/AddFriendsModal";
 import ProfilePosts from "../components/Post/ProfilePosts";
 import EditPostModal from "../components/Modal/EditPostModal";
 import UserProfileFriend from "../components/Friend/UserProfileFriend";
-import LargePost from "components/Post/LargePost";
+import LargePost from "../components/Post/LargePost";
+import Comments from "../components/Post/Comments/Comments";
 
 
 const UserProfilePage = () => {
@@ -41,7 +42,10 @@ const UserProfilePage = () => {
         return state.modal.toggleAddFriendsModal;
     });
     const toggleLargePost = useSelector((state) => {
-        return state.post.toggleLargePost;
+        return state.user.toggleLargePost;
+    })
+    const largePost = useSelector((state)=>{
+        return state.user.largePost;
     })
     const user = useSelector((state) => {
         return state.user.user;
@@ -112,6 +116,7 @@ const UserProfilePage = () => {
 
     useEffect(() => {
         getUser();
+        dispatch(setToggleLargePost(false));
     }, []);
 
     /* Initialize */
@@ -283,9 +288,16 @@ const UserProfilePage = () => {
                 {/* Display Larger post Info */}
                 {toggleLargePost && 
                     (<div className="large-post-overlay">
-                        <div className="large-post-grid">
-                            <LargePost />
+                        <div className="large-post-grid" style={{left: largePost?.displayComments ? '15%': '35%' }}>
+                            <LargePost isUser={true}/>
                         </div>
+
+                        {/* Display the comment area */}
+                        {largePost?.displayComments && 
+                            (<div className="comment-grid">
+                                <Comments isUser={true}/>
+                            </div>)
+                        }
                     </div>
                 )}
 

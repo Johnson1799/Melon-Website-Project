@@ -1861,7 +1861,6 @@ input:focus {
     display: flex;
     align-items: center;
     top: 4%;
-    left: 35%;
 }
 .post-container.large{
     width: 500px;
@@ -1903,7 +1902,229 @@ input:focus {
     position: absolute;
     width: fit-content;
     top: 1.2%;
-    left: 93%;
+    left: 93.5%;
     font-size: 18px;
     color: #db545a;
+}
+
+
+
+
+/* Comments Design */
+.comment-grid{
+    position: absolute;
+    top: 4%;
+    left: 53%;
+}
+.comments-container{
+    position: relative;
+    width: 520px;
+    height: 620px;
+    border-radius: 10px;
+    background-color: #d7d7d7;
+    overflow-y: auto;
+}
+.comments-container::-webkit-scrollbar{
+    width: 5px;
+    height: 8px;
+    background-color: #bbbbbbc3; 
+}
+.comments-container::-webkit-scrollbar-thumb{
+    background: #3b3e41;
+}
+.comments-container .comment-textarea{
+    position: absolute;
+    top: 3%;
+    left: 5%;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+.comments-container label{
+    font-size: 14px;
+}
+.comments-container .comment-textarea img{
+    position: relative;
+    border-radius: 100%;
+    width: 45px;
+    height: 45px;
+    border: none;
+    background-color: transparent;
+}
+.comments-container textarea::-webkit-scrollbar{
+    width: 5px;
+    height: 8px;
+    background-color: #bbbbbbc3; 
+}
+.comments-container textarea::-webkit-scrollbar-thumb{
+    background: #3b3e41;
+}
+.comment-textarea .submit-button{
+    position: relative;
+    border: 2px dotted #db545a;
+    border-radius: 20px;
+    background-color: transparent;
+    font-weight: 700;
+    font-size: 15px;
+    color: #333232;
+    padding: 5px 10px;
+    top: 2%;
+    left: 78%;
+}
+.comments{
+    position: absolute;
+    top: 33%;
+    left: 5%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 90%;
+    padding-bottom: 20px;
+    height: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.comments::-webkit-scrollbar{
+    width: 5px;
+    background-color: #e4e4e4c3; 
+}
+.comments::-webkit-scrollbar-thumb{
+    background: #3b3e41;
+}
+
+
+
+/* Comment design */
+.comment-container-with-reply{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+    height: auto;
+    gap: 5px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 7px;
+}
+.comment-container-with-reply::-webkit-scrollbar{
+    width: 5px;
+    background-color: #e4e4e4c3; 
+}
+.comment-container-with-reply::-webkit-scrollbar-thumb{
+    background: #3b3e41;
+}
+.comment-container{
+    display: flex;
+    position: relative;
+    width: 100%;
+    flex-direction: column;
+    background-color: #c3c3c39e;
+    border-radius: 10px;
+    height: 90px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.comment-container::-webkit-scrollbar{
+    width: 5px;
+    background-color: #e4e4e4c3; 
+}
+.comment-container::-webkit-scrollbar-thumb{
+    background: #3b3e41;
+}
+.comment-container .comment-contents{
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    gap: 8px;
+    left: 65px;
+    width: 86%;
+    max-width: 360px;
+    height: 80%;
+}
+.comment-container .user-avatar{
+    border-radius: 100%;
+    width: 45px;
+    height: 45px;
+    border: none;
+    background-color: transparent;
+}
+.comment-container .username{
+    font-weight: 600;
+    font-size: 15px;
+}
+.comment-container .comment-text{
+    font-weight: 400;
+    font-size: 13px;
+    white-space: normal;
+}
+.comment-container .reply-button{
+    position: absolute;
+    top: 70%;
+    left: 93%;
+    font-size: 14px;
+    width: 6%;
+    border: none;
+    background-color: transparent;
+}
+.comment-textarea.smaller{
+    position: absolute;
+    left: 14%;
+}
+.comment-textarea.smaller img.smaller{
+    width: 35px;
+    height: 35px;
+}
+.comment-textarea.smaller label{
+    font-size: 12px;
+}
+.comment-textarea.smaller .submit-button.smaller{
+    font-size: 10px;
+    left: 82.5%;
+}
+
+
+/* Reply Design */
+.comment-container-with-reply .replies-container{
+    position: inherit;
+    right: 2%;
+    height: auto;
+}
+.replies-container .replies{
+    position: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-height: 190px;
+    top: 108px;
+    left: 10%;
+}
+.reply-container-with-reply.smaller{
+    width: 92%;
+    padding-bottom: 5px;
+    padding-right: 5px;
+}
+.reply-container-with-reply.smaller .comment-container.smaller{
+    height: 60px;
+}
+.reply-container-with-reply.smaller .user-avatar.smaller{
+    width: 30px;
+    height: 30px;
+}
+.reply-container-with-reply.smaller .comment-contents.smaller{
+    gap: 5px;
+    left: 50px;
+}
+.reply-container-with-reply.smaller .username.smaller{
+    font-size: 13px;
+    font-weight: 600;
+}
+.reply-container-with-reply.smaller .comment-text.smaller{
+    font-size: 12px;
+    font-weight: 500;
+}
+.reply-container-with-reply.smaller .reply-button.smaller{
+    font-size: 12px;
+    position: absolute;
+    top: 60%;
 }

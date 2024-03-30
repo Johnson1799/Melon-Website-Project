@@ -1,14 +1,13 @@
 /* Import redux library */
 import { createSlice } from "@reduxjs/toolkit";
-import { setToggle } from "./slideBarToggleReducer";
 
 /* Define redux states */
 const initialState = {
     postIndex: null,
     profileUser: null,
     profilePosts: [],
-    toggleLargePost: false,
-    largePost: null,
+    toggleGuestLargePost: false,
+    guestLargePost: null,
 };
 
 /* Define redux acitons and reducers */
@@ -28,17 +27,29 @@ const postSlice = createSlice({
             state.profilePosts = action.payload;
         },
 
-        setToggleLargePost: (state,action) => {
-            state.toggleLargePost = action.payload;
+        setToggleGuestLargePost: (state,action) => {
+            state.toggleGuestLargePost = action.payload;
         },
 
-        setLargePost: (state,action) => {
-            state.largePost = action.payload;
+        setGuestLargePost: (state,action) => {
+            state.guestLargePost = action.payload;
         },
 
-        setLargePostIsLiked: (state,action) =>{
-            if (state.largePost){
-                state.largePost.isLiked = action.payload;
+        setGuestLargePostIsLiked: (state,action) =>{
+            if (state.guestLargePost){
+                state.guestLargePost.isLiked = action.payload;
+            }
+        },
+
+        setToggleGuestComments: (state) => {
+            if (state.guestLargePost){
+                state.guestLargePost.displayComments = !state.guestLargePost.displayComments;
+            }
+        }, 
+
+        updateGuestLargePostComments: (state,action) => {
+            if (state.guestLargePost){
+                state.guestLargePost.comments=action.payload;
             }
         },
 
@@ -80,5 +91,5 @@ const postSlice = createSlice({
     }
 });
 
-export const { setPostIndex, setProfilePosts, setToggleLargePost, setLargePost, setLargePostIsLiked, addLikePost, removeLikePost, deleteProfilePost, setProfileUser, resetPostState} = postSlice.actions;
+export const { setPostIndex, setProfilePosts, addLikePost, removeLikePost, deleteProfilePost, setProfileUser, setToggleGuestLargePost, setGuestLargePost , setGuestLargePostIsLiked, setToggleGuestComments, updateGuestLargePostComments, resetPostState} = postSlice.actions;
 export default postSlice.reducer;

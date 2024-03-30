@@ -7,6 +7,8 @@ const initialState = {
     user: null,
     userPosts: null,
     userPostIndex: null,
+    toggleLargePost: false,
+    largePost: null,
 };
 
 /* Define redux acitons and reducers */
@@ -79,6 +81,32 @@ const userSlice = createSlice({
             }
         },
 
+        setToggleLargePost: (state,action) => {
+            state.toggleLargePost = action.payload;
+        },
+
+        setLargePost: (state,action) => {
+            state.largePost = action.payload;
+        },
+
+        setLargePostIsLiked: (state,action) =>{
+            if (state.largePost){
+                state.largePost.isLiked = action.payload;
+            }
+        },
+
+        setToggleComments: (state) => {
+            if (state.largePost){
+                state.largePost.displayComments = !state.largePost.displayComments;
+            }
+        }, 
+
+        updateLargePostComments: (state,action) => {
+            if (state.largePost){
+                state.largePost.comments=action.payload;
+            }
+        },
+
         resetUserState: (state) => {
             state.token = '';
             state.user = null;
@@ -89,5 +117,5 @@ const userSlice = createSlice({
     }
 });
 
-export const { setLogin, setUserPostIndex, updateUser, setUserPosts, updateUserPost, deleteUserPost, addLikeUserPost, removeLikeUserPost, resetUserState, } = userSlice.actions;
+export const { setLogin, setUserPostIndex, updateUser, setUserPosts, updateUserPost, deleteUserPost, addLikeUserPost, removeLikeUserPost, setToggleLargePost, setLargePost, setLargePostIsLiked, setToggleComments, updateLargePostComments ,resetUserState, } = userSlice.actions;
 export default userSlice.reducer;

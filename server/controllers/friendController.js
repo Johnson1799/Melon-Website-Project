@@ -125,6 +125,7 @@ export const refuseFriendRequest = async (req,res) =>{
     }
 }
 
+
 export const removeFriend = async (req,res) =>{
     try{
         /* grab the data sent from front-end */

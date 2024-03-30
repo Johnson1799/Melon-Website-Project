@@ -6,9 +6,9 @@ import toast from 'react-hot-toast';
 import { useSelector, useDispatch } from "react-redux";
 
 /* Import redux reducers */
-import {deleteUserPost, setUserPostIndex} from '../../redux/Reducers/userReducer';
+import {deleteUserPost, setToggleLargePost} from '../../redux/Reducers/userReducer';
 import { setToggleEditPostModal } from '../../redux/Reducers/modalReducer';
-import { setPostIndex, setToggleLargePost, deleteProfilePost, } from '../../redux/Reducers/postReducer';
+import { setPostIndex, deleteProfilePost, } from '../../redux/Reducers/postReducer';
 
 
 const ProfileDropdown = (props) => {

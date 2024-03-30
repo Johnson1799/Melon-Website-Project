@@ -219,3 +219,110 @@ export const updateLikePost = async (req,res) =>{
     }
 }
 
+/* Create new comment */
+export const createComment = async (req,res) =>{
+    try{
+        /* grab the data sent from front-end */
+        const userId = req.params.userId;
+        const postId = req.params.postId;
+        const comment = req.body.comment;
+
+
+        /* Find a specific post */
+        const post = await Post.findById(postId);
+        if (!post){
+            return res.status(404).json({ message: 'Post not found' });
+        } 
+        else{
+            const user = await User.findById(userId).select('_id userName userAvatarURL');
+            if(!user){
+                return res.status(404).json({ message: 'User not found' });
+            } 
+            else{
+                const newComment = {
+                    userId: user._id,
+                    userName: user.userName,
+                    userAvatarURL: user.userAvatarURL,
+                    comment: comment, 
+                    replies: []
+                };
+
+                post.comments.push(newComment);
+                const updatedPost = await post.save();
+                return res.status(200).json(updatedPost.comments);
+            }
+        }
+
+    } catch (err){
+        console.error(err);
+    }
+}
+
+
+export const createReply = async (req,res) =>{
+    try{
+        /* grab the data sent from front-end */
+        const userId = req.params.userId;
+        const postId = req.params.postId;
+        const commentIndex = req.body.commentIndex;
+        const reply = req.body.reply;
+
+        /* Find a specific post */
+        const post = await Post.findById(postId);
+        if (!post){
+            return res.status(404).json({ message: 'Post not found' });
+        } 
+        else{
+            const user = await User.findById(userId).select('_id userName userAvatarURL');
+            if(!user){
+                return res.status(404).json({ message: 'User not found' });
+
+            } else{
+                const newReply = {
+                    userId: user._id,
+                    userName: user.userName,
+                    userAvatarURL: user.userAvatarURL,
+                    reply: reply
+                };
+
+                /* Find the corresponding comment */
+                const comment = post.comments[commentIndex];
+
+                /* Add new reply to that comment */
+                comment.replies.push(newReply);
+
+                // Saving the updated post
+                const updatedPost = await post.save();
+
+                return res.status(200).json(updatedPost.comments); 
+            }
+            
+        }
+
+    } catch (err){
+        console.error(err);
+    }
+}
+
+
+
+/* Fetch the comments and replies of the specific post */
+export const getComments = async (req,res) =>{
+    try{
+        /* grab the data sent from front-end */
+        const postId = req.params.postId;
+
+        /* Find a specific post */
+        const post = await Post.findById(postId);
+        if (!post){
+            return res.status(404).json({ message: 'Post not found' });
+        } 
+        else{
+            const postComments = post.comments;
+            return res.status(200).json(postComments);
+        }
+
+    } catch (err){
+        console.error(err);
+    }
+}

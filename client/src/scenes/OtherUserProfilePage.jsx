@@ -6,23 +6,31 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
 
 /* Import redux reducers */
-import { setProfilePosts, setProfileUser } from "../redux/Reducers/postReducer";
+import { setProfilePosts, setProfileUser,  } from "../redux/Reducers/postReducer";
 import { updateUser } from "../redux/Reducers/userReducer";
 
 /* Import components */
 import MainNavbar from "../components/Navbar/MainNavbar";
 import ProfilePosts from "../components/Post/ProfilePosts";
+import LargePost from "../components/Post/LargePost";
+import Comments from "../components/Post/Comments/Comments";
 
 
 
 
 const OtherUserProfilePage = () => {
     /* Access states from redux store */ 
-    const user = useSelector((state) => {
-        return state.user.user;
-    });
     const profileUser = useSelector((state) => {
         return state.post.profileUser;
+    });
+    const toggleGuestLargePost = useSelector((state) => {
+        return state.post.toggleGuestLargePost
+    });
+    const guestLargePost = useSelector((state) => {
+        return state.post.guestLargePost
+    });
+    const user = useSelector((state) => {
+        return state.user.user;
     });
     const token = useSelector((state) => {
         return state.user.token;
@@ -159,6 +167,20 @@ const OtherUserProfilePage = () => {
         <div>
             {/* Display the Navbar */}
             <MainNavbar />
+            {toggleGuestLargePost && 
+                (<div className="large-post-overlay">
+                    <div className="large-post-grid" style={{left: guestLargePost?.displayComments ? '15%': '35%' }}>
+                        <LargePost isUser={false}/>
+                    </div>
+
+                    {/* Display the comment area */}
+                    {guestLargePost?.displayComments && 
+                        (<div className="comment-grid">
+                            <Comments isUser={false}/>
+                        </div>)
+                    }
+                </div>
+            )}
             <div className="other-profile-container">
             <div className="profile-grid-container">
                     <div className="profile-col-1">

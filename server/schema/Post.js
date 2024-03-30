@@ -3,6 +3,21 @@ import mongoose from "mongoose";
 /* Create 'Post' Schema */
 const schemaName = 'post';
 
+const replySchema = new mongoose.Schema({
+    userId: {type: String, required: true},
+    userName: {type: String, required: true},
+    userAvatarURL: {type: String, required: true},
+    reply: {type: String, required: true},
+});
+
+const commentSchema = new mongoose.Schema({
+    userId: {type: String, required: true},
+    userName: {type: String, required: true},
+    userAvatarURL: {type: String, required: true},
+    comment: {type: String, required: true},
+    replies: [replySchema],
+});
+
 const PostSchema = new mongoose.Schema({
     userId: {type: String, required: true},
     userName: { type: String },
@@ -11,7 +26,7 @@ const PostSchema = new mongoose.Schema({
     userAvatarURL: {type: String},
     postImgURL: {type: String},
     likes: [{type: String, default: []}],        // a Map object with boolean value
-    comments: {type: [String], default: []},
+    comments: [commentSchema],
     isPrivate: {type: Boolean, default:false},
 
 },
