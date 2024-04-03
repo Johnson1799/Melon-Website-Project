@@ -5,9 +5,6 @@ import { useParams } from 'react-router-dom';
 /* Import redux library */
 import { useSelector, useDispatch } from "react-redux";
 
-/* Import redux reducers */
-// import {  } from '../../redux/Reducers/postReducer';
-// import {  } from "../../redux/Reducers/userReducer";
 
 /* Import components */
 import Replies from "./Replies";
@@ -19,11 +16,6 @@ const Reply = (props) => {
 
     /* States */
     const [toggleReplyTextArea, setToggleReplyTextArea] = useState(false);
-
-    /* Handlers */
-    // const handleReply = () => {
-    //     setToggleReplyTextArea(true);
-    // }
 
     return ( 
         <div className="reply-container-with-reply smaller">

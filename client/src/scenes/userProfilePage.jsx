@@ -265,9 +265,9 @@ const UserProfilePage = () => {
         window.location.reload()
     }
 
-    const receivePostInfo = (post) => {
-        console.log(post);
-    }
+    // const receivePostInfo = (post) => {
+    //     console.log(post);
+    // }
 
     return (
         <div>

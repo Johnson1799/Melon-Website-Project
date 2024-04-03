@@ -1,6 +1,6 @@
 /* Import react library */
 import React from 'react';
-import { useParams, useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 /* Import redux library */
 import { useSelector, useDispatch } from "react-redux";

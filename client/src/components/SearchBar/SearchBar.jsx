@@ -12,6 +12,7 @@ const SearchBar = (props) => {
 
     const handleDataReceivedFromChild = (selectedUser) => {
         setSearchInput('');
+
         props.sendDataToParent(selectedUser);
 
     }

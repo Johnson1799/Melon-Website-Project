@@ -115,6 +115,7 @@ const Post = (props) => {
         const data = {
             postIndex: props.postIndex,
             userId: userId,
+            isHomePage: false,
         };
 
         await fetch(url, {

@@ -10,9 +10,6 @@ import { removeLikePost, addLikePost, setPostIndex, setGuestLargePost, setToggle
 import { addLikeUserPost, removeLikeUserPost, setUserPostIndex, setToggleLargePost, setLargePostIsLiked, setLargePost, setToggleComments } from "../../redux/Reducers/userReducer";
 
 const LargePost = (props) => {
-    /* Reference to a HTML tag */
-    const largePostRef = useRef(null);
-
     /* Access states from redux store */
 
     // User large post 
@@ -38,7 +35,6 @@ const LargePost = (props) => {
     const token = useSelector((state) => {
         return state.user.token;
     })
-
 
 
     const dispatch = useDispatch();
@@ -150,7 +146,7 @@ const LargePost = (props) => {
     }
 
     return ( 
-            <div className="post-container large" ref={largePostRef} >
+            <div className="post-container large" >
                 {/* Close large post button */}
                 {!largePost?.isHomePageLargePost && <button className="large-post-close-button" onClick={closeLargePost}><i className="fa-solid fa-xmark"></i></button>}    
                 

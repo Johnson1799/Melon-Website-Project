@@ -25,6 +25,8 @@ const SearchList = (props) => {
     const showProfile = (user) => {
         setSelectedUser(user);
         setToggleSearchList(false);
+
+        /* Send data to SearchBar.jsx */
         props.sendDataToParent(user);
     }
 

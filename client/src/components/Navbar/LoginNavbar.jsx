@@ -19,9 +19,9 @@ const LoginNavbar = () => {
                         <Link to='/register' className="navbar-brand"><span className="nav-register">Sign Up</span></Link>
                     </li>
 
-                    <li>
+                    {/* <li>
                         <Link to='/home' className="navbar-brand"><span className="nav-about">Home</span></Link>
-                    </li>
+                    </li> */}
                 </ul>
                 
             </div>

@@ -96,7 +96,7 @@ const Replies = (props) => {
 
     return ( 
         <>
-            <div className="replies-container" >
+            <div className="replies-container" style={{height: largePost?.comments[props.commentIndex].replies?.length > 0 ? '210px': '100px'}}>
                 <form>
                     <div className="comment-textarea smaller" >
                         <img src={`${user?.userAvatarURL}`} alt="" className="smaller"/>

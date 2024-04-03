@@ -467,7 +467,6 @@ aside .sidebar .option:not(.active):hover .icon{
 }
 .profile-grid-container{
     display: grid;
-    position: relative;
     grid-template-columns: repeat(1,1fr); 
     max-width: 1200px;
     max-height: 900px;
@@ -1130,6 +1129,12 @@ aside .sidebar .option:not(.active):hover .icon{
     padding-left: 15px;
     padding-right: 15px;
 }
+.post-container .post-content::-webkit-scrollbar{
+    display: none;
+}
+.search-list-container::-webkit-scrollbar-thumb{
+    display: none;
+}
 
 
 /* Post DropDowns list Design */
@@ -1506,7 +1511,7 @@ input:checked + .slider:before{
 .post-image-preview-info-container form .submit-button:hover{
     border: 3px solid #db545a;
 }
-.post-container .post-like-comment{
+.post-like-comment{
     display: flex;
     position: absolute;
     left: 70%;
@@ -2007,11 +2012,13 @@ input:focus {
     padding-right: 7px;
 }
 .comment-container-with-reply::-webkit-scrollbar{
-    width: 5px;
-    background-color: #e4e4e4c3; 
+    /* width: 5px;
+    background-color: #e4e4e4c3;  */
+    display: none;
 }
 .comment-container-with-reply::-webkit-scrollbar-thumb{
-    background: #3b3e41;
+    /* background: #3b3e41; */
+    display: none;
 }
 .comment-container{
     display: flex;
@@ -2025,11 +2032,13 @@ input:focus {
     overflow-x: hidden;
 }
 .comment-container::-webkit-scrollbar{
-    width: 5px;
-    background-color: #e4e4e4c3; 
+    /* width: 5px;
+    background-color: #e4e4e4c3;  */
+    display: none;
 }
 .comment-container::-webkit-scrollbar-thumb{
-    background: #3b3e41;
+    /* background: #3b3e41; */
+    display: none;
 }
 .comment-container .comment-contents{
     display: flex;
@@ -2087,7 +2096,6 @@ input:focus {
 .comment-container-with-reply .replies-container{
     position: inherit;
     right: 2%;
-    height: 210px;
 }
 .replies-container .replies{
     position: inherit;
@@ -2095,6 +2103,7 @@ input:focus {
     flex-direction: column;
     gap: 10px;
     width: 100%;
+    height: auto;
     /* max-height: 190px; */
     top: 108px;
     left: 10%;
@@ -2127,4 +2136,125 @@ input:focus {
     font-size: 12px;
     position: absolute;
     top: 60%;
+}
+
+
+
+/* Home Page Design*/
+.posts-render-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    max-width: 600px;
+    max-height: 140vh;
+    position: absolute;
+    width: 100%;
+    top: 0px;
+    left: 280px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-radius: 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.home-page-post-container .user-info{
+    position: relative;
+    display: flex;
+    gap: 20px;
+    left: 3%;
+    width: 100%;
+    align-items: center;
+    padding: 10px 10px;
+    border-radius: 20px;
+}
+.home-page-post-container .user-info:hover{
+    cursor: pointer;
+}
+.home-page-post-container .user-info .user-avatar{
+    position: relative;
+    object-fit: contain;
+    border-radius: 100%;
+    width: 35px;
+    height: 35px;
+    border: none;
+    background-color: transparent;
+}
+.home-page-post-container .user-info .username{
+    font-weight: 600;
+    font-size: 16px;
+}
+.posts-render-container::-webkit-scrollbar{
+    /* width: 5px;
+    background-color: #e4e4e4c3;  */
+    display: none;
+}
+.posts-render-container::-webkit-scrollbar-thumb{
+    /* background: #3b3e41; */
+    display: none;
+}
+.post-container.large.home{
+    position: relative;
+    left: 3.5%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Temperary */
+.home-page-search-bar-container{
+    position: absolute;
+    top: 70px;
+    left: 15%;
+    width: 700px;
+    height: fit-content;
+}
+.friend-recommandation-container{
+    position: fixed;
+    top: 3%;
+    left: 65%;
+    border-radius: 30px;
+    width: 400px;
+    height: 430px;
+    background-color: #7e7e7e;
+}
+.home-page-notification-container{
+    position: fixed;
+    width: 400px;
+    height: 200px;
+    top: 68%;
+    left: 65%;
+    border-radius: 30px;
+    background-color: #7e7e7e;
 }
