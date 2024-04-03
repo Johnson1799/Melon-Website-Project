@@ -326,6 +326,7 @@ const HomePage = () => {
     
     return (
         <>
+            {/* Loading spinner */}
             {isLoading && 
                 (<div className="spinning-overlay">
                     <div className="spinner-border" role="status">
@@ -333,6 +334,9 @@ const HomePage = () => {
                     </div>
                 </div>)
             }
+
+
+            {/* HomePage container */}
             <div className="home-page-container">
                 <MainNavbar />
 
