@@ -177,7 +177,8 @@ const HomePage = () => {
         .then((data) => {
             if (data.user._id !== user?._id){
                 dispatch(setProfileUser(data.user));
-                navigate(`/profile/other/${data.user?._id}`);
+                const otherUserId = data.user.id;
+                navigate(`/profile/other/${otherUserId}`);
             }
         })
         .catch((err) => {
