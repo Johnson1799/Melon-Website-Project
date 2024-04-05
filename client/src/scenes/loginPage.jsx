@@ -91,7 +91,7 @@ const LoginPage = () => {
 
         if (userInputEmail !== adminAccount.email && userInputEmail !== adminAccount.password){
             /* Login User */
-            const url = "http://csci-3100-project.vercel.app/login";
+            const url = "https://csci-3100-project.vercel.app/login";
             await fetch(url, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json'},
