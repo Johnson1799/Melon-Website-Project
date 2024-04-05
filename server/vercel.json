@@ -1,0 +1,23 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "index.js",
+        "use": "@vercel/node"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "index.js"
+      }
+    ],
+    "env": {
+      "MongoDB_URL": "@mongodb_url",
+      "JWT_SECRET": "hhhkhkhkhkhkhhkdsgsdgsdgsdasasf",
+      "PORT": "3001",
+      "cloud_name": "@cloudinary_cloud_name",
+      "api_key": "@cloudinary_api_key",
+      "api_secret": "@cloudinary_api_secret"
+    }
+  }
