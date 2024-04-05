@@ -1,6 +1,7 @@
 /* Import react library */
 import { useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import toast from 'react-hot-toast';
 
 /* Import redux library */
 import { useDispatch, useSelector} from "react-redux";
@@ -31,6 +32,7 @@ const LoginPage = () => {
     const [userInputPassword, setUserInputPassword] = useState("");
     const [emailErrMsg, setEmailErrMsg] = useState("");
     const [passwordErrMsg, setPasswordErrMsg] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
     /* Access states from redux store */
     const user = useSelector((state) => {
@@ -57,6 +59,7 @@ const LoginPage = () => {
 
     const handleValidation = async(e) => {
         e.preventDefault();
+        setIsLoading(true);
 
         /* Initialize variables and states */
         emailTextfieldRef.current.className = 'form-control email-textfield';      
@@ -106,6 +109,13 @@ const LoginPage = () => {
                     setEmailErrMsg("");
                     setPasswordErrMsg("");
                     dispatch(setToggle());
+                     /* Display the toast */
+                    toast.success(`${data.message}`, {
+                        style: {
+                            background: 'white',
+                            color: 'black',
+                        },
+                    });
                     navigate('/home');
                 } else {
                     /* Fail to find the user in database */
@@ -113,6 +123,13 @@ const LoginPage = () => {
                     passwordTextfieldRef.current.className = 'form-control is-invalid password-textfield';
                     setEmailErrMsg("Incorrect Email or Password");
                     setPasswordErrMsg("Incorrect Email or Password");
+                    toast.error(`${data.error}`, {
+                        style: {
+                            background: 'white',
+                            color: 'black',
+                        },
+                    });
+                    setIsLoading(false);
                 }
                 return res.json();
             })
@@ -125,8 +142,10 @@ const LoginPage = () => {
                 } else {
                     console.log(data.message);
                 }
+                setIsLoading(false);
             })
             .catch((err) => {
+                setIsLoading(false);
                 console.log('Error during login:', err);
             });
         }
@@ -184,6 +203,16 @@ const LoginPage = () => {
 
     return (
         <div>
+
+            {/* Loading spinner */}
+            {isLoading && 
+                (<div className="spinning-overlay">
+                    <div className="spinner-border" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </div>
+                </div>)
+            }
+
             {/* Display the Navbar */}
             <LoginNavbar />
 
