@@ -123,7 +123,7 @@ const LoginPage = () => {
                     passwordTextfieldRef.current.className = 'form-control is-invalid password-textfield';
                     setEmailErrMsg("Incorrect Email or Password");
                     setPasswordErrMsg("Incorrect Email or Password");
-                    toast.error(`${data.error}`, {
+                    toast.error(`Fail to Login`, {
                         style: {
                             background: 'white',
                             color: 'black',
