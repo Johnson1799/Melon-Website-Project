@@ -91,7 +91,7 @@ const LoginPage = () => {
 
         if (userInputEmail !== adminAccount.email && userInputEmail !== adminAccount.password){
             /* Login User */
-            const url = "http://localhost:3001/login";
+            const url = "http://csci-3100-project.vercel.app/login";
             await fetch(url, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json'},
@@ -132,7 +132,7 @@ const LoginPage = () => {
         }
         else{
             /* Login Admin Account */
-            const url = "http://localhost:3001/admin/login";
+            const url = "http://csci-3100-project.vercel.app/admin/login";
             await fetch(url, {
                 method: 'POST',
                 headers: { 

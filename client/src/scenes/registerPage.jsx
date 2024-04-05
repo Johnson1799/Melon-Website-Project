@@ -90,7 +90,7 @@ const RegisterPage = () => {
             };
 
             /* Server route url */
-            const url = "http://localhost:3001/register";
+            const url = "http://csci-3100-project.vercel.app/register";
             fetch(url,{
                 method: 'POST',
                 headers: { 

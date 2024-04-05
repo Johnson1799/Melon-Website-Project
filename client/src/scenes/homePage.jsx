@@ -46,7 +46,7 @@ const HomePage = () => {
 
     const getAllFriendPosts = async() => {
         setIsLoading(true);
-        const url = `http://localhost:3001/posts/get/friends/${user?._id}`;
+        const url = `http://csci-3100-project.vercel.app/posts/get/friends/${user?._id}`;
         await fetch(url, {
             method: "GET",
             headers: {
@@ -71,7 +71,7 @@ const HomePage = () => {
     }
 
     const fetchLargePostData = async (postId) => {
-        const url = `http://localhost:3001/posts/get/${postId}`;
+        const url = `http://csci-3100-project.vercel.app/posts/get/${postId}`;
         
         await fetch(url, 
         {
@@ -96,7 +96,7 @@ const HomePage = () => {
     };
 
     const fetchAllUsers = async() => {
-        const url = `http://localhost:3001/users/database/${user?.id}`;
+        const url = `http://csci-3100-project.vercel.app/users/database/${user?.id}`;
         
         await fetch(url, 
         {
@@ -161,7 +161,7 @@ const HomePage = () => {
 
 
     const routeToProfilePage = async(userId) => {
-        const url = `http://localhost:3001/users/user/${userId}`;
+        const url = `http://csci-3100-project.vercel.app/users/user/${userId}`;
         await fetch(url, {
             method: 'GET',
             headers: {
@@ -189,7 +189,7 @@ const HomePage = () => {
         const postId = info.postId;
         e.stopPropagation();
 
-        const url = `http://localhost:3001/posts/like/${info.userId}`;
+        const url = `http://csci-3100-project.vercel.app/posts/like/${info.userId}`;
         const data = {
             userId: user?._id,
             postId: postId,
@@ -265,7 +265,7 @@ const HomePage = () => {
     const submitComment = async(e) => {
         e.preventDefault();
 
-        const url = `http://localhost:3001/posts/comment/${user?._id}/${largePostInfo._id}`;
+        const url = `http://csci-3100-project.vercel.app/posts/comment/${user?._id}/${largePostInfo._id}`;
         const data = {
             comment: comment,
         }
@@ -324,7 +324,7 @@ const HomePage = () => {
     const submitReply = async(e,commentIndex) => {
         e.preventDefault();
 
-        const url = `http://localhost:3001/posts/reply/${user?._id}/${largePostInfo._id}`;
+        const url = `http://csci-3100-project.vercel.app/posts/reply/${user?._id}/${largePostInfo._id}`;
         const data = {
             commentIndex: commentIndex,
             reply: reply,
@@ -370,7 +370,7 @@ const HomePage = () => {
 
 
     const sendingFollowRequest = async(guest) => {
-        const url = `http://localhost:3001/friends/send/request/${user._id}/${guest._id}`;
+        const url = `http://csci-3100-project.vercel.app/friends/send/request/${user._id}/${guest._id}`;
         await fetch(url, {
             method: 'POST',
             headers: {

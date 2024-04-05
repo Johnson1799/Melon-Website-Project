@@ -55,7 +55,7 @@ const Comments = (props) => {
     const submitComment = async(e) => {
         e.preventDefault();
 
-        const url = `http://localhost:3001/posts/comment/${userId}/${isUser? userPost?._id : profilePost?._id}`;
+        const url = `http://csci-3100-project.vercel.app/posts/comment/${userId}/${isUser? userPost?._id : profilePost?._id}`;
         const data = {
             comment: comment,
         }
