@@ -13,11 +13,11 @@
       }
     ],
     "env": {
-      "MongoDB_URL": "@mongodb_url",
+      "MongoDB_URL": "mongodb+srv://Johnson179:J1203513723@melon.4ksuaj7.mongodb.net/db?retryWrites=true&w=majority&appName=Melon",
       "JWT_SECRET": "hhhkhkhkhkhkhhkdsgsdgsdgsdasasf",
       "PORT": "3001",
-      "cloud_name": "@cloudinary_cloud_name",
-      "api_key": "@cloudinary_api_key",
-      "api_secret": "@cloudinary_api_secret"
+      "cloud_name": "dppg4mvct",
+      "api_key": "563463938471186",
+      "api_secret": "IFGe6InsKCKrJBrApYdEkyfZ2qY"
     }
   }
