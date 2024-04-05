@@ -215,12 +215,12 @@ const UserProfilePage = () => {
                 dispatch(updateUserPost(data));
 
                 /* Display toast */
-                toast.success(`Post has been successfully uploaded`, {
-                    style: {
-                        background: 'white',
-                        color: 'black',
-                    },
-                });
+                // toast.success(`Post has been successfully uploaded`, {
+                //     style: {
+                //         background: 'white',
+                //         color: 'black',
+                //     },
+                // });
             })
             .catch((err) => {
                 console.error('Error updating user data:', err);
@@ -247,14 +247,14 @@ const UserProfilePage = () => {
                 dispatch(updateUser({user: updatedUserData}));
 
                 /* Display toast */
-                toast.success(`Personal information has been successfully edited`, {
-                    style: {
-                        background: 'white',
-                        color: 'black',
-                    },
+                // toast.success(`Personal information has been successfully edited`, {
+                //     style: {
+                //         background: 'white',
+                //         color: 'black',
+                //     },
 
-                    duration: 4000,
-                });
+                //     duration: 4000,
+                // });
             })
             .catch((err) => {
                 console.error('Error updating user data:', err);
