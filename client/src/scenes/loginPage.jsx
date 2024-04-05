@@ -110,20 +110,21 @@ const LoginPage = () => {
                     setPasswordErrMsg("");
                     dispatch(setToggle());
                      /* Display the toast */
-                    toast.success(`${data.message}`, {
+                    toast.success(`Login Successful`, {
                         style: {
                             background: 'white',
                             color: 'black',
                         },
                     });
                     navigate('/home');
+                    
                 } else {
                     /* Fail to find the user in database */
                     emailTextfieldRef.current.className = 'form-control is-invalid email-textfield';
                     passwordTextfieldRef.current.className = 'form-control is-invalid password-textfield';
                     setEmailErrMsg("Incorrect Email or Password");
                     setPasswordErrMsg("Incorrect Email or Password");
-                    toast.error(`Fail to Login`, {
+                    toast.error(`Login Failure`, {
                         style: {
                             background: 'white',
                             color: 'black',
