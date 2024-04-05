@@ -157,7 +157,7 @@ const HomePage = () => {
         fetchAllUsers();
         Initialize();
 
-    },[userPosts, friendsPosts, user?._id])
+    },[userPosts, friendsPosts, user?._id, recommendUsers])
 
 
     const routeToProfilePage = async(userId) => {
