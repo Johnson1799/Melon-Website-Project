@@ -981,7 +981,7 @@ aside .sidebar .option:not(.active):hover .icon{
 .user-nickname-textfield-container .user-nickname-textfield, .username-textfield-container .username-textfield, .email-textfield-container .email-textfield, .contact-textfield-container .text-textfield, .address-textfield-container .text-textfield, .description-textfield-container .text-textfield{
     font-size: 13px;
     width: 70%;
-    height: 0%;
+    height: 3%;
 }
 .user-nickname-textfield-container .user-nickname-textfield:hover, .username-textfield-container .username-textfield:hover, .email-textfield-container .email-textfield:hover, .contact-textfield-container .text-textfield:hover, .address-textfield-container .text-textfield:hover, .description-textfield-container .text-textfield:hover{
     box-shadow: 4px 4px 10px rgba(219,84,90,1);
