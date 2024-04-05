@@ -35,7 +35,7 @@ dotenv.config();
 
 /* Configure 'Express' middleware */
 const app = express();
-app.use(express.json({limit: '10mb'}));
+app.use(express.json({limit: '5mb'}));
 
 /* Configure 'helmet' middleware */
 app.use(helmet());                                                      
