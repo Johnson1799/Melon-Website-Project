@@ -109,7 +109,8 @@ const LoginPage = () => {
                     setEmailErrMsg("");
                     setPasswordErrMsg("");
                     dispatch(setToggle());
-                     /* Display the toast */
+                    
+                    /* Display the toast */
                     toast.success(`Login Successful`, {
                         style: {
                             background: 'white',
@@ -117,7 +118,7 @@ const LoginPage = () => {
                         },
                     });
                     navigate('/home');
-                    
+
                 } else {
                     /* Fail to find the user in database */
                     emailTextfieldRef.current.className = 'form-control is-invalid email-textfield';

@@ -1,6 +1,7 @@
 /* Import react library */
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import toast from 'react-hot-toast';
 
 /* Import assets */
 import RegisterImg from '../assets/register-img.jpeg';
@@ -26,6 +27,7 @@ const RegisterPage = () => {
     const [emailErrMsg, setEmailErrMsg] = useState("");
     const [passwordErrMsg, setPasswordErrMsg] = useState("");
     const [comfirmedPasswordErrMsg, setComfirmedPasswordErrMsg] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
     /* Handlers */
     const handleEmailInputChange = (userEmailInput) => {
@@ -40,6 +42,7 @@ const RegisterPage = () => {
 
     const handleNewUser = (e) => {
         e.preventDefault();
+        setIsLoading(true);
 
         /* Initialize variables and states */
         let emailIsValid = true;
@@ -104,19 +107,35 @@ const RegisterPage = () => {
                     emailTextfieldRef.current.className = 'form-control email-textfield';
                     setEmailErrMsg("");
                     emailIsValid = true;
+
+                    /* Display the toast */
+                    toast.success(`Register Successful`, {
+                        style: {
+                            background: 'white',
+                            color: 'black',
+                        },
+                    });
                     navigate("/");
                 } else {
                     /* When registration failed */
                     emailTextfieldRef.current.className = 'form-control is-invalid email-textfield';
                     setEmailErrMsg("This email has been registered");
                     emailIsValid = false;
+                    setIsLoading(false);
+
+                    /* Display the toast */
+                    toast.error(`Register Failure`, {
+                        style: {
+                            background: 'white',
+                            color: 'black',
+                        },
+                    });
                 }
                 
                 return res.json();
             })
             .then(data => {
-                /* Display registration status message */
-                console.log(data.message);
+                setIsLoading(false);
             })
             .catch(err => {
                 console.log('Error: ', err);
@@ -126,6 +145,17 @@ const RegisterPage = () => {
 
     return ( 
         <div>
+
+            {/* Loading spinner */}
+            {isLoading && 
+                (<div className="spinning-overlay">
+                    <div className="spinner-border" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </div>
+                </div>)
+            }
+
+
             {/* Display the Navbar */}
             <LoginNavbar />
 
