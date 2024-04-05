@@ -45,6 +45,7 @@ const OtherUserProfilePage = () => {
     const [isFriend, setIsFriend] = useState(false);
     const [disableFollowButton, setDisableFollowButton] = useState(false);
     const [followText, setFollowText] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     /* Navigation hook */
     const navigate = useNavigate();
@@ -61,7 +62,8 @@ const OtherUserProfilePage = () => {
 
 
     const getProfilePosts = async () => {
-        const url = `http://csci-3100-project.vercel.app/posts/${profileUser?._id}`;
+        setIsLoading(true);
+        const url = `https://csci-3100-project.vercel.app/posts/${profileUser?._id}`;
         await fetch(url, {
             method: "GET",
             headers: { 
@@ -70,6 +72,7 @@ const OtherUserProfilePage = () => {
         })
         .then((res)=>{
             if (!res.ok){
+                setIsLoading(false);
                 throw new Error(`Get request in (${url}) failed`);
             }
             return res.json();
@@ -78,6 +81,7 @@ const OtherUserProfilePage = () => {
             if (data.posts){
                 dispatch(setProfilePosts(data.posts));
             }
+            setIsLoading(false)
         })
         .catch((err) => {
             console.log(err);
@@ -165,6 +169,16 @@ const OtherUserProfilePage = () => {
 
     return (  
         <div>
+
+            {/* Loading spinner */}
+            {isLoading && 
+                (<div className="spinning-overlay">
+                    <div className="spinner-border" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </div>
+                </div>)
+            }
+
             {/* Display the Navbar */}
             <MainNavbar />
             {toggleGuestLargePost && 
