@@ -4,7 +4,6 @@ import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
-import multer from "multer";
 import helmet from "helmet";
 import {v2 as cloudinary} from 'cloudinary';
 
@@ -13,18 +12,18 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 /* import route files */
-import userRoute from "./routes/userRoute.js";
-import postRoute from "./routes/postRoute.js";
-import friendRoute from "./routes/friendRoute.js";
-import registerRoute from "./routes/registerRoute.js";
-import loginRoute from "./routes/loginRoute.js";
-import adminRoute from "./routes/adminRoute.js";
+import userRoute from "../routes/userRoute.js";
+import postRoute from "../routes/postRoute.js";
+import friendRoute from "../routes/friendRoute.js";
+import registerRoute from "../routes/registerRoute.js";
+import loginRoute from "../routes/loginRoute.js";
+import adminRoute from "../routes/adminRoute.js";
 
 /* Import models files */
-import Admin from "./schema/Admin.js";
+import Admin from "../schema/Admin.js";
 
 /* Import data files */
-import { adminData } from "./data/data.js" ;
+import { adminData } from "../data/data.js" ;
 
 
 /* Middleware Configuration */
@@ -53,20 +52,8 @@ app.use(cors());
 app.use("/assets", express.static(path.join(__dirname, 'public/assets')));
 
 
-/* File Uploading Middleware(multer) Configuration */
-const storage = multer.diskStorage({
-    // specify the directory where the files should be stored
-    destination: (req,file,cb)=>{
-        cb(null,"public/assets");       // cb: call back function
-    },
-    // specify the filename
-    filename: (req,file,cb)=>{
-        cb(null, file.originalname);
-    }
-});
-const upload = multer({storage});
-
 /* Routes server side 'login' page */
+app.get('/',(req,res)=> res.status(200).json('Sever Connection Successful'));
 app.use("/login",loginRoute);
 
 /* Routes server side 'register' page */
