@@ -17,7 +17,7 @@ const UserProfileFriend = (props) => {
     const navigate = useNavigate();
 
     const routeFriendProfile = async(userId) => {
-        const url = `http://csci-3100-project.vercel.app/users/user/${userId}`;
+        const url = `https://csci-3100-project.vercel.app/users/user/${userId}`;
         await fetch(url, {
             method: 'GET',
             headers: {

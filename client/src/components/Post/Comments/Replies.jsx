@@ -56,7 +56,7 @@ const Replies = (props) => {
     const submitReply = async(e) => {
         e.preventDefault();
 
-        const url = `http://csci-3100-project.vercel.app/posts/reply/${userId}/${isUser? userPost?._id : profilePost?._id}`;
+        const url = `https://csci-3100-project.vercel.app/posts/reply/${userId}/${isUser? userPost?._id : profilePost?._id}`;
         const data = {
             commentIndex: props.commentIndex,
             reply: reply,

@@ -113,7 +113,7 @@ const OtherUserProfilePage = () => {
 
 
     const sendingFriendRequest = async() => {
-        const url = `http://csci-3100-project.vercel.app/friends/send/request/${user?._id}/${profileUser?._id}`;
+        const url = `https://csci-3100-project.vercel.app/friends/send/request/${user?._id}/${profileUser?._id}`;
         await fetch(url, {
             method: 'POST',
             headers: {
@@ -139,7 +139,7 @@ const OtherUserProfilePage = () => {
 
 
     const unfollowUser = async() => {
-        const url = `http://csci-3100-project.vercel.app/friends/remove/${user?._id}/${profileUser?._id}`;
+        const url = `https://csci-3100-project.vercel.app/friends/remove/${user?._id}/${profileUser?._id}`;
         await fetch(url, {
             method: "POST",
             headers: { 

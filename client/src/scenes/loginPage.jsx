@@ -132,7 +132,7 @@ const LoginPage = () => {
         }
         else{
             /* Login Admin Account */
-            const url = "http://csci-3100-project.vercel.app/admin/login";
+            const url = "https://csci-3100-project.vercel.app/admin/login";
             await fetch(url, {
                 method: 'POST',
                 headers: { 
