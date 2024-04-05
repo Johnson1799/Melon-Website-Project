@@ -7,7 +7,7 @@ dotenv.config();
 const router = express.Router();
 
 /* Routes to User database */
-router.get("/database", getUserDatabase);
+router.get("/database/:userId", getUserDatabase);
 
 /* Get users by similar username */
 router.get("/:userName", verifyToken, getSimilarUsers);

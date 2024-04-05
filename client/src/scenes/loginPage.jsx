@@ -11,6 +11,7 @@ import { resetPostState } from "../redux/Reducers/postReducer.js";
 import { resetSlideBarState } from "../redux/Reducers/slideBarToggleReducer.js";
 import { resetModalState } from "../redux/Reducers/modalReducer.js";
 import { setAdmin, resetAdminState } from "../redux/Reducers/adminReducer.js";
+import { setToggle } from "../redux/Reducers/slideBarToggleReducer.js";
 
 /* Import components */
 import LoginNavbar from "../components/Navbar/LoginNavbar.jsx";
@@ -104,6 +105,7 @@ const LoginPage = () => {
                     console.log('Login successful');
                     setEmailErrMsg("");
                     setPasswordErrMsg("");
+                    dispatch(setToggle());
                     navigate('/home');
                 } else {
                     /* Fail to find the user in database */

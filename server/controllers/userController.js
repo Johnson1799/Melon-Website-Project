@@ -14,8 +14,11 @@ cloudinary.config({
 /* Get User database function */
 export const getUserDatabase = async (req,res) => {
     try {
+        const userId= req.params.userId
         const allUsersInfo = await User.find();
-        res.json(allUsersInfo);
+        const AllUsersExceptUser = allUsersInfo.filter(user => user._id!==userId);
+        res.status(200).json(AllUsersExceptUser);
+
     } catch (err){
         res.status(500).json({ message: 'Error accessing the database' });
     }

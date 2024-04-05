@@ -6,9 +6,6 @@ import toast from 'react-hot-toast';
 /* Import redux library */
 import { useSelector, useDispatch } from "react-redux";
 
-import { setToggleAddFriendsModal } from '../../redux/Reducers/modalReducer';
-
-
 const SearchList = (props) => {
     const [fetchResult, setFetchResult] = useState(null);
     const [selectedUser, setSelectedUser] = useState(null);

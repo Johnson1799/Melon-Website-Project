@@ -435,7 +435,7 @@ aside .sidebar .option .icon{
     transition: all 0.3s ease;
 }
 aside .sidebar .option:last-child{
-    top: 38%;
+    top: 58%;
 }
 aside .sidebar .option.active{
     color: #db545a;
@@ -2196,65 +2196,73 @@ input:focus {
     position: relative;
     left: 3.5%;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* Temperary */
-.home-page-search-bar-container{
-    position: absolute;
-    top: 70px;
-    left: 15%;
-    width: 700px;
-    height: fit-content;
-}
-.friend-recommandation-container{
+.friend-recommendation-container{
     position: fixed;
-    top: 3%;
+    top: 17%;
     left: 65%;
     border-radius: 30px;
     width: 400px;
     height: 430px;
-    background-color: #7e7e7e;
+    background-color: #d0d0d09f;
+    overflow: hidden;
 }
-.home-page-notification-container{
-    position: fixed;
-    width: 400px;
-    height: 200px;
-    top: 68%;
+.friend-recommendation-image{
+    position: absolute;
+    width: 450px;
+    height: 20%;
+    opacity: 0.8;
+    /* border-radius: 30px; */
+}
+.friend-recommendation-title{
+    position: absolute;
+    top: 23%;
+    left: 30%;
+    font-weight: 700;
+    font-size: 17px;
+}
+.friend-list.homepage.recommend{
+    max-height: 250px;
+    top: 34%;
+}
+.friend-list.homepage.recommend::-webkit-scrollbar{
+    display: none;
+}
+.friend-list::-webkit-scrollbar-thumb{
+    display: none;
+}
+.friend-list.homepage.recommend .friend .follow-button{
+    position: absolute;
+    border-radius: 10px;
+    width: 90px;
+    left: 69%;
+    border: 3px dotted #db545a;
+    background-color: transparent;
+    font-size: 15px;
+    font-weight: 600;
+    color: #3b3e41;
+}
+.friend-list.homepage.recommend .friend .follow-button.disabled{
     left: 65%;
-    border-radius: 30px;
-    background-color: #7e7e7e;
+    width: 120px;
+    background-color: #db545b81;
+    border: 3px solid transparent;
+    color: #fff;
 }
+.friend-list.homepage.recommend .friend .follow-button.disabled:hover{
+    background-color: #db545b81;
+    border: 3px solid transparent;
+    color: #fff;
+}
+.friend-list.homepage.recommend .friend .follow-button:hover{
+    border-style: solid;
+    background-color: #db545a;
+    color: #fff;
+}
+.home-page-search-bar-container{
+    position: fixed;
+    top: 50px;
+    left: 54.5%;
+    width: 700px;
+    height: fit-content;
+}
+

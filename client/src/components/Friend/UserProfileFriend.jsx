@@ -58,8 +58,6 @@ const UserProfileFriend = (props) => {
                     )) 
                     : null}
                 </div>
-    
-                
             </div>
         
         

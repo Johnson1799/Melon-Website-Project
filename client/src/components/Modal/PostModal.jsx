@@ -199,10 +199,10 @@ const PostModal = (props) => {
                                             <form action={`http://localhost:3001/posts/create/${userId}`} method="POST">
 
                                                 {/* Set private switch */}
-                                                <div className="private-check-box-container">
+                                                {/* <div className="private-check-box-container">
                                                     <span className="private-text">Private</span>
                                                     <Switch className='set-private-post' value={togglePrivate} onToggled={handleTogglePrivate} />
-                                                </div>
+                                                </div> */}
 
                         
                                                 <div className="textfield-container">

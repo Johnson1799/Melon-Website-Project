@@ -1,6 +1,7 @@
 /* Import redux library */
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 /* Import redux library */
 import { useSelector, useDispatch } from "react-redux";
@@ -10,6 +11,10 @@ import { setProfileUser } from "../redux/Reducers/postReducer";
 
 /* Import components */
 import MainNavbar from "../components/Navbar/MainNavbar";
+import SearchBar from "../components/SearchBar/SearchBar";
+
+/* Import assets */
+import homePagePic1 from '../assets/homePagePic.jpg';
 
 const HomePage = () => {
     const user = useSelector((state) => {
@@ -22,6 +27,7 @@ const HomePage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const [recommendUsers, setRecommendUsers] = useState(null);
     const [userPosts, setUserPosts] = useState(null);
     const [friendsPosts, setFriendsPosts] = useState(null);
     const [likedPosts, setLikedPosts] = useState({});
@@ -32,8 +38,9 @@ const HomePage = () => {
     const [toggleComments, setToggleComments] = useState(false);
     const [comment, setComment] = useState('');
     const [activeCommentIndex, setActiveCommentIndex] = useState(null);
-    const [toggleReplyTextArea, setToggleReplyTextArea] = useState(false);
     const [reply, setReply] = useState('');
+    const [followText, setChangeFollowText] = useState({});
+    const [disableFollowButtons, setDisableFollowButtons] = useState({});
     const [isLoading, setIsLoading] = useState(false);
 
 
@@ -55,7 +62,6 @@ const HomePage = () => {
         .then((data) =>{
             setUserPosts(data.userPosts);
             setFriendsPosts(data.friendsPosts);
-            console.log(data);
             setIsLoading(false);
         })
         .catch((err) => {
@@ -81,7 +87,6 @@ const HomePage = () => {
             return res.json();
         })
         .then((data)=>{
-            console.log(data);
             setLargePostInfo(data);
         })
         .catch((err)=>{
@@ -90,11 +95,36 @@ const HomePage = () => {
 
     };
 
+    const fetchAllUsers = async() => {
+        const url = `http://localhost:3001/users/database/${user?.id}`;
+        
+        await fetch(url, 
+        {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
+        .then((res)=>{
+            if (!res.ok) {
+                throw new Error(`Error fetching large post data`);
+            }
+            return res.json();
+        })
+        .then((data)=>{
+            setRecommendUsers(data);
+        })
+        .catch((err)=>{
+            console.log(err);
+        })
+    }
+
     const Initialize = () =>{
 
         const initialLikedPosts = {};
         const initialNoOfLikes = {};
         const initialNoOfComments = {};
+        const initialFollowText = {};
         friendsPosts?.forEach(friendPosts => {
             friendPosts.forEach(post => {
                 /* Initialize the no.of like of the post */
@@ -105,12 +135,18 @@ const HomePage = () => {
                 
                 /* Initialize the like status(e.g liked or unliked) of the post */
                 initialLikedPosts[post._id] = post.likes.includes(user?._id);
-
             });
         });
+
+        recommendUsers?.forEach(user => {
+            /* Initialize the text of the 'follow' button */
+            initialFollowText[user._id] = 'Follow';
+        })
+
         setNoOfLikes(initialNoOfLikes);
         setNoOfComments(initialNoOfComments);
         setLikedPosts(initialLikedPosts);
+        setChangeFollowText(initialFollowText);
 
     }
 
@@ -118,7 +154,7 @@ const HomePage = () => {
         if (!userPosts || !friendsPosts){
             getAllFriendPosts();
         }
-
+        fetchAllUsers();
         Initialize();
 
     },[userPosts, friendsPosts, user?._id])
@@ -212,7 +248,6 @@ const HomePage = () => {
 
         /* Reset replies related states */
         setActiveCommentIndex(null);
-        setToggleReplyTextArea(false);
         setReply('');
         
     }
@@ -317,11 +352,63 @@ const HomePage = () => {
             console.log(err);
         });
 
-        /* Display the reply textarea */
-        // setToggleReplyTextArea(true);
-
         /* Clear the text in textfield */
         setReply("");
+    }
+
+    const disableFollowButtonHandler = (guestId) =>{
+        setDisableFollowButtons(prevState => ({
+            ...prevState, [guestId]:true
+        }));
+    }
+
+    const changeFollowTextHandler = (guestId) => {
+        setChangeFollowText(prevState => ({
+            ...prevState, [guestId]:'Request Sent'
+        }));
+    }
+
+
+    const sendingFollowRequest = async(guest) => {
+        const url = `http://localhost:3001/friends/send/request/${user._id}/${guest._id}`;
+        await fetch(url, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
+        .then((res) => {
+            if (!res.ok) {
+                throw new Error('Fail to send friend request ');
+            }
+            return res.json();
+        })
+        .then((data) => {
+            if (data.message){
+                /* Display the toast */
+                toast.success(`${data.message}`, {
+                    style: {
+                        background: 'white',
+                        color: 'black',
+                    },
+                });
+                disableFollowButtonHandler(guest._id);
+                changeFollowTextHandler(guest._id);
+            } 
+            else {
+                toast.error(`${data.error}`, {
+                    style: {
+                        background: 'white',
+                        color: 'black',
+                    },
+                });
+            }
+        })
+        .catch((err) => {
+            console.error(err);
+        });
+    
+
     }
     
     return (
@@ -478,18 +565,26 @@ const HomePage = () => {
                 }
 
 
-
+                
                 {/* <div className="home-page-search-bar-container">
                     <SearchBar />
-                </div>
-
-                <div className="friend-recommandation-container">
-                    <span className="title">Friend Recommandation</span>
-                </div>
-
-                <div className="home-page-notification-container">
-                    <span className="title">Notification</span>
                 </div> */}
+
+                <div className="friend-recommendation-container" >
+                    <img className='friend-recommendation-image' src={homePagePic1} alt="HomePagePic1" />
+                    <span className='friend-recommendation-title'>Recommend Users</span>
+                    <div className='friend-list homepage recommend'>
+                        {recommendUsers ? recommendUsers.filter(guest => (guest._id !== user?._id) && (!guest.friendRequests.includes(user?._id)) && (!user?.friends.some(friend => friend._id === guest._id))).map(guest => (
+                            <div key={guest._id} className="friend">
+                                <button className="friend-avatar" onClick={() => routeToProfilePage(guest._id)}><img src={guest.userAvatarURL} alt={`${guest.userName}'s avatar`} /></button>
+                                <span className="friend-name">{guest.userName}</span>
+                                <button className={`follow-button ${disableFollowButtons[guest._id] ? 'disabled' : 'enabled'}`} onClick={() => {sendingFollowRequest(guest); disableFollowButtonHandler(guest._id); changeFollowTextHandler(guest._id)}} disabled={disableFollowButtons[guest._id]}>{followText[guest._id]}</button>
+                            </div>
+                        )) : null}
+                    </div>
+                </div>
+      
+
                 
             </div>
         </>
