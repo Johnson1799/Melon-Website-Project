@@ -1849,6 +1849,16 @@ input:focus {
 .post-table-container::-webkit-scrollbar-thumb, .user-table-container::-webkit-scrollbar-thumb {
     background: #3b3e41;
 }
+.delete-user-button{
+    border: 2px dotted #db545a;
+    border-radius: 30px;
+    background-color: transparent;
+}
+.delete-user-button:hover{
+    border: 2px dotted transparent;
+    background-color: #3b3e41;
+    color: #db545a;
+}
 
 
 /* Large Post Design */

@@ -240,7 +240,7 @@ const AdminPage = () => {
                             <TableBody>
                                 {allUsers.map((user) => (
                                     <>
-                                        <button onClick={()=>deleteUser(user._id)}><i className="fa-solid fa-trash"></i></button>
+                                        <button onClick={()=>deleteUser(user._id)} className="delete-user-button"><i className="fa-solid fa-trash"></i></button>
                                         <TableRow key={user._id}>
                                             {usersColumns.map((usersColumn) => (
                                         
