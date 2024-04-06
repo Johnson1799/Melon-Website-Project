@@ -96,6 +96,7 @@ const HomePage = () => {
     };
 
     const fetchAllUsers = async() => {
+        setIsLoading(true);
         const url = `https://csci-3100-project.vercel.app/users/database/${user?.id}`;
         
         await fetch(url, 
@@ -113,6 +114,7 @@ const HomePage = () => {
         })
         .then((data)=>{
             setRecommendUsers(data);
+            setIsLoading(false);
         })
         .catch((err)=>{
             console.log(err);
