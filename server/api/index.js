@@ -50,7 +50,7 @@ const corsOptions = {
     origin: 'https://csci-3100-project-client.vercel.app', 
     optionsSuccessStatus: 200
 };
-app.use(cors(corsOptions));
+app.use(cors());
 
 /* Setting up the directory for styling */
 app.use("/assets", express.static(path.join(__dirname, 'public/assets')));
