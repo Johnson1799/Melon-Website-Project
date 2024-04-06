@@ -123,21 +123,6 @@ export const deleteUser = async (req,res) => {
             const updatedPostList = admin.posts.filter(post => post.userId !== userId);
             await Admin.updateOne({_id: adminId}, {$set: {users: updatedUserList, posts: updatedPostList}});
 
-            /* Delete the user data from User schema */
-            const deletedUser = await User.findByIdAndDelete(userId);
-            if (!deletedUser){
-                return res.status(404).json({ message: 'User not found' });
-            }
-
-            /* Remove user avatar from Cloudinary */
-            // const defaultUserAvatarURL = 'https://res.cloudinary.com/dppg4mvct/image/upload/v1711785845/avatar/default_user_avatar.png'
-            // if (deletedUser.userImgURL !== defaultUserAvatarURL){
-            //     const publicId = extractPublicId(deletedUser.userImgURL);
-            //     await cloudinary.uploader.destroy(publicId);
-            // }
-        
-
-
             /* Remove posts from Cloudinary */
             const postsToBeDeleted = await Post.find({userId:userId});
             const deletePostsPromise = postsToBeDeleted.map( async(post) => {
@@ -149,6 +134,19 @@ export const deleteUser = async (req,res) => {
 
             /* Remove posts from posts schema */
             await Post.deleteMany({userId: userId});
+
+            /* Delete the user data from User schema */
+            const deletedUser = await User.findByIdAndDelete(userId);
+            if (!deletedUser){
+                return res.status(404).json({ message: 'User not found' });
+            }
+
+            /* Remove user avatar from Cloudinary */
+            const defaultUserAvatarURL = 'https://res.cloudinary.com/dppg4mvct/image/upload/v1711785845/avatar/default_user_avatar.png'
+            if (deletedUser.userImgURL && deletedUser?.userImgURL !== defaultUserAvatarURL){
+                const publicId = extractPublicId(deletedUser?.userImgURL);
+                await cloudinary.uploader.destroy(publicId);
+            }
 
             res.status(200).send({message: 'success'});
 
