@@ -94,7 +94,7 @@ const AdminPage = () => {
     useEffect(()=>{
         getUsers();
         getPosts();
-    },[adminId, allUsers, allPosts]);
+    },[adminId]);
     
 
     const toggleUsersTable = () => {
@@ -153,6 +153,7 @@ const AdminPage = () => {
                     duration: 3000,
                 });
                 setIsLoading(false);
+                window.location.reload();
             })
             .catch((err) => {
                 console.log(err);

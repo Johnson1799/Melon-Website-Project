@@ -262,7 +262,7 @@ const UserProfilePage = () => {
 
         }
         setIsLoading(true);
-        window.location.reload()
+        window.location.reload();
     }
 
     // const receivePostInfo = (post) => {
