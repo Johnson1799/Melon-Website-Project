@@ -11,6 +11,7 @@ import { setCountFriendRequests } from '../../redux/Reducers/notificationReducer
 const FriendRequest = (props) => {
     /* States */
     const [friendsRequestData, setFriendsRequestData] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     const userId = useParams().userId;
     const navigate = useNavigate();
@@ -25,6 +26,7 @@ const FriendRequest = (props) => {
     const dispatch = useDispatch();
 
     const fetchFriendRequest = async() => {
+        setIsLoading(true);
         const url = `https://csci-3100-project.vercel.app/friends/request/${userId}`;
         await fetch(url, {
             method: 'GET',
@@ -34,11 +36,13 @@ const FriendRequest = (props) => {
         })
         .then((res) => {
             if (!res.ok) {
+                setIsLoading(false);
                 throw new Error('Fail to send friend request ');
             }
             return res.json();
         })
         .then((data) => {
+            setIsLoading(false);
             setFriendsRequestData(data);
             /* Count the number of friend requests initially */
             dispatch(setCountFriendRequests(data?.length));
@@ -142,6 +146,16 @@ const FriendRequest = (props) => {
     return (  
 
         <>
+            {/* Loading spinner */}
+            {isLoading && 
+                (<div className="spinning-overlay">
+                    <div className="spinner-border" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </div>
+                </div>)
+            }
+
+            
             {friendsRequestData && (
                 friendsRequestData.map((friendRequestData,index)=> (
                     <div className='friend-request-container' key={index}>
