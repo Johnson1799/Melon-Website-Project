@@ -46,10 +46,6 @@ app.use(bodyParser.json({limit: "30mb", extended: true}));
 app.use(bodyParser.urlencoded( {limit: "30mb", extended: true}));
 
 /* Configure 'cors' middleware */
-const corsOptions = {
-    origin: 'https://csci-3100-project-client.vercel.app', 
-    optionsSuccessStatus: 200
-};
 app.use(cors());
 
 /* Setting up the directory for styling */
@@ -94,8 +90,15 @@ mongoose.connect(process.env.MongoDB_URL)       // Connect to MongoDB by URL def
     });
 
     /* Insert the admin data to the database */
-    if (!await Admin.findOne()){
-        Admin.insertMany(adminData);
+    const adminExists = await Admin.findOne(); // find any admin record
+    if (!adminExists) {
+        await Admin.insertMany(adminData)
+        .then(() => {
+            console.log('Admin data inserted successfully.');
+        })
+        .catch((error) => {
+            console.error('Error inserting admin data:', error);
+        });
     }
     
 }) 
