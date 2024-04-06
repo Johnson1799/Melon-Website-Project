@@ -121,6 +121,7 @@ const HomePage = () => {
 
     const Initialize = () =>{
 
+        setIsLoading(true);
         const initialLikedPosts = {};
         const initialNoOfLikes = {};
         const initialNoOfComments = {};
@@ -147,6 +148,7 @@ const HomePage = () => {
         setNoOfComments(initialNoOfComments);
         setLikedPosts(initialLikedPosts);
         setChangeFollowText(initialFollowText);
+        setIsLoading(false);
 
     }
 
