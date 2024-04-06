@@ -130,11 +130,11 @@ export const deleteUser = async (req,res) => {
             }
 
             /* Remove user avatar from Cloudinary */
-            const defaultUserAvatarURL = 'https://res.cloudinary.com/dppg4mvct/image/upload/v1711785845/avatar/default_user_avatar.png'
-            if (deletedUser.userImgURL !== defaultUserAvatarURL){
-                const publicId = extractPublicId(deletedUser.userImgURL);
-                await cloudinary.uploader.destroy(publicId);
-            }
+            // const defaultUserAvatarURL = 'https://res.cloudinary.com/dppg4mvct/image/upload/v1711785845/avatar/default_user_avatar.png'
+            // if (deletedUser.userImgURL !== defaultUserAvatarURL){
+            //     const publicId = extractPublicId(deletedUser.userImgURL);
+            //     await cloudinary.uploader.destroy(publicId);
+            // }
         
 
 
