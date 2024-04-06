@@ -43,7 +43,6 @@ export const adminLogin = async (req,res) => {
             if (!isPasswordHashed){
                 adminPassword = await bcrypt.hash(adminPassword, salt);
             }
-            
 
             /* Check if the input password is correct */
             const isPasswordMatch = await bcrypt.compare(inputPassword, adminPassword);
@@ -149,7 +148,7 @@ export const deleteUser = async (req,res) => {
                 await cloudinary.uploader.destroy(publicId);
             }
 
-            res.status(200).send({users: updatedUserList, posts: updatedPostList});
+            res.status(200).send({users: updatedUserList, posts:updatedPostList});
 
         }
 
