@@ -46,7 +46,11 @@ app.use(bodyParser.json({limit: "30mb", extended: true}));
 app.use(bodyParser.urlencoded( {limit: "30mb", extended: true}));
 
 /* Configure 'cors' middleware */
-app.use(cors());
+const corsOptions = {
+    origin: 'https://csci-3100-project-client.vercel.app', 
+    optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions));
 
 /* Setting up the directory for styling */
 app.use("/assets", express.static(path.join(__dirname, 'public/assets')));
