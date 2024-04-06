@@ -41,8 +41,8 @@ export const adminLogin = async (req,res) => {
             const isPasswordHashed = bcrypt.compareSync(adminPassword, admin.password);
 
             if (!isPasswordHashed){
-                adminPassword = await bcrypt.hash(adminPassword, salt);
-                admin.password = adminPassword;
+                const hashedAdminPassword = await bcrypt.hash(adminPassword, salt);
+                admin.password = hashedAdminPassword;
                 await admin.save();
             }
 
