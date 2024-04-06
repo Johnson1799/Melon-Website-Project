@@ -148,7 +148,7 @@ export const deleteUser = async (req,res) => {
                 await cloudinary.uploader.destroy(publicId);
             }
 
-            res.status(200).send({message: 'success'});
+            res.status(200).send({users: updatedUserList, posts: updatedPostList});
 
         }
 
