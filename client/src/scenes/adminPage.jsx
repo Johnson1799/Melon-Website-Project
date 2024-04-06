@@ -240,15 +240,18 @@ const AdminPage = () => {
 
                             <TableBody>
                                 {allUsers.map((user) => (
-                                    <TableRow key={user._id}>
-                                        {usersColumns.map((usersColumn) => (
-                                            <TableCell key={usersColumn.id} align="center">
-                                                {usersColumn.id === 'friends' ? user[usersColumn.id].map((friend) => friend._id.toString()).join(`\n`) : 
-                                                (usersColumn.id === 'posts' ?  user[usersColumn.id].map((post) => post).join(`\n`) : 
-                                                (usersColumn.id === 'friendRequests' ? user[usersColumn.id].map((friendRequest) => friendRequest).join(`\n`) : user[usersColumn.id])                 ) }
-                                            </TableCell>
-                                        ))}
-                                    </TableRow>
+                                    <>
+                                        <button onClick={deleteUser(user._id)}><i className="fa-solid fa-trash"></i></button>
+                                        <TableRow key={user._id}>
+                                            {usersColumns.map((usersColumn) => (
+                                                <TableCell key={usersColumn.id} align="center">
+                                                    {usersColumn.id === 'friends' ? user[usersColumn.id].map((friend) => friend._id.toString()).join(`\n`) : 
+                                                    (usersColumn.id === 'posts' ?  user[usersColumn.id].map((post) => post).join(`\n`) : 
+                                                    (usersColumn.id === 'friendRequests' ? user[usersColumn.id].map((friendRequest) => friendRequest).join(`\n`) : user[usersColumn.id])                 ) }
+                                                </TableCell>
+                                            ))}
+                                        </TableRow>
+                                    </>
                                 ))}
                             </TableBody>
                             </Table>
