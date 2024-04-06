@@ -94,7 +94,7 @@ const AdminPage = () => {
     useEffect(()=>{
         getUsers();
         getPosts();
-    },[adminId]);
+    },[adminId, allUsers, allPosts]);
     
 
     const toggleUsersTable = () => {
@@ -144,7 +144,7 @@ const AdminPage = () => {
             })
             .then((data) =>{
                 setAllUsers(data.users);
-                setAllUsers(data.posts);
+                setAllPosts(data.posts);
                 toast.success(`Delete User Successful`, {
                     style: {
                         background: 'white',

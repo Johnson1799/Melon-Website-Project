@@ -129,6 +129,14 @@ export const deleteUser = async (req,res) => {
                 return res.status(404).json({ message: 'User not found' });
             }
 
+            /* Remove user avatar from Cloudinary */
+            const defaultUserAvatarURL = 'https://res.cloudinary.com/dppg4mvct/image/upload/v1711785845/avatar/default_user_avatar.png'
+            if (deletedUser.userImgURL !== defaultUserAvatarURL){
+                const publicId = extractPublicId(deletedUser.userImgURL);
+                await cloudinary.uploader.destroy(publicId);
+            }
+        
+
 
             /* Remove posts from Cloudinary */
             const postsToBeDeleted = await Post.find({userId:userId});
