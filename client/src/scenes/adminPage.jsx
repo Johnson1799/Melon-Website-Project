@@ -126,40 +126,39 @@ const AdminPage = () => {
     /* Delete users */
     const deleteUser = async(userId) => {
         setIsLoading(true);
-        console.log(userId,'    ',adminId);
-        // if (adminId){
-        //     const url = `https://csci-3100-project.vercel.app/admin/delete/user/${adminId}/${userId}`;
+        if (adminId){
+            const url = `https://csci-3100-project.vercel.app/admin/delete/user/${adminId}/${userId}`;
 
-        //     await fetch(url, {
-        //         method: "DELETE",
-        //         headers: { 
-        //             Authorization: `Bearer ${token}`
-        //         },
-        //     })
-        //     .then((res)=>{
-        //         if (!res.ok){
-        //             setIsLoading(false);
-        //             throw new Error(`Fali to get all the posts' information`);
-        //         }
-        //         return res.json();
-        //     })
-        //     .then((data) =>{
-        //         setAllUsers(data.users);
-        //         setAllUsers(data.posts);
-        //         toast.success(`Delete User Successful`, {
-        //             style: {
-        //                 background: 'white',
-        //                 color: 'black',
-        //             },
-        //             duration: 3000,
-        //         });
-        //         setIsLoading(false);
-        //     })
-        //     .catch((err) => {
-        //         console.log(err);
-        //         navigate("/");
-        //     });
-        // }
+            await fetch(url, {
+                method: "DELETE",
+                headers: { 
+                    Authorization: `Bearer ${token}`
+                },
+            })
+            .then((res)=>{
+                if (!res.ok){
+                    setIsLoading(false);
+                    throw new Error(`Fali to get all the posts' information`);
+                }
+                return res.json();
+            })
+            .then((data) =>{
+                setAllUsers(data.users);
+                setAllUsers(data.posts);
+                toast.success(`Delete User Successful`, {
+                    style: {
+                        background: 'white',
+                        color: 'black',
+                    },
+                    duration: 3000,
+                });
+                setIsLoading(false);
+            })
+            .catch((err) => {
+                console.log(err);
+                navigate("/");
+            });
+        }
     }
 
 
