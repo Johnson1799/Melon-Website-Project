@@ -57,7 +57,7 @@ export const adminLogin = async (req,res) => {
             const updatedAdmin = await admin.save();
 
             /* Send the response to the front-end */
-            res.status(201).send({adminId: updatedAdmin._id, token: token});
+            res.status(200).send({adminId: updatedAdmin._id, token: token});
         }
     }
     catch (err) {
@@ -79,7 +79,7 @@ export const getUsers = async (req,res) => {
             const users = await User.find();
             admin.users = users;
             await admin.save();
-            res.status(201).send({users});
+            res.status(200).send({users});
         }
 
     } catch (err){
@@ -100,7 +100,7 @@ export const getPosts = async (req,res) => {
             const posts = await Post.find();
             admin.posts = posts;
             await admin.save();
-            res.status(201).send({posts});
+            res.status(200).send({posts});
         }
 
     } catch (err){
