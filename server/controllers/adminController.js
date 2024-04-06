@@ -120,8 +120,8 @@ export const deleteUser = async (req,res) => {
             const userId = req.params.userId;
 
             const updatedUserList = admin.users.filter(user => !user._id.equals(userId));
-            const updatedPostList = admin.posts.filter(post => post.userId!==userId);
-            const newAdminData = await Admin.updateOne({_id: adminId}, {$set: {users: updatedUserList, posts: updatedPostList}}, { new: true })
+            const updatedPostList = admin.posts.filter(post => post.userId !== userId);
+            await Admin.updateOne({_id: adminId}, {$set: {users: updatedUserList, posts: updatedPostList}});
 
             /* Delete the user data from User schema */
             const deletedUser = await User.findByIdAndDelete(userId);
@@ -150,7 +150,7 @@ export const deleteUser = async (req,res) => {
             /* Remove posts from posts schema */
             await Post.deleteMany({userId: userId});
 
-            res.status(200).send({users: newAdminData.users, posts: newAdminData.posts});
+            res.status(200).send({message: 'success'});
 
         }
 

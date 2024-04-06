@@ -143,8 +143,9 @@ const AdminPage = () => {
                 return res.json();
             })
             .then((data) =>{
-                setAllUsers(data.users);
-                setAllPosts(data.posts);
+                // setAllUsers(data.users);
+                // setAllPosts(data.posts);
+                console.log(data.message);
                 toast.success(`Delete User Successful`, {
                     style: {
                         background: 'white',
