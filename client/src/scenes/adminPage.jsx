@@ -158,7 +158,7 @@ const AdminPage = () => {
             })
             .catch((err) => {
                 console.log(err);
-                // navigate("/");
+                navigate("/");
             });
         }
     }

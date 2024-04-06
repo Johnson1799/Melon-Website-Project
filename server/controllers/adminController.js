@@ -42,7 +42,11 @@ export const adminLogin = async (req,res) => {
 
             if (!isPasswordHashed){
                 adminPassword = await bcrypt.hash(adminPassword, salt);
+                admin.password = adminPassword;
+                await admin.save();
             }
+
+            
 
             /* Check if the input password is correct */
             const isPasswordMatch = await bcrypt.compare(inputPassword, adminPassword);
