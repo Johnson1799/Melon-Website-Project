@@ -20,6 +20,7 @@ const AdminPage = () => {
     const [toggleUsersTableState, setToggleUsersTable] = useState(false);
     const [togglePostsTableState, setTogglePostsTable] = useState(false);
     const [title, setTitle] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     const adminId = useSelector((state)=>{
         return state.admin.adminId;
@@ -31,6 +32,7 @@ const AdminPage = () => {
     const navigate = useNavigate();
 
     const getUsers = async() =>{
+        setIsLoading(true);
         if (adminId){
             const url = `https://csci-3100-project.vercel.app/admin/get/users/${adminId}`;
 
@@ -42,12 +44,14 @@ const AdminPage = () => {
             })
             .then((res)=>{
                 if (!res.ok){
+                    setIsLoading(false);
                     throw new Error(`Fali to get all the users' information`);
                 }
                 return res.json();
             })
             .then((data) =>{
                 setAllUsers(data.users);
+                setIsLoading(false);
             })
             .catch((err) => {
                 console.log(err);
@@ -58,6 +62,7 @@ const AdminPage = () => {
     }
 
     const getPosts = async() => {
+        setIsLoading(true);
         if (adminId){
             const url = `https://csci-3100-project.vercel.app/admin/get/posts/${adminId}`;
 
@@ -69,12 +74,14 @@ const AdminPage = () => {
             })
             .then((res)=>{
                 if (!res.ok){
+                    setIsLoading(false);
                     throw new Error(`Fali to get all the posts' information`);
                 }
                 return res.json();
             })
             .then((data) =>{
                 setAllPosts(data.posts);
+                setIsLoading(false);
             })
             .catch((err) => {
                 console.log(err);
@@ -116,6 +123,44 @@ const AdminPage = () => {
         });
     }
 
+    /* Delete users */
+    const deleteUser = async(userId) => {
+        setIsLoading(true);
+        if (adminId){
+            const url = `https://csci-3100-project.vercel.app/admin/delete/user/${adminId}/${userId}`;
+
+            await fetch(url, {
+                method: "DELETE",
+                headers: { 
+                    Authorization: `Bearer ${token}`
+                },
+            })
+            .then((res)=>{
+                if (!res.ok){
+                    setIsLoading(false);
+                    throw new Error(`Fali to get all the posts' information`);
+                }
+                return res.json();
+            })
+            .then((data) =>{
+                setAllUsers(data.users);
+                setAllUsers(data.posts);
+                toast.success(`Delete User Successful`, {
+                    style: {
+                        background: 'white',
+                        color: 'black',
+                    },
+                    duration: 3000,
+                });
+                setIsLoading(false);
+            })
+            .catch((err) => {
+                console.log(err);
+                navigate("/");
+            });
+        }
+    }
+
 
     /* Users table column */
     const usersColumns = [
@@ -155,89 +200,102 @@ const AdminPage = () => {
 
 
     return (
-        <div className="admin-page-container">
-            {(allUsers && allPosts) &&
-                (<div>
-                    <div className="button-container">
-                        <button onClick={toggleUsersTable}>Users Table</button>
-                        <button onClick={togglePostsTable}>Posts Table</button>
-                        <button onClick={refreshData} className="refresh-button"><i className="fa-solid fa-arrows-rotate"></i></button>
+        <>
+            {/* Loading spinner */}
+            {isLoading && 
+                (<div className="spinning-overlay">
+                    <div className="spinner-border" role="status">
+                        <span className="visually-hidden">Loading...</span>
                     </div>
-                    <span>{title}</span>
-                </div>)}
-
-            {/* Users table */}
-            {(toggleUsersTableState && allUsers) &&
-                (<div className="user-table-container">
-           
-                    <TableContainer component={Paper} sx={{ overflowX: 'visible' }} >
-                        <Table >
-                        <TableHead>
-                            <TableRow>
-                            {usersColumns.map((usersColumn) => (
-                                <TableCell key={usersColumn.id} align="center" sx={{ fontSize: 16, fontWeight: 600, whiteSpace: 'nowrap' }}>{usersColumn.label}</TableCell>
-                            ))}
-                            </TableRow>
-                        </TableHead>
-
-
-                        <TableBody>
-                            {allUsers.map((user) => (
-                                <>
-                                    <TableRow key={user._id}>
-                                        {usersColumns.map((usersColumn) => (
-                                            <TableCell key={usersColumn.id} align="center">
-                                                {usersColumn.id === 'friends' ? user[usersColumn.id].map((friend) => friend._id.toString()).join(`\n`) : 
-                                                (usersColumn.id === 'posts' ?  user[usersColumn.id].map((post) => post).join(`\n`) : 
-                                                (usersColumn.id === 'friendRequests' ? user[usersColumn.id].map((friendRequest) => friendRequest).join(`\n`) : user[usersColumn.id])                 ) }
-                                            </TableCell>
-                                        ))}
-                                    </TableRow>
-                                    <button><i className="fa-solid fa-trash"></i></button>
-                                </>
-                            ))}
-                        </TableBody>
-                        </Table>
-                    </TableContainer>
                 </div>)
             }
 
 
-            {/* Post table */}
-            {(togglePostsTableState && allPosts) &&
-                (<div className="post-table-container">
+            <div className="admin-page-container">
+                {(allUsers && allPosts) &&
+                    (<div>
+                        <div className="button-container">
+                            <button onClick={toggleUsersTable}>Users Table</button>
+                            <button onClick={togglePostsTable}>Posts Table</button>
+                            <button onClick={refreshData} className="refresh-button"><i className="fa-solid fa-arrows-rotate"></i></button>
+                        </div>
+                        <span>{title}</span>
+                    </div>)}
 
-                    <TableContainer component={Paper} sx={{ overflowX: 'visible' }}>
-                        <Table >
+                {/* Users table */}
+                {(toggleUsersTableState && allUsers) &&
+                    (<div className="user-table-container">
+            
+                        <TableContainer component={Paper} sx={{ overflowX: 'visible' }} >
+                            <Table >
                             <TableHead>
-                                <TableRow >
-                                {postsColumns.map((postsColumn) => (
-                                    <TableCell key={postsColumn.id} align="center" sx={{ fontSize: 16, fontWeight: 600, whiteSpace: 'nowrap' }}>{postsColumn.label}</TableCell>
+                                <TableRow>
+                                {usersColumns.map((usersColumn) => (
+                                    <TableCell key={usersColumn.id} align="center" sx={{ fontSize: 16, fontWeight: 600, whiteSpace: 'nowrap' }}>{usersColumn.label}</TableCell>
                                 ))}
                                 </TableRow>
                             </TableHead>
 
 
                             <TableBody>
-                                {allPosts.map((post) => (
-                                    <TableRow key={post._id} >           
-                                        {postsColumns.map((postsColumn) => (
-                                            <TableCell key={postsColumn.id} align="center" sx={{ whiteSpace: 'nowrap' }}>
-                                                {postsColumn.id === 'likes' ? post[postsColumn.id].length : 
-                                                (postsColumn.id === 'comments' ? post[postsColumn.id].length : 
-                                                (postsColumn.id === 'isPrivate' ?  (post[postsColumn.id] === true ? 'Private' : 'Public') : post[postsColumn.id]))}
-                                            </TableCell>
-                                        ))}
-                                    </TableRow>
+                                {allUsers.map((user) => (
+                                    <>
+                                        <button onClick={deleteUser(user._id)}><i className="fa-solid fa-trash"></i></button>
+                                        <TableRow key={user._id}>
+                                            {usersColumns.map((usersColumn) => (
+                                                <TableCell key={usersColumn.id} align="center">
+                                                    {usersColumn.id === 'friends' ? user[usersColumn.id].map((friend) => friend._id.toString()).join(`\n`) : 
+                                                    (usersColumn.id === 'posts' ?  user[usersColumn.id].map((post) => post).join(`\n`) : 
+                                                    (usersColumn.id === 'friendRequests' ? user[usersColumn.id].map((friendRequest) => friendRequest).join(`\n`) : user[usersColumn.id])                 ) }
+                                                </TableCell>
+                                            ))}
+                                        </TableRow>
+                                    </>
                                 ))}
                             </TableBody>
-                        </Table>
-                    </TableContainer>
-                </div>)
-            }
+                            </Table>
+                        </TableContainer>
+                    </div>)
+                }
 
-        </div>
+
+                {/* Post table */}
+                {(togglePostsTableState && allPosts) &&
+                    (<div className="post-table-container">
+
+                        <TableContainer component={Paper} sx={{ overflowX: 'visible' }}>
+                            <Table >
+                                <TableHead>
+                                    <TableRow >
+                                    {postsColumns.map((postsColumn) => (
+                                        <TableCell key={postsColumn.id} align="center" sx={{ fontSize: 16, fontWeight: 600, whiteSpace: 'nowrap' }}>{postsColumn.label}</TableCell>
+                                    ))}
+                                    </TableRow>
+                                </TableHead>
+
+
+                                <TableBody>
+                                    {allPosts.map((post) => (
+                                        <TableRow key={post._id} >           
+                                            {postsColumns.map((postsColumn) => (
+                                                <TableCell key={postsColumn.id} align="center" sx={{ whiteSpace: 'nowrap' }}>
+                                                    {postsColumn.id === 'likes' ? post[postsColumn.id].length : 
+                                                    (postsColumn.id === 'comments' ? post[postsColumn.id].length : 
+                                                    (postsColumn.id === 'isPrivate' ?  (post[postsColumn.id] === true ? 'Private' : 'Public') : post[postsColumn.id]))}
+                                                </TableCell>
+                                            ))}
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </div>)
+                }
+
+            </div>
+        </>
     )
 }
+
 
 export default AdminPage;

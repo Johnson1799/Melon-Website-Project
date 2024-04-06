@@ -1,5 +1,5 @@
 import express from "express";
-import { adminLogin, getUsers, getPosts } from "../controllers/adminController.js";
+import { adminLogin, getUsers, getPosts, deleteUser } from "../controllers/adminController.js";
 import { verifyToken } from "../middleware/authorization.js";
 
 const router = express.Router();
@@ -12,6 +12,8 @@ router.post("/get/users/:adminId", verifyToken, getUsers);
 
 /* Get all the posts information in database*/
 router.post("/get/posts/:adminId", verifyToken, getPosts);
+
+router.delete("/delete/user/:adminId/:userId",verifyToken, deleteUser);
 
 
 export default router;
