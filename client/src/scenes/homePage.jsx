@@ -114,6 +114,7 @@ const HomePage = () => {
         })
         .then((data)=>{
             setRecommendUsers(data);
+            Initialize(data);
             setIsLoading(false);
         })
         .catch((err)=>{
@@ -121,9 +122,7 @@ const HomePage = () => {
         })
     }
 
-    const Initialize = () =>{
-
-        setIsLoading(true);
+    const Initialize = (recommendUsers) =>{
         const initialLikedPosts = {};
         const initialNoOfLikes = {};
         const initialNoOfComments = {};
@@ -141,7 +140,7 @@ const HomePage = () => {
             });
         });
 
-        recommendUsers?.forEach(user => {
+        recommendUsers.forEach(user => {
             /* Initialize the text of the 'follow' button */
             initialFollowText[user._id] = 'Follow';
         })
@@ -150,7 +149,6 @@ const HomePage = () => {
         setNoOfComments(initialNoOfComments);
         setLikedPosts(initialLikedPosts);
         setChangeFollowText(initialFollowText);
-        setIsLoading(false);
 
     }
 
@@ -159,7 +157,6 @@ const HomePage = () => {
             getAllFriendPosts();
         }
         fetchAllUsers();
-        Initialize();
 
     },[userPosts, friendsPosts, user?._id])
 
