@@ -45,7 +45,7 @@ const HomePage = () => {
 
 
     const getAllFriendPosts = async() => {
-        setIsLoading(true);
+        // setIsLoading(true);
         const url = `https://csci-3100-project.vercel.app/posts/get/friends/${user?._id}`;
         await fetch(url, {
             method: "GET",
@@ -62,7 +62,7 @@ const HomePage = () => {
         .then((data) =>{
             setUserPosts(data.userPosts);
             setFriendsPosts(data.friendsPosts);
-            setIsLoading(false);
+            // setIsLoading(false);
         })
         .catch((err) => {
             console.log(err);
@@ -96,7 +96,7 @@ const HomePage = () => {
     };
 
     const fetchAllUsers = async() => {
-        setIsLoading(true);
+        // setIsLoading(true);
         const url = `https://csci-3100-project.vercel.app/users/database/${user?.id}`;
         
         await fetch(url, 
@@ -114,7 +114,7 @@ const HomePage = () => {
         })
         .then((data)=>{
             setRecommendUsers(data);
-            setIsLoading(false);
+            // setIsLoading(false);
         })
         .catch((err)=>{
             console.log(err);
@@ -123,7 +123,7 @@ const HomePage = () => {
 
     const Initialize = () =>{
 
-        setIsLoading(true);
+        // setIsLoading(true);
         const initialLikedPosts = {};
         const initialNoOfLikes = {};
         const initialNoOfComments = {};
@@ -150,16 +150,18 @@ const HomePage = () => {
         setNoOfComments(initialNoOfComments);
         setLikedPosts(initialLikedPosts);
         setChangeFollowText(initialFollowText);
-        setIsLoading(false);
+        // setIsLoading(false);
 
     }
 
     useEffect(()=>{
+        setIsLoading(true);
         if (!userPosts || !friendsPosts){
             getAllFriendPosts();
         }
         fetchAllUsers();
         Initialize();
+        setIsLoading(false);
 
     },[userPosts, friendsPosts, user?._id])
 
