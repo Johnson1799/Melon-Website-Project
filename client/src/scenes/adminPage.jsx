@@ -21,7 +21,6 @@ const AdminPage = () => {
     const [togglePostsTableState, setTogglePostsTable] = useState(false);
     const [title, setTitle] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const [reload, setReload] = useState(false);
 
     const adminId = useSelector((state)=>{
         return state.admin.adminId;
@@ -95,7 +94,7 @@ const AdminPage = () => {
     useEffect(()=>{
         getUsers();
         getPosts();
-    },[adminId,reload]);
+    },[adminId]);
     
 
     const toggleUsersTable = () => {
@@ -154,7 +153,7 @@ const AdminPage = () => {
                     duration: 3000,
                 });
                 setIsLoading(false);
-                setReload(true);
+                
             })
             .catch((err) => {
                 console.log(err);
