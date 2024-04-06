@@ -37,16 +37,14 @@ export const adminLogin = async (req,res) => {
         }
         else{
             /* Encrypt the admin password and store back to admin schema */
-            const salt = await bcrypt.genSalt();
-            const isPasswordHashed = bcrypt.compareSync(adminPassword, admin.password);
+            const isPasswordHashed = admin.password.length > 30;
 
             if (!isPasswordHashed){
-                const hashedAdminPassword = await bcrypt.hash(adminPassword, salt);
-                admin.password = hashedAdminPassword;
+                const salt = await bcrypt.genSalt();
+                const hashedPassword = await bcrypt.hash(adminPassword, salt);
+                admin.password = hashedPassword;
                 await admin.save();
             }
-
-            
 
             /* Check if the input password is correct */
             const isPasswordMatch = await bcrypt.compare(inputPassword, admin.password);
