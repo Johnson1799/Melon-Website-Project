@@ -59,11 +59,13 @@ const RegisterPage = () => {
         /* Email Validation */
         if (userInputEmail === ''){
             emailTextfieldRef.current.className = 'form-control is-invalid email-textfield';
+            setIsLoading(false);
             setEmailErrMsg("Email is required");
             emailIsValid = false;
         }
         if (!userInputEmail.includes('@') || userInputEmail === adminEmail){
             emailTextfieldRef.current.className = 'form-control is-invalid email-textfield';
+            setIsLoading(false);
             setEmailErrMsg("Invalid email format");
             emailIsValid = false;
         }
@@ -71,16 +73,19 @@ const RegisterPage = () => {
         /* Password Validation */
         if (userInputPassword === ''){
             passwordTextfieldRef.current.className = 'form-control is-invalid password-textfield';
+            setIsLoading(false);
             setPasswordErrMsg("Password is required");
             passwordIsValid=false;
         }
         if (userComfirmedInputPassword === ''){
             comfirmedPasswordTextfieldRef.current.className = 'form-control is-invalid comfirmed-password-textfield';
+            setIsLoading(false);
             comfirmedPasswordIsValid = false;
             setComfirmedPasswordErrMsg("Comfirmed password is required");
         }
         if (userInputPassword !== userComfirmedInputPassword) {
             comfirmedPasswordTextfieldRef.current.className = 'form-control is-invalid comfirmed-password-textfield';
+            setIsLoading(false);
             comfirmedPasswordIsValid = false;
             setComfirmedPasswordErrMsg("Password is not consistent");
         } 
@@ -107,6 +112,7 @@ const RegisterPage = () => {
                     emailTextfieldRef.current.className = 'form-control email-textfield';
                     setEmailErrMsg("");
                     emailIsValid = true;
+                    setIsLoading(false);
 
                     /* Display the toast */
                     toast.success(`Register Successful`, {
@@ -138,6 +144,7 @@ const RegisterPage = () => {
                 setIsLoading(false);
             })
             .catch(err => {
+                setIsLoading(false);
                 console.log('Error: ', err);
             });
         }
