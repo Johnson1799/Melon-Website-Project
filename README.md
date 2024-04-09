@@ -29,9 +29,9 @@ Changes:
 7. I make the like button, user can like the posts
 8. User now can add friends
 9. Admin User account is created (account: admin@admin  password: admin123)
+10. Finish the comment system (including retweet)
+11. Finish homepage UI Design
+12. Added the 'delete' user button in admin page 
 
-Reminders
------------------------------------------------------------------------------------
-1. The comment function still not yet start.
-2. HomepageUI still not yet created.
+
    

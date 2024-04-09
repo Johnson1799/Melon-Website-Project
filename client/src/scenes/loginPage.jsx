@@ -70,11 +70,13 @@ const LoginPage = () => {
         /* Validate Email */
         if (userInputEmail === ''){
             emailTextfieldRef.current.className = 'form-control is-invalid email-textfield';
+            setIsLoading(false);
             setEmailErrMsg("Email is Required");
             return;
         }
         if (!userInputEmail.includes("@")){
             emailTextfieldRef.current.className = 'form-control is-invalid email-textfield';
+            setIsLoading(false);
             setEmailErrMsg("Incorrect Email Format");
             return;
         }
@@ -82,6 +84,7 @@ const LoginPage = () => {
         /* Validate Password */
         if (userInputPassword === ''){
             passwordTextfieldRef.current.className = 'form-control is-invalid password-textfield';
+            setIsLoading(false);
             setPasswordErrMsg("Password is Required");
             return;
         }
@@ -105,11 +108,13 @@ const LoginPage = () => {
                     /* Find the user in database successfully */
                     emailTextfieldRef.current.className = 'form-control email-textfield';
                     passwordTextfieldRef.current.className = 'form-control password-textfield';
-                    console.log('Login successful');
+                    setIsLoading(false);
+                    // console.log('Login successful');
                     setEmailErrMsg("");
                     setPasswordErrMsg("");
                     dispatch(setToggle());
-                    
+                    setIsLoading(false);
+
                     /* Display the toast */
                     toast.success(`Login Successful`, {
                         style: {
@@ -123,6 +128,7 @@ const LoginPage = () => {
                     /* Fail to find the user in database */
                     emailTextfieldRef.current.className = 'form-control is-invalid email-textfield';
                     passwordTextfieldRef.current.className = 'form-control is-invalid password-textfield';
+                    setIsLoading(false);
                     setEmailErrMsg("Incorrect Email or Password");
                     setPasswordErrMsg("Incorrect Email or Password");
                     toast.error(`Login Failure`, {
@@ -131,7 +137,6 @@ const LoginPage = () => {
                             color: 'black',
                         },
                     });
-                    setIsLoading(false);
                 }
                 return res.json();
             })
@@ -169,6 +174,7 @@ const LoginPage = () => {
                     console.log('Login admin successful');
                     setEmailErrMsg("");
                     setPasswordErrMsg("");
+                    setIsLoading(false);
                     navigate(`/admin`);
                 } else {
                     /* Fail to find the admin in database */
@@ -176,6 +182,7 @@ const LoginPage = () => {
                     passwordTextfieldRef.current.className = 'form-control is-invalid password-textfield';
                     setEmailErrMsg("Incorrect Email or Password");
                     setPasswordErrMsg("Incorrect Email or Password");
+                    setIsLoading(false);
                 }
                 return res.json();
             })
@@ -183,8 +190,10 @@ const LoginPage = () => {
                 if (data.adminId){
                     dispatch(setAdmin({adminId: data.adminId, token: data.token}));
                 }
+                setIsLoading(false);
             })
             .catch((err) => {
+                setIsLoading(false);
                 console.log('Error during login:', err);
             });
 
