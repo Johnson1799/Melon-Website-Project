@@ -47,7 +47,7 @@ const UserProfileFriend = (props) => {
         <>
             {/* Display User Information (friends) */}
             <div className="friends-container" >
-                <span className='title'>Friends</span>
+                <span className='title'>Following</span>
                 <button className='add-friend-button' onClick={toggleAddFriendModal}><i className="fa-solid fa-user-plus"></i></button>
                 <div className='friend-list'>
                     {props.user.friends.length > 0 ? props.user.friends.map((friend, index)=>(
