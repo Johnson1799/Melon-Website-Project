@@ -64,7 +64,7 @@ const HomePage = () => {
             const reversedFriendsPost = data.friendsPosts.map(posts => {
                 return posts.reverse();
             });
-            setFriendsPosts(reversedFriendsPost);
+            setFriendsPosts(reversedFriendsPost.reverse());
 
             setIsLoading(false);
         })
