@@ -149,11 +149,10 @@ export const deleteUser = async (req,res) => {
             }
 
             /* Remove the friend in other user */ 
-            const userIdObj = new mongoose.Types.ObjectId(userId);
-            const users = await User.find({ 'friends._id': userIdObj });
+            const users = await User.find({ 'friends._id': userId });
             await Promise.all(users.map(async (user) => {
                 // Update the user's friend list in the database
-                await User.updateOne({ _id: user._id }, { $pull: { friends: { _id: userIdObj } } });
+                await User.updateOne({ _id: user._id }, { $pull: { friends: { _id: userId } } });
             }));
 
             res.status(200).send({users: updatedUserList, posts:updatedPostList});
