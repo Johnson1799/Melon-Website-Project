@@ -61,7 +61,7 @@ const HomePage = () => {
         })
         .then((data) =>{
             setUserPosts(data.userPosts);
-            setFriendsPosts(data.friendsPosts);
+            setFriendsPosts(data.friendsPosts.reverse());
             setIsLoading(false);
         })
         .catch((err) => {
