@@ -148,6 +148,15 @@ export const deleteUser = async (req,res) => {
                 await cloudinary.uploader.destroy(publicId);
             }
 
+            /* Remove the friend in other user */ 
+            const users = await User.find({ 'friends._id': userId });
+            await Promise.all(users.map(async (user) => {
+                // Remove the friend with the userId from the friends array
+                const updatedFriendsList = user.friends.filter(friend => friend._id.toString() !== userId);
+                // Update the user's friend list in the database
+                await User.updateOne({ _id: user._id }, { $set: { friends: updatedFriendsList } });
+            }));
+
             res.status(200).send({users: updatedUserList, posts:updatedPostList});
 
         }

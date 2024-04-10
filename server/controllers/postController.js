@@ -77,23 +77,6 @@ export const getUserPosts = async (req,res) =>{
     }
 }
 
-/* Get a specific post function */
-export const getPost = async (req,res) =>{
-    try {
-        // grab the other user id in request object
-        const postId = req.params.postId;
-        
-        /* Find all the user posts from MongoDB */
-        const post = await Post.findById(postId);
-
-        /* Send all the user posts information to front-end */
-        res.status(200).json(post);
-
-    } catch (err) {
-        res.status(404).json({message: err.message});
-    }
-}
-
 /* Update a post */
 export const updatePost = async (req,res) => {
     try {
@@ -181,61 +164,25 @@ export const getAllPosts = async (req,res) =>{
     }
 }
 
-/* Get all the friends posts (including user himself) from database function */
-export const getAllFriendPosts = async (req,res) =>{
-    try {
-        const userId = req.params.userId;
-
-        const user = await User.findById(userId);
-        if (!user){
-            res.status(404).json({message: 'User not found'});
-        }
-
-        // find all the user posts in the database
-        const userPosts = await Post.find({userId: userId});
-
-        // find all the user's friend posts
-        const friendList = user.friends;
-        const friendsPostsPromise = friendList.map( async(friend) => {
-            const friendPosts = await Post.find({userId: friend._id});
-            return friendPosts;
-        });
-        const friendsPosts = await Promise.all(friendsPostsPromise);
-
-        // send the posts info to front-end
-        res.status(201).json({userPosts: userPosts, friendsPosts: friendsPosts});
-
-    } catch (err) {
-        res.status(404).json({message: err.message});
-    }
-}
-
 
 /* Like/unlike post function */
 export const updateLikePost = async (req,res) =>{
     try {
         /* grab the data sent from front-end */
-        const profileUserId = req.params.userId;     
-        
+        const profileUserId = req.params.userId;        
         const profileUser = await User.findById(profileUserId);
+        
+
         if (!profileUser){
             return res.status(404).json({ message: 'User not found' });
         }
         else {
             /* grab the data sent from front-end */
-            let post;
-            let postImgURL;
-            if (!req.body.isHomePage){
-                const postIndex = req.body.postIndex;
-                postImgURL = profileUser.posts[postIndex];
+            const postIndex = req.body.postIndex;
+            const postImgURL = profileUser.posts[postIndex];
 
-                /* Find a specific post and update the likes */
-                post = await Post.findOne({postImgURL: postImgURL});
-            } 
-            else{
-                const postId = req.body.postId;
-                post = await Post.findById(postId);
-            }
+            /* Find a specific post and update the likes  */
+            const post = await Post.findOne({postImgURL: postImgURL});
 
             if (!post){
                 return res.status(404).json({ message: 'Post not found' });
@@ -254,35 +201,19 @@ export const updateLikePost = async (req,res) =>{
 
 
                 if (!isLiked){
-                    if (!req.body.isHomePage){
-                        /* If the user haven't like the post before, trigger like the post */
-                        const updatedPost = await Post.findOneAndUpdate({postImgURL: postImgURL}, { $push: {likes: userId }}, {new: true});
-                    }
-                    else {
-                        /* If the user haven't like the post before, trigger like the post */
-                        const postId = req.body.postId;
-                        await Post.findOneAndUpdate({_id: postId}, { $push: {likes: userId }}, {new: true});
-                    }
+                    /* If the user haven't like the post before, trigger like the post */
+                    await Post.findOneAndUpdate({postImgURL: postImgURL}, { $push: {likes: userId }}, {new: true});
                 }
                 else {
-                    if (!req.body.isHomePage){
-                        /* If the user have like the post before, trigger unlike the post */
-                        await Post.findOneAndUpdate({postImgURL: postImgURL}, { $pull: {likes: userId }},{new: true});
-                        
-                    }
-                    else {
-                        const postId = req.body.postId;
-                        await Post.findOneAndUpdate({_id: postId}, { $pull: {likes: userId }},{new: true});
-                    }
-                    
+                    /* If the user have like the post before, trigger unlike the post */
+                    await Post.findOneAndUpdate({postImgURL: postImgURL}, { $pull: {likes: userId }});
                 }
 
                 return res.status(200).json({isLiked: isLiked});
             }
 
         }
-    
-    
+
     } catch (err) {
         res.status(404).json({message: err.message});
     }
