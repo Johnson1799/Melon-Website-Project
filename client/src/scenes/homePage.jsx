@@ -61,8 +61,11 @@ const HomePage = () => {
         })
         .then((data) =>{
             setUserPosts(data.userPosts);
-            setFriendsPosts(data.friendsPosts.reverse());
-            console.log(data.friendsPosts);
+            const reversedFriendsPost = data.friendsPosts.map(posts => {
+                return posts.reverse();
+            });
+            setFriendsPosts(reversedFriendsPost);
+
             setIsLoading(false);
         })
         .catch((err) => {
