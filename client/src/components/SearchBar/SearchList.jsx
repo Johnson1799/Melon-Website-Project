@@ -28,7 +28,7 @@ const SearchList = (props) => {
     }
 
     const sendAddFriendRequest = async(selectedUser) => {
-        const url = `https://csci-3100-project.vercel.app/friends/send/request/${userId}/${selectedUser._id}`;
+        const url = `https://melon-web-project.vercel.app/friends/send/request/${userId}/${selectedUser._id}`;
         await fetch(url, {
             method: 'POST',
             headers: {
@@ -69,7 +69,7 @@ const SearchList = (props) => {
 
 
     const fetchData = async() => {
-        const url = `https://csci-3100-project.vercel.app/users/${props.input}`;
+        const url = `https://melon-web-project.vercel.app/users/${props.input}`;
         await fetch(url, {
             method: 'GET',
             headers: {

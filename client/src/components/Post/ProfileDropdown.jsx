@@ -40,7 +40,7 @@ const ProfileDropdown = (props) => {
         const postId = userPosts[props.postIndex]?._id;             // MongoDB post id
         const postImgURL = userPosts[props.postIndex].postImgURL;   // Cloudinary postImgURL
         const dataPassToServer = {postImgURL: postImgURL};
-        const url = `https://csci-3100-project.vercel.app/posts/delete/${userId}/${postId}`;
+        const url = `https://melon-web-project.vercel.app/posts/delete/${userId}/${postId}`;
 
         /* Delete the post in database (sending delete request to server) */
         await fetch(url, {

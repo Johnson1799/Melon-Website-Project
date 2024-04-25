@@ -35,7 +35,7 @@ const ProfilePosts = (props) => {
     /* Load all the posts from the user */
     const getUserPosts = async() => {
         const userId = user?._id;
-        const url = `https://csci-3100-project.vercel.app/posts/${userId}`;
+        const url = `https://melon-web-project.vercel.app/posts/${userId}`;
         await fetch(url, {
             method: "GET",
             headers: { 
@@ -66,7 +66,7 @@ const ProfilePosts = (props) => {
     /* Load all the posts from the user */
     const getOtherUserPosts = async() => {
         const otherUserId = profileUser?._id;
-        const url = `https://csci-3100-project.vercel.app/posts/${otherUserId}`;
+        const url = `https://melon-web-project.vercel.app/posts/${otherUserId}`;
         await fetch(url, {
             method: "GET",
             headers: { 

@@ -34,7 +34,7 @@ const AdminPage = () => {
     const getUsers = async() =>{
         setIsLoading(true);
         if (adminId){
-            const url = `https://csci-3100-project.vercel.app/admin/get/users/${adminId}`;
+            const url = `https://melon-web-project.vercel.app/admin/get/users/${adminId}`;
 
             await fetch(url, {
                 method: "POST",
@@ -64,7 +64,7 @@ const AdminPage = () => {
     const getPosts = async() => {
         setIsLoading(true);
         if (adminId){
-            const url = `https://csci-3100-project.vercel.app/admin/get/posts/${adminId}`;
+            const url = `https://melon-web-project.vercel.app/admin/get/posts/${adminId}`;
 
             await fetch(url, {
                 method: "POST",
@@ -127,7 +127,7 @@ const AdminPage = () => {
     const deleteUser = async(userId) => {
         setIsLoading(true);
         if (adminId){
-            const url = `https://csci-3100-project.vercel.app/admin/delete/user/${adminId}/${userId}`;
+            const url = `https://melon-web-project.vercel.app/admin/delete/user/${adminId}/${userId}`;
 
             await fetch(url, {
                 method: "DELETE",

@@ -87,7 +87,7 @@ const UserProfilePage = () => {
 
     /* Fetch user data from server when routing to Profile page */
     const getUser = async() => {
-        const url = `https://csci-3100-project.vercel.app/users/user/${userId}`;
+        const url = `https://melon-web-project.vercel.app/users/user/${userId}`;
 
         setIsLoading(true);
         await fetch(url, {
@@ -129,7 +129,7 @@ const UserProfilePage = () => {
 
         /* Upload user avatar to Cloudinary database */
         if (editedData.userAvatarURL){
-            const url = `https://csci-3100-project.vercel.app/users/user/update/avatar/${userId}`;
+            const url = `https://melon-web-project.vercel.app/users/user/update/avatar/${userId}`;
             const data = {
                 image: editedData.userAvatarURL,
             }
@@ -159,7 +159,7 @@ const UserProfilePage = () => {
 
         /* Upload user post to Cloudinary database and create 'post' document in MongoDB */
         else if (editedData.postImgURL){
-            const url = `https://csci-3100-project.vercel.app/posts/create/${userId}`;
+            const url = `https://melon-web-project.vercel.app/posts/create/${userId}`;
             const data = {
                 postImgURL: editedData.postImgURL, 
                 title: editedData.title, 
@@ -194,7 +194,7 @@ const UserProfilePage = () => {
 
         if (editedData.postId){
             /* Update 'post' schema in MongoDB */
-            const url = `https://csci-3100-project.vercel.app/posts/update/${userId}`;
+            const url = `https://melon-web-project.vercel.app/posts/update/${userId}`;
             await fetch(url, {
                 method: 'POST',
                 headers: {
@@ -227,7 +227,7 @@ const UserProfilePage = () => {
             });
         } else {
             /* Update 'email', 'contact', 'address', 'description', 'userAvatarURL' and 'posts' attributes to 'user' schema in MongoDB */
-            const url = `https://csci-3100-project.vercel.app/users/user/${userId}/update`;
+            const url = `https://melon-web-project.vercel.app/users/user/${userId}/update`;
             await fetch(url, {
                 method: 'POST',
                 headers: {

@@ -64,7 +64,7 @@ const LargePost = (props) => {
 
 
     const toggleLike = async(e) => {
-        const url = `https://csci-3100-project.vercel.app/posts/like/${isUser ? userId : otherUserId}`;
+        const url = `https://melon-web-project.vercel.app/posts/like/${isUser ? userId : otherUserId}`;
         const data = {
             postIndex: isUser ? largePost?.postIndex : guestLargePost?.postIndex,
             userId: userId,
