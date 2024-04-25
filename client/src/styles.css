@@ -1857,7 +1857,7 @@ input:focus {
 .delete-user-button:hover{
     border: 2px dotted transparent;
     background-color: #3b3e41;
-    color: #db545a;
+    color: #db545a; 
 }
 
 
