@@ -111,7 +111,7 @@ const Post = (props) => {
         dispatch(setToggleLargePost(false));
         dispatch(setToggleGuestLargePost(false));
 
-        const url = `https://melon-web-project.vercel.app/posts/like/${props.isUser ? userId : otherUserId}`;
+        const url = `https://melon-web-project-server.vercel.app/posts/like/${props.isUser ? userId : otherUserId}`;
         const data = {
             postIndex: props.postIndex,
             userId: userId,
@@ -174,7 +174,7 @@ const Post = (props) => {
         let comments = null;
 
         /* Fetch the comments adn replies in the post */
-        const url = `https://melon-web-project.vercel.app/posts/comment/${props.isUser? userPost?._id : profilePost?._id}`;
+        const url = `https://melon-web-project-server.vercel.app/posts/comment/${props.isUser? userPost?._id : profilePost?._id}`;
         await fetch(url, {
             method: "GET",
             headers: {

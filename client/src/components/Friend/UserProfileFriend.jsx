@@ -17,7 +17,7 @@ const UserProfileFriend = (props) => {
     const navigate = useNavigate();
 
     const routeFriendProfile = async(userId) => {
-        const url = `https://melon-web-project.vercel.app/users/user/${userId}`;
+        const url = `https://melon-web-project-server.vercel.app/users/user/${userId}`;
         await fetch(url, {
             method: 'GET',
             headers: {

@@ -63,7 +63,7 @@ const OtherUserProfilePage = () => {
 
     const getProfilePosts = async () => {
         setIsLoading(true);
-        const url = `https://melon-web-project.vercel.app/posts/${profileUser?._id}`;
+        const url = `https://melon-web-project-server.vercel.app/posts/${profileUser?._id}`;
         await fetch(url, {
             method: "GET",
             headers: { 
@@ -117,7 +117,7 @@ const OtherUserProfilePage = () => {
 
 
     const sendingFriendRequest = async() => {
-        const url = `https://melon-web-project.vercel.app/friends/send/request/${user?._id}/${profileUser?._id}`;
+        const url = `https://melon-web-project-server.vercel.app/friends/send/request/${user?._id}/${profileUser?._id}`;
         await fetch(url, {
             method: 'POST',
             headers: {
@@ -143,7 +143,7 @@ const OtherUserProfilePage = () => {
 
 
     const unfollowUser = async() => {
-        const url = `https://melon-web-project.vercel.app/friends/remove/${user?._id}/${profileUser?._id}`;
+        const url = `https://melon-web-project-server.vercel.app/friends/remove/${user?._id}/${profileUser?._id}`;
         await fetch(url, {
             method: "POST",
             headers: { 

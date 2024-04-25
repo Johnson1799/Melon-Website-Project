@@ -56,7 +56,7 @@ const Replies = (props) => {
     const submitReply = async(e) => {
         e.preventDefault();
 
-        const url = `https://melon-web-project.vercel.app/posts/reply/${userId}/${isUser? userPost?._id : profilePost?._id}`;
+        const url = `https://melon-web-project-server.vercel.app/posts/reply/${userId}/${isUser? userPost?._id : profilePost?._id}`;
         const data = {
             commentIndex: props.commentIndex,
             reply: reply,

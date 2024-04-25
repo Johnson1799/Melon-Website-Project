@@ -98,7 +98,7 @@ const RegisterPage = () => {
             };
 
             /* Server route url */
-            const url = "https://melon-web-project.vercel.app/register";
+            const url = "https://melon-web-project-server.vercel.app/register";
             fetch(url,{
                 method: 'POST',
                 headers: { 

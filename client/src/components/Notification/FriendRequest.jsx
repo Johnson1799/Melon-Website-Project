@@ -27,7 +27,7 @@ const FriendRequest = (props) => {
 
     const fetchFriendRequest = async() => {
         setIsLoading(true);
-        const url = `https://melon-web-project.vercel.app/friends/request/${userId}`;
+        const url = `https://melon-web-project-server.vercel.app/friends/request/${userId}`;
         await fetch(url, {
             method: 'GET',
             headers: {
@@ -58,7 +58,7 @@ const FriendRequest = (props) => {
 
 
     const routeToProfilePage = async(userId) => {
-        const url = `https://melon-web-project.vercel.app/users/user/${userId}`;
+        const url = `https://melon-web-project-server.vercel.app/users/user/${userId}`;
         await fetch(url, {
             method: 'GET',
             headers: {
@@ -81,7 +81,7 @@ const FriendRequest = (props) => {
     }
 
     const acceptFriend = async(requestUserId) => {
-        const url = `https://melon-web-project.vercel.app/friends/request/accept/${userId}/${requestUserId}`;
+        const url = `https://melon-web-project-server.vercel.app/friends/request/accept/${userId}/${requestUserId}`;
         await fetch(url, {
             method: 'POST',
             headers: {
@@ -113,7 +113,7 @@ const FriendRequest = (props) => {
 
 
     const refuseFriend = async(requestUserId) => {
-        const url = `https://melon-web-project.vercel.app/friends/request/refuse/${userId}/${requestUserId}`;
+        const url = `https://melon-web-project-server.vercel.app/friends/request/refuse/${userId}/${requestUserId}`;
         await fetch(url, {
             method: 'POST',
             headers: {
